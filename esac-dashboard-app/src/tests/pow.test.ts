@@ -1,4 +1,4 @@
-import { pow } from "./pow";
+import { pow } from "../functions/pow";
 
 test("Calculates x^y", () => {
   expect(pow(2, 2)).toEqual(4);

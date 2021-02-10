@@ -1,4 +1,4 @@
-import { fac } from "./fac";
+import { fac } from "../functions/fac";
 
 test("Computes the factorial of x", () => {
   expect(fac(1)).toEqual(1);
