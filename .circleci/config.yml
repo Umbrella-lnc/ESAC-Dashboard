@@ -12,8 +12,7 @@ jobs:
         #  username: mydockerhub-user
         #  password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
-      - checkout:
-        path: ~/esac-dashboard/
+      - checkout
       - run: cd
       - run: npm install
       - run: npm test
