@@ -4,7 +4,7 @@ version: 2.1
 # Define the jobs we want to run for this project
 jobs:
   build_app:
-    working_directory: ~/ESAC-Dashboard/esac-dashboard-app
+    working_directory: ~/ESAC-Dashboard
 
     docker:
       - image: circleci/node:14.15.4
@@ -13,8 +13,8 @@ jobs:
         #  password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout
-      - run: npm install
-      - run: npm test
+      - run: cd esac-dashboard-app && npm install
+      - run: cd esac-dashboard-app && npm test
 
 # Orchestrate our job run sequence
 workflows:
