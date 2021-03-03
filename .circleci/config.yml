@@ -13,8 +13,10 @@ jobs:
         #  password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout
-      - run: cd esac-dashboard-app && npm install
-      - run: cd esac-dashboard-app && npm test
+      - run: cd client && npm install
+      - run: cd client && npm test
+      - run: cd server && npm install
+      - run: cd server && npm test
 
 # Orchestrate our job run sequence
 workflows:
