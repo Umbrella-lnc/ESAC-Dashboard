@@ -17,9 +17,12 @@ const PORT = process.env.PORT || 5000;
 if (process.env.NODE_ENV === "production") {
   //Set static folder
 }
+
+//For printing directory/file when debugging
 //const __filename = fileURLToPath(import.meta.url);
 //const __dirname = path.dirname(__filename);
 //console.log(__dirname);
+
 app.use(express.static("../client/build"));
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build/index.html"));
@@ -31,17 +34,17 @@ app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-// mongoose.connect(ATLAS_URI, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
-// const conn = mongoose.connection;
-// conn.once("open", () => {
-//   console.log("Database connection established.");
-// });
+mongoose.connect(ATLAS_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+const conn = mongoose.connection;
+conn.once("open", () => {
+  console.log("Database connection established.");
+});
 
 app.listen(PORT, () => {
   console.log(`Running on port: ${PORT}`);
 });
 
-// mongoose.set("useFindAndModify", false);
+mongoose.set("useFindAndModify", false);
