@@ -18,7 +18,7 @@ module.exports = function validateRegiserInput(data) {
     }
 
     // Validate department
-    if(Validator.isEmpty(department.name)) {
+    if(Validator.isEmpty(data.department)) {
         errors.name = "Department field required!";
     }
 

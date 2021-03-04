@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const passport = require('passport');
-const users = require('./routes/api/users');
+const userRoutes = require('./routes/api/users');
 
 // Configure Environment Vars
 //dotenv.config();
@@ -22,7 +22,7 @@ app.use(passport.initialize());
 
 require("./config/passport")(passport);
 
-app.use('./routes/api/users', users);
+app.use('/api/users', userRoutes);
 
 // Database Connection
 const db = require("./config/keys").ATLAS_URI;
