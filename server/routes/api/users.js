@@ -1,11 +1,9 @@
 import express from 'express';
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-import keys from '../../config/keys'
+import {register} from '../controllers/users.js'
 
 const router = express.Router();
 
-const validateRegisterInput = require("../../validate/register");
-const validateLoginInput = require("../../validate/login");
+router.post('/register', register)
 
-const User = require("../../models/User");
+
+export default router;
