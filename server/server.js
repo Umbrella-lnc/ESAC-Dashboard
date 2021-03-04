@@ -6,11 +6,12 @@ import dotenv from 'dotenv'
 
 // Configure Environment Vars
 dotenv.config();
+const PORT = process.env.PORT || 5001;
+const ATLAS_URI = process.env.ATLAS_URI;
 
 // Create Express Server
 const app = express();
-const ATLAS_URI = process.env.ATLAS_URI;
-const PORT = process.env.PORT || 5000;
+
 
 // Middleware
 app.use('/posts', postRoutes);
@@ -18,9 +19,11 @@ app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-mongoose.connect(ATLAS_URI, {   useNewUrlParser: true,
-                                useUnifiedTopology: true });
+// Database Connection
+mongoose.connect(ATLAS_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
 const conn = mongoose.connection;
+
 conn.once('open', () => {
         console.log("Database connection established.");
 })
