@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import postRoutes from "./routes/posts.js";
 import dotenv from "dotenv";
-const path = require("path");
+import "path";
 
 // Configure Environment Vars
 dotenv.config();
