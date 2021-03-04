@@ -1,15 +1,14 @@
-import User from '../models/User.js';
-import validateRegiserInput from '../../validate/register';
-import validateLoginInput from '../../validate/login';
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-import keys from '../../config/keys'
-
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+const keys = require('../config/keys');
+const validateRegiserInput = require('../validate/register');
+const validateLoginInput = require('../validate/login');
 
 // @route POST api/users/register
 // @desc Register user
 // @access Public
-export const register = async (req, res) => {
+const register = async (req, res) => {
     // Form Validation
     const { errors, isValid } = validateRegiserInput(req.body);
 
@@ -48,7 +47,7 @@ export const register = async (req, res) => {
 // @route POST api/users/login
 // @desc Login user, return JWT token.
 // @access Public
-export const login = async (req, res) => {
+const login = async (req, res) => {
     const { errors, isValid } = validateLoginInput(req.body);
 
     if(!isValid) {
@@ -89,3 +88,6 @@ export const login = async (req, res) => {
         });
     });
 }
+
+exports.register = register;
+exports.login = login;
