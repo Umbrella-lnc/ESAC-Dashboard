@@ -5,6 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
+    "hard-install": "npm install && node server.js",
     "start": "node server.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd ../client && npm install && npm run build"
   },
