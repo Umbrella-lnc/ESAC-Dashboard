@@ -3,12 +3,13 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const passport = require('passport');
 const userRoutes = require('./routes/api/users');
+const dotenv = require('dotenv');
 const path = require('path');
 
 // Configure Environment Vars
-//dotenv.config();
+dotenv.config();
 const PORT = process.env.PORT || 5000;
-//const ATLAS_URI = process.env.ATLAS_URI;
+const URI = process.env.MONGODB_URI;
 
 // Create Express Server
 const app = express();
@@ -36,8 +37,7 @@ require("./config/passport")(passport);
 app.use('/api/users', userRoutes);
 
 // Database Connection
-const db = require("./config/keys").ATLAS_URI;
-mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const conn = mongoose.connection;
 

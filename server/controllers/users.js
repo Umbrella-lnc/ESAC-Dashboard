@@ -1,9 +1,12 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const keys = require('../config/keys');
 const validateRegiserInput = require('../validate/register');
 const validateLoginInput = require('../validate/login');
+const dotenv = require('dotenv');
+
+dotenv.config();
+const secretOrKey = process.env.secretOrKey;
 
 // @route POST api/users/register
 // @desc Register user
@@ -73,7 +76,7 @@ const login = async (req, res) => {
                     name: user.name
                 };
                 
-                jwt.sign(payload, keys.secretOrKey, 
+                jwt.sign(payload, secretOrKey, 
                         {expiresIn: 31556926},
                         (err, token) => {
                             res.json({
