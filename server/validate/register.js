@@ -50,6 +50,11 @@ module.exports = function validateRegiserInput(data) {
         errors.confirmPassword = "Passwords must match!";
     }
 
+    // Validate Access Level
+    if(Validator.isEmpty(data.accessLevel)) {
+        errors.email = "Access Level must be known!";
+    }
+
     return {
         errors,
         isValid: isEmpty(errors)
