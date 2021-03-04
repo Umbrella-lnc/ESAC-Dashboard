@@ -28,17 +28,17 @@ app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-mongoose.connect(ATLAS_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-const conn = mongoose.connection;
-conn.once("open", () => {
-  console.log("Database connection established.");
-});
+// mongoose.connect(ATLAS_URI, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
+// const conn = mongoose.connection;
+// conn.once("open", () => {
+//   console.log("Database connection established.");
+// });
 
 app.listen(PORT, () => {
   console.log(`Running on port: ${PORT}`);
 });
 
-mongoose.set("useFindAndModify", false);
+// mongoose.set("useFindAndModify", false);
