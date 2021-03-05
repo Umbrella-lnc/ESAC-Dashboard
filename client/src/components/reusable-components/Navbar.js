@@ -11,12 +11,12 @@ class Navbar extends Component {
               <Link
                 to="/"
                 style={{
-                  fontFamily: "monospace"
+                  fontFamily: "tahoma"
                 }}
-                className="col s5 brand-logo center black-text"
+                className="col s5 brand-logo center blue-text"
               >
-                <i className="material-icons">code</i>
-                MERN
+                <i className="material-icons">campaign</i>
+                ESAC
               </Link>
             </BrowserRouter>
           </div>

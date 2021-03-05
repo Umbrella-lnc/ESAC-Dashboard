@@ -9,7 +9,7 @@ class Landing extends Component {
           <div className="col s12 center-align">
             <h4>
               <b>Build</b> a login/auth app with the{" "}
-              <span style={{ fontFamily: "monospace" }}>MERN</span> stack from
+              <span style={{ fontFamily: "monospace" }}>ESAC</span> stack from
               scratch
             </h4>
             <p className="flow-text grey-text text-darken-1">
