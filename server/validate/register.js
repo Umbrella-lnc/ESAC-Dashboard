@@ -19,7 +19,7 @@ module.exports = function validateRegiserInput(data) {
 
     // Validate department
     if(Validator.isEmpty(data.department)) {
-        errors.name = "Department field required!";
+        errors.department = "Department field required!";
     }
 
     // Validate email
@@ -28,6 +28,9 @@ module.exports = function validateRegiserInput(data) {
     }
     else if(!Validator.isEmail(data.email)) {
         errors.email = "Email is invalid!";
+    }
+    else if(data.email.split('@')[1] !== "ufl.edu") {
+        errors.email = "Email requires @ufl.edu domain!";
     }
 
     // Validate password
@@ -52,7 +55,7 @@ module.exports = function validateRegiserInput(data) {
 
     // Validate Access Level
     if(Validator.isEmpty(data.accessLevel)) {
-        errors.email = "Access Level must be known!";
+        errors.accessLevel = "Access Level must be chosen!";
     }
 
     return {

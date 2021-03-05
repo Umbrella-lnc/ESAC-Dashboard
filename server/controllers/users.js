@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const UnverifiedUser = require('../models/UnverifiedUser');
+const VerifiedUser = require('../models/VerifiedUser');
 const validateRegiserInput = require('../validate/register');
 const validateLoginInput = require('../validate/login');
 const dotenv = require('dotenv');
@@ -19,15 +20,22 @@ const register = async (req, res) => {
         return res.status(400).json(errors);
     }
 
-    User.findOne({ email: req.body.email }).then(user => {
-
-        // Make sure the user does not already exist
+    // Make sure user does not already exist as a verified user
+    VerifiedUser.findOne({ email: req.body.email }).then(user => {
         if(user) {
             return res.status(400).json({ email: "Email already exists!"});
         }
+    });
+
+    UnverifiedUser.findOne({ email: req.body.email }).then(user => {
+
+        // Make sure the user does not already exist as an unverified user
+        if(user) {
+            return res.status(400).json({ unverified: "Account is awaiting approval!"});
+        }
 
         // Create the new user
-        const newUser = new User({
+        const newUser = new UnverifiedUser({
             name: req.body.name,
             department: req.body.department,
             email: req.body.email,
@@ -60,8 +68,16 @@ const login = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
+    UnverifiedUser.findOne({ email: req.body.email }).then(user => {
+
+        // Check if user is waiting to be verified
+        if(user) {
+            return res.status(404).json({ unverified: "Account is awaiting approval!"});
+        }
+    });
+
     // Find by email
-    User.findOne({ email: req.body.email }).then(user => {
+    VerifiedUser.findOne({ email: req.body.email }).then(user => {
 
         // Make sure user exists
         if(!user) {
