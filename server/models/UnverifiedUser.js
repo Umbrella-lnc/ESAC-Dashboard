@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 
-const userSchema = mongoose.Schema({
+const unverifiedUserSchema = mongoose.Schema({
     name: {
         type: String,
         required: true
     },
     department: {
         type: String,
-        required: false
+        required: true
     },
     email: {
         type: String,
@@ -21,6 +21,6 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     }
-})
+}, { collection: 'unverified' });
 
-module.exports = User = mongoose.model('users', userSchema);
+module.exports = UnverifiedUser = mongoose.model('unverifiedUsers', unverifiedUserSchema);
