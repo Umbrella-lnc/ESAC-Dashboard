@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, BrowserRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 class Register extends Component {
   constructor() {
     super();
@@ -30,13 +30,10 @@ return (
       <div className="container">
         <div className="row">
           <div className="col s8 offset-s2">
-              <BrowserRouter>
                 <Link to="/" className="btn-flat waves-effect">
                 <i className="material-icons left">keyboard_backspace</i> Back to
                 home
                 </Link>
-              </BrowserRouter>
-     
             <div className="col s12" style={{ paddingLeft: "11.250px" }}>
               <h4>
                 <b>Register</b> below
