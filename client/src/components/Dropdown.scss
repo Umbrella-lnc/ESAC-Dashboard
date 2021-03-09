@@ -20,7 +20,7 @@ body {
   margin: 20px 0;
   padding: 0;
   line-height: 1;
-  font-size: 16px;
+  font-size: 14px;
   font-family: 'monospace', sans-serif;
   color:grey;
   background-color: #fbfbfb;
@@ -59,10 +59,6 @@ body {
     cursor: pointer;
     width: 100%;
     padding: 0 20px;
-
-    &__title--bold {
-      font-weight: bold;
-    }
   }
 
   .dd-list {
