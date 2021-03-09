@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Dropdown from "../components/Dropdown";
+import Access from "../components/Access-level-radio-button";
 
 class Register extends Component {
   constructor() {
@@ -9,6 +10,7 @@ class Register extends Component {
       firstname: "",
       lastname:"",
       department: "",
+      access: "",
       email: "",
       password: "",
       password2: "",
@@ -66,6 +68,7 @@ const newUser = {
       firstname: this.state.firstname,
       lastname: this.state.lastname,
       department: this.state.department,
+      access: this.state.access,
       email: this.state.email,
       password: this.state.password,
       password2: this.state.password2
@@ -119,6 +122,15 @@ return (
                   id="department"
                 />
                 <Dropdown title="Select your department" items={this.departmentList} />
+              </div>
+              <div className="input-field col s12">
+                <select
+                  onChange={this.onChange}
+                  value={this.state.access}
+                  error={errors.access}
+                  id="access"
+                />
+                <Access title="Select your Access Level" />
               </div>
               <div className="input-field col s12">
                 <input
