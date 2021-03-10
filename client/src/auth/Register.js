@@ -79,6 +79,9 @@ class Register extends Component {
   onChange = (e) => {
     this.setState({ [e.target.id]: e.target.value })
   }
+  changeAccess = (access_val) => {
+    this.setState({ ...state, access: access_val })
+  }
   onSubmit = (e) => {
     e.preventDefault()
     const newUser = {
@@ -139,7 +142,7 @@ class Register extends Component {
                 <label htmlFor='lastname'>Last Name</label>
                 <span className='red-text'>{errors.lastname}</span>
               </div>
-              <div className='input-field col s12'>
+              {/* <div className='input-field col s12'>
                 <select
                   onChange={this.onChange}
                   value={this.state.department}
@@ -153,20 +156,23 @@ class Register extends Component {
                   title='Select your department'
                   items={this.departmentList}
                 />
-                <span className='red-text'>{errors.department}</span>
-              </div>
+                { <span className='red-text'>{errors.department}</span> }
+              </div> */}
               <div className='input-field col s12'>
                 <select
                   onChange={this.onChange}
                   value={this.state.access}
                   error={errors.access}
                   id='access'
-                  className={classnames('', {
-                    invalid: errors.access,
-                  })}
+                  //className={classnames('', {
+                  //  invalid: errors.access,
+                  //})}
                 />
-                <Access title='Select your Access Level' />
-                <span className='red-text'>{errors.access}</span>
+                <Access
+                  title='Select your Access Level'
+                  changeAccess={changeAccess}
+                />
+                {/* <span className='red-text'>{errors.access}</span> */}
               </div>
               <div className='input-field col s12'>
                 <input
@@ -234,7 +240,7 @@ class Register extends Component {
 Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.string.isRequired,
+  errors: PropTypes.object.isRequired,
 }
 const mapStateToProps = (state) => ({
   auth: state.auth,
