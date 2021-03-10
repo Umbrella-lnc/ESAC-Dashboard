@@ -18,6 +18,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "concurrently": "^6.0.0",
@@ -30,10 +32,12 @@
     "nodemon": "^2.0.7",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
+    "react-onclickoutside": "^6.10.0",
     "validator": "^13.5.2"
   },
   "devDependencies": {
     "@types/react-redux": "^7.1.16",
-    "@types/react-router-dom": "^5.1.7"
+    "@types/react-router-dom": "^5.1.7",
+    "node-sass": "^5.0.0"
   }
 }
