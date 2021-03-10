@@ -14,8 +14,8 @@ export default function RadioButtonsGroup() {
 
   return (
     <FormControl component="fieldset">
-        <FormLabel component="legend" color="grey">Access Level</FormLabel>
-        <RadioGroup row color="grey" aria-label="access-level" name="access-level-1" value={value} onChange={handleChange}>
+        <FormLabel component="legend">Access Level</FormLabel>
+        <RadioGroup row aria-label="access-level" name="access-level-1" value={value} onChange={handleChange}>
           <FormControlLabel value="representative" control={<Radio color="primary" />} label="Representative" labelPlacement="end"/>
           <FormControlLabel value="admin" control={<Radio color="primary" />} label="Administrator" labelPlacement="end" />
         </RadioGroup>
