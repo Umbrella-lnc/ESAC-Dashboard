@@ -85,6 +85,7 @@ class Register extends Component {
   getAccess = (access_val) => {
     return this.state.access;
   };
+
   onSubmit = (e) => {
     e.preventDefault();
     const newUser = {
@@ -145,7 +146,7 @@ class Register extends Component {
                 <label htmlFor="lastname">Last Name</label>
                 <span className="red-text">{errors.lastname}</span>
               </div>
-              {/* <div className='input-field col s12'>
+              <div className='input-field col s12'>
                 <select
                   onChange={this.onChange}
                   value={this.state.department}
@@ -160,23 +161,19 @@ class Register extends Component {
                   items={this.departmentList}
                 />
                 { <span className='red-text'>{errors.department}</span> }
-              </div> */}
+              </div> 
               <div className="input-field col s12">
                 <select
                   onChange={this.onChange}
                   value={this.state.access}
                   error={errors.access}
                   id="access"
-                  //className={classnames('', {
-                  //  invalid: errors.access,
-                  //})}
                 />
                 <Access
                   title="Select your Access Level"
                   changeAccess={this.changeAccess}
                   getAccess={this.getAccess}
                 />
-                {/* <span className='red-text'>{errors.access}</span> */}
               </div>
               <div className="input-field col s12">
                 <input

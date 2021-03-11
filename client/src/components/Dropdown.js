@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import onClickOutside from 'react-onclickoutside';
+import { isExternalModule } from 'typescript';
 import './Dropdown.scss'
 
-function Dropdown({ title, items, multiSelect = false }) {
+function Dropdown({ title, items, multiSelect = false}) {
   const [open, setOpen] = useState(false);
   const [selection, setSelection] = useState([]);
   const toggle = () => setOpen(!open);
