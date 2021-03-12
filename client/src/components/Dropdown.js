@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import onClickOutside from 'react-onclickoutside';
 import { isExternalModule } from 'typescript';
 import './Dropdown.scss'
 
-function Dropdown({ title, items, multiSelect = false}) {
+function Dropdown({ title1, items, multiSelect = false}) {
   const [open, setOpen] = useState(false);
   const [selection, setSelection] = useState([]);
+  const [title, setTitle] = useState("Select your department")
   const toggle = () => setOpen(!open);
   Dropdown.handleClickOutside = () => setOpen(false);
-
+  
   function handleOnClick(item) {
     if (!selection.some(current => current.id === item.id)) {
       if (!multiSelect) {
         setSelection([item]);
+        setSelection((selection) => { selection.length == 1 ? setTitle(selection[0].value): setTitle(title) ;   return selection;});
       } else if (multiSelect) {
         setSelection([...selection, item]);
       }
@@ -22,8 +24,10 @@ function Dropdown({ title, items, multiSelect = false}) {
         current => current.id !== item.id
       );
       setSelection([...selectionAfterRemoval]);
+      setTitle("Select your department")
     }
   }
+  
 
   function isItemInSelection(item) {
     if (selection.some(current => current.id === item.id)) {
