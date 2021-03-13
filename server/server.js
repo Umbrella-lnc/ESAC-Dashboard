@@ -47,16 +47,19 @@ require("./config/passport")(passport);
 app.use("/api/users", userRoutes);
 
 // Database Connection
-mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose
+    .connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        //Start listening AFTER establishing database connection
+        app.listen(PORT, () => {
+            console.log(`Running on port: ${PORT}`);
+        });
+    });
 
 const conn = mongoose.connection;
 
 conn.once("open", () => {
     console.log("Database connection established.");
-});
-
-app.listen(PORT, () => {
-    console.log(`Running on port: ${PORT}`);
 });
 
 mongoose.set("useFindAndModify", false);
