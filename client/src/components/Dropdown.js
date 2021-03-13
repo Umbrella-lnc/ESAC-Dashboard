@@ -3,44 +3,35 @@ import onClickOutside from "react-onclickoutside";
 import { isExternalModule } from "typescript";
 import "./Dropdown.scss";
 
-function Dropdown({ title1, items, multiSelect = false, changeDept }) {
+function Dropdown({
+    title1,
+    items,
+    multiSelect = false,
+    changeDept,
+    getDepartment,
+}) {
     const [open, setOpen] = useState(false);
-    const [selection, setSelection] = useState([]);
     const [title, setTitle] = useState("Select your department");
     const toggle = () => setOpen(!open);
     Dropdown.handleClickOutside = () => setOpen(false);
 
     function handleOnClick(item) {
-        if (!selection.some((current) => current.id === item.id)) {
+        if (getDepartment() != item.value) {
             if (!multiSelect) {
-                setSelection([item]);
-                setSelection((selection) => {
-                    if (selection.length == 1) {
-                        setTitle(selection[0].value);
-                        changeDept(selection[0].value);
-                    } else {
-                        setTitle(title);
-                        changeDept("");
-                    }
-                    return selection;
-                });
+                changeDept(item.value);
+                setTitle(item.value);
                 setOpen(false);
             } else if (multiSelect) {
-                setSelection([...selection, item]);
+                //Rework for multiSelect
             }
         } else {
-            let selectionAfterRemoval = selection;
-            selectionAfterRemoval = selectionAfterRemoval.filter(
-                (current) => current.id !== item.id
-            );
-            setSelection([...selectionAfterRemoval]);
-            setTitle("Select your department");
             changeDept("");
+            setTitle("Select your department");
         }
     }
 
     function isItemInSelection(item) {
-        if (selection.some((current) => current.id === item.id)) {
+        if (item.value === getDepartment()) {
             return true;
         }
         return false;
