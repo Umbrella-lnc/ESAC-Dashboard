@@ -7,21 +7,31 @@ const dotenv = require("dotenv");
 const path = require("path");
 
 // Configure Environment Vars
+
+process.env.NODE_ENV =
+    process.env.NODE_ENV === "production" ? "production" : "development";
+
 dotenv.config();
 const PORT = process.env.PORT || 5000;
-const URI = process.env.MONGODB_URI;
+const URI = process.env.MONGODB_URI.replace("mode", process.env.NODE_ENV);
 
 // Create Express Server
 const app = express();
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
-  //Set static folder
-  app.use(express.static("../client/build"));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../client/build/index.html"));
-  });
+    //Set static folder
+    app.use(express.static("../client/build"));
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "../client/build/index.html"));
+    });
 }
+
+//Info
+console.log(
+    "Running in " + process.env.NODE_ENV + " mode at databse url: ",
+    URI
+);
 
 //For printing directory/file when debugging
 //const __filename = fileURLToPath(import.meta.url);
@@ -42,11 +52,11 @@ mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const conn = mongoose.connection;
 
 conn.once("open", () => {
-  console.log("Database connection established.");
+    console.log("Database connection established.");
 });
 
 app.listen(PORT, () => {
-  console.log(`Running on port: ${PORT}`);
+    console.log(`Running on port: ${PORT}`);
 });
 
 mongoose.set("useFindAndModify", false);
