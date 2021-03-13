@@ -3,7 +3,7 @@ import onClickOutside from 'react-onclickoutside';
 import { isExternalModule } from 'typescript';
 import './Dropdown.scss'
 
-function Dropdown({ title1, items, multiSelect = false}) {
+function Dropdown({ title1, items, multiSelect = false, changeDept}) {
   const [open, setOpen] = useState(false);
   const [selection, setSelection] = useState([]);
   const [title, setTitle] = useState("Select your department")
@@ -14,7 +14,7 @@ function Dropdown({ title1, items, multiSelect = false}) {
     if (!selection.some(current => current.id === item.id)) {
       if (!multiSelect) {
         setSelection([item]);
-        setSelection((selection) => { selection.length == 1 ? setTitle(selection[0].value): setTitle(title) ;   return selection;});
+        setSelection((selection) => { if (selection.length == 1) { setTitle(selection[0].value); changeDept(selection[0].value); } else {setTitle(title) ; changeDept('')};   return selection;});
       } else if (multiSelect) {
         setSelection([...selection, item]);
       }
@@ -25,6 +25,7 @@ function Dropdown({ title1, items, multiSelect = false}) {
       );
       setSelection([...selectionAfterRemoval]);
       setTitle("Select your department")
+      changeDept('')
     }
   }
   

@@ -85,7 +85,10 @@ class Register extends Component {
   getAccess = (access_val) => {
     return this.state.access;
   };
-
+  changeDepartment = (dept_val) => {
+    this.setState(({ department }) => ({ department: dept_val }));
+  };
+  
   onSubmit = (e) => {
     e.preventDefault();
     const newUser = {
@@ -159,6 +162,7 @@ class Register extends Component {
                 <Dropdown
                   title='Select your department'
                   items={this.departmentList}
+                  changeDept={this.changeDepartment}
                 />
                 { <span className='red-text'>{errors.department}</span> }
               </div> 
