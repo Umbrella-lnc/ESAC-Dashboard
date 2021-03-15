@@ -6,7 +6,7 @@ const
     createReflectionForm,
     respondToReflectionForm,
     getReflectionForms
-} = require('../../controllers/reflections.js');
+} = require('../../controllers/reflectionsController.js');
 
 // Reflections Routes
 router.post("/createReflectionForm", createReflectionForm);

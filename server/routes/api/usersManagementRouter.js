@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const {toggleVerifiedStatus, deleteUser} = require('../../controllers/usersManagement.js');
+const {toggleVerifiedStatus, deleteUser} = require('../../controllers/usersManagementController.js');
 
 // Account Management Routes
 router.post("/toggleVerifiedStatus", toggleVerifiedStatus);

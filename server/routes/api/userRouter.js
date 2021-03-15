@@ -6,10 +6,10 @@ const router = express.Router();
 
 router.post("/register", userRoutes.register);
 router.post("/login", userRoutes.login);
-router.get("/", (req, res) => {
+//router.get("/", (req, res) => {
     // access by localhost:5000/api/users/
-    res.send("It works!!!");
-});
+//    res.send("It works!!!");
+//});
 
 //Testing authentification, just send a get request with bearer token in auth
 router.get(
