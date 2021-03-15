@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const passport = require("passport");
 const userRoutes = require("./routes/api/userRouter");
+const usersManagementRoutes = require("./routes/api/usersManagementRouter");
 const dotenv = require("dotenv");
 const path = require("path");
 
@@ -44,7 +45,16 @@ app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 app.use(passport.initialize());
 require("./config/passport")(passport);
+
+// Routes
 app.use("/api/users", userRoutes);
+
+// Protected Routes
+app.use(
+    "/api/usersManagement",
+    passport.authenticate('jwt', {session:false}),
+    usersManagementRoutes
+);
 
 // Database Connection
 mongoose
