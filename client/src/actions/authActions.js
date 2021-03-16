@@ -16,6 +16,11 @@ export const registerUser = (userData, history) => (dispatch) => {
 }
 // Login - get user token
 export const loginUser = (userData) => (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+  }
+  }
   axios
     .post('/api/users/login', userData)
     .then((res) => {

@@ -17,7 +17,7 @@ class Register extends Component {
             access: "representative",
             email: "",
             password: "",
-            password2: "",
+            confirmPassword: "",
             errors: {},
         };
     }
@@ -99,14 +99,15 @@ class Register extends Component {
             firstname: this.state.firstname,
             lastname: this.state.lastname,
             department: this.state.department,
-            access: this.state.access,
+            accessLevel: this.state.access,
             email: this.state.email,
             password: this.state.password,
-            password2: this.state.password2,
+            confirmPassword: this.state.confirmPassword,
         };
         this.props.registerUser(newUser, this.props.history);
     };
     render() {
+        console.log(this.state.department)
         const { errors } = this.state;
         return (
             <div className="container">
@@ -231,19 +232,19 @@ class Register extends Component {
                             <div className="input-field col s12">
                                 <input
                                     onChange={this.onChange}
-                                    value={this.state.password2}
-                                    error={errors.password2}
-                                    id="password2"
+                                    value={this.state.confirmPassword}
+                                    error={errors.confirmPassword}
+                                    id="confirmPassword"
                                     type="password"
                                     className={classnames("", {
-                                        invalid: errors.password2,
+                                        invalid: errors.confirmPassword,
                                     })}
                                 />
-                                <label htmlFor="password2">
+                                <label htmlFor="confirmPassword">
                                     Confirm Password
                                 </label>
                                 <span className="red-text">
-                                    {errors.password2}
+                                    {errors.confirmPassword}
                                 </span>
                             </div>
                             <div

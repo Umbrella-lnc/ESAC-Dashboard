@@ -5,8 +5,8 @@ module.exports = function validateRegiserInput(data) {
     let errors = {};
 
     // Convert empty fields to empty strings
-    data.firstname = !isEmpty(data.firstname) ? data.name : "";
-    data.lastname = !isEmpty(data.lastname) ? data.name : "";
+    data.firstname = !isEmpty(data.firstname) ? data.firstname : "";
+    data.lastname = !isEmpty(data.lastname) ? data.lastname : "";
     data.department = !isEmpty(data.department) ? data.department : "";
     data.email = !isEmpty(data.email) ? data.email : "";
     data.password = !isEmpty(data.password) ? data.password : "";
