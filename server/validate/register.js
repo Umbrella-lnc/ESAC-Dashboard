@@ -17,10 +17,10 @@ module.exports = function validateRegiserInput(data) {
 
     // Validate name
     if (Validator.isEmpty(data.firstname)) {
-        errors.name = "Name field required!";
+        errors.firstname = "Firstname field required!";
     }
     if (Validator.isEmpty(data.lastname)) {
-        errors.name = "Name field required!";
+        errors.lastname = "Lastname field required!";
     }
 
     // Validate department
