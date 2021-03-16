@@ -34,7 +34,8 @@ const register = async (req, res) => {
 
         // Create the new user
         const newUser = new User({
-            name: req.body.name,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
             department: req.body.department,
             email: req.body.email,
             password: req.body.password,
