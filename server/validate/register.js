@@ -5,7 +5,8 @@ module.exports = function validateRegiserInput(data) {
     let errors = {};
 
     // Convert empty fields to empty strings
-    data.name = !isEmpty(data.name) ? data.name : "";
+    data.firstname = !isEmpty(data.firstname) ? data.name : "";
+    data.lastname = !isEmpty(data.lastname) ? data.name : "";
     data.department = !isEmpty(data.department) ? data.department : "";
     data.email = !isEmpty(data.email) ? data.email : "";
     data.password = !isEmpty(data.password) ? data.password : "";
@@ -15,7 +16,10 @@ module.exports = function validateRegiserInput(data) {
     data.accessLevel = !isEmpty(data.accessLevel) ? data.accessLevel : "";
 
     // Validate name
-    if (Validator.isEmpty(data.name)) {
+    if (Validator.isEmpty(data.firstname)) {
+        errors.name = "Name field required!";
+    }
+    if (Validator.isEmpty(data.lastname)) {
         errors.name = "Name field required!";
     }
 
