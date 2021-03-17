@@ -12,14 +12,13 @@
     "server": "cd server && nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client \"",
-    "proxy": "http://localhost:5000"
+    "proxy": "http://localhost:5000/"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
-    "@material-ui/icons": "^4.11.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "concurrently": "^6.0.0",
@@ -30,6 +29,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.18",
     "nodemon": "^2.0.7",
+    "npm-watch": "^0.7.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "react-onclickoutside": "^6.10.0",

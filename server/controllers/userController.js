@@ -88,7 +88,12 @@ const login = async (req, res) => {
             if (isMatch) {
                 const payload = {
                     id: user.id,
-                    name: user.name,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    department: user.department,
+                    email: user.email,
+                    accessLevel: user.accessLevel,
+                    active: user.active
                 };
 
                 jwt.sign(
