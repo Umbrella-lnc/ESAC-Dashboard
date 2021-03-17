@@ -2,13 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { logoutUser } from '../../actions/authActions'
+import jwt_decode from "jwt-decode"
 class Dashboard extends Component {
   onLogoutClick = (e) => {
     e.preventDefault()
     this.props.logoutUser()
   }
   render() {
-    const { user } = this.props.auth
+    //const { user } = this.props.auth
+    const token = localStorage.getItem("jwtToken");
+    const user = jwt_decode(token)
     return (
       <div style={{ height: '75vh' }} className='container valign-wrapper'>
         <div className='row'>
