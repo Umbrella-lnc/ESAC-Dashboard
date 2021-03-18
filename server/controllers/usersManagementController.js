@@ -1,14 +1,9 @@
 const User = require("../models/User");
-const dotenv = require("dotenv");
-
-dotenv.config();
-const secretOrKey = process.env.secretOrKey;
 
 // @route POST api/usersManagementController/toggleVerifiedStatus
 // @desc Register a user in the database
 // @access Admin
 const toggleVerifiedStatus = async (req, res) => {
-    //Look into creating super admins
     if (req.user.accessLevel != "administrator") {
         return res.status(401).json({
             unauthorized: "Need administrator privileges to verify users!",
