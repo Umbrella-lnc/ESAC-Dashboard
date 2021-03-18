@@ -7,6 +7,7 @@ const usersManagementRoutes = require("./routes/api/usersManagementRouter");
 const dotenv = require("dotenv");
 const path = require("path");
 
+
 // Configure Environment Vars
 dotenv.config();
 const ENV =  process.env.NODE_ENV || 'development';
