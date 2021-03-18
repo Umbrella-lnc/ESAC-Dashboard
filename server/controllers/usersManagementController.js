@@ -1,11 +1,5 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const validateRegiserInput = require("../validate/register");
-const validateLoginInput = require("../validate/login");
 const dotenv = require("dotenv");
-const passport = require("../config/passport");
-const { db } = require("../models/User");
 
 dotenv.config();
 const secretOrKey = process.env.secretOrKey;
@@ -68,5 +62,26 @@ const deleteUser = async (req, res) => {
     });
 };
 
+// @route GET api/usersManagementController/listUsers
+// @desc Return all users in the database
+// @access Admin
+const listUsers = async (req, res) => {
+    // Verify that the user has access level "administrator"
+    if (req.user.accessLevel != "administrator") {
+        return res.status(400).json({
+            accessLevel: "Need administrator privileges to delete user!",
+        });
+    }
+
+    // Make sure the user actually exists in the database
+    User.find().then((users) => {
+        return res.json(users);
+    }).catch((error) => {
+        return res.send(error);
+    });
+};
+
+
 exports.toggleVerifiedStatus = toggleVerifiedStatus;
 exports.deleteUser = deleteUser;
+exports.listUsers = listUsers;
