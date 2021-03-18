@@ -2,12 +2,13 @@ import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
-const get_uri = require("./proxy_config");
+import baseURL from '../baseURL';
 // Register User
+
 export const registerUser = (userData, history) => (dispatch) => {
-    console.log(`${get_uri()}/api/users/register`);
+    console.log('/api/users/register');
     axios
-        .post(`${get_uri()}/api/users/register`, userData)
+        .post('/api/users/register', userData)
         .then((res) => history.push("/login")) // re-direct to login on successful register
         .catch((err) =>
             dispatch({
@@ -24,7 +25,7 @@ export const loginUser = (userData) => (dispatch) => {
         },
     };
     axios
-        .post(`${get_uri()}/api/users/login`, userData)
+        .post(baseURL + '/api/users/login', userData)
         .then((res) => {
             // Save to localStorage
             // Set token to localStorage
