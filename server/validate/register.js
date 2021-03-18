@@ -1,66 +1,87 @@
-const Validator = require('validator');
-const isEmpty = require('is-empty');
+const Validator = require("validator");
+const isEmpty = require("is-empty");
 
 module.exports = function validateRegiserInput(data) {
     let errors = {};
 
     // Convert empty fields to empty strings
-    data.name = !isEmpty(data.name) ? data.name : "";
+    data.firstname = !isEmpty(data.firstname) ? data.firstname : "";
+    data.lastname = !isEmpty(data.lastname) ? data.lastname : "";
     data.department = !isEmpty(data.department) ? data.department : "";
     data.email = !isEmpty(data.email) ? data.email : "";
     data.password = !isEmpty(data.password) ? data.password : "";
-    data.confirmPassword = !isEmpty(data.confirmPassword) ? data.confirmPassword : "";
+    data.confirmPassword = !isEmpty(data.confirmPassword)
+        ? data.confirmPassword
+        : "";
     data.accessLevel = !isEmpty(data.accessLevel) ? data.accessLevel : "";
 
     // Validate name
-    if(Validator.isEmpty(data.name)) {
-        errors.name = "Name field required!";
+    if (Validator.isEmpty(data.firstname)) {
+        errors.firstname = "Firstname field required!";
+    }
+    if (Validator.isEmpty(data.lastname)) {
+        errors.lastname = "Lastname field required!";
     }
 
     // Validate department
-    if(Validator.isEmpty(data.department)) {
+    const departments = [
+        "Mechanical and Aerospace Engineering (MAE)",
+        "Civil, Coastal, and Environmental Engineering (ESSIE)",
+        "Agricultural and Biological Engineering (ABE)",
+        "Biomedical Engineering (BME)",
+        "Chemical Engineering (CHEME)",
+        "Computer and Information Science and Engineering (CISE)",
+        "Electrical and Computer Engineering (ECE)",
+        "Industrial and Systems Engineering (ISE)",
+        "Materials Science and Engineering (MSE)",
+        "Nuclear Engineering (NE)",
+    ];
+
+    if (Validator.isEmpty(data.department)) {
         errors.department = "Department field required!";
+    } else if (!departments.includes(data.department)) {
+        errors.department = "Invalid department!";
     }
 
     // Validate email
-    if(Validator.isEmpty(data.email)) {
+    if (Validator.isEmpty(data.email)) {
         errors.email = "Email field required!";
-    }
-    else if(!Validator.isEmail(data.email)) {
+    } else if (!Validator.isEmail(data.email)) {
         errors.email = "Email is invalid!";
-    }
-    else if(data.email.split('@')[1] !== "ufl.edu") {
+    } else if (data.email.split("@")[1] !== "ufl.edu") {
         errors.email = "Email requires @ufl.edu domain!";
     }
 
     // Validate password
-    if(Validator.isEmpty(data.password)) {
+    if (Validator.isEmpty(data.password)) {
         errors.password = "Password field required!";
     }
-    if(Validator.isEmpty(data.confirmPassword)) {
+    if (Validator.isEmpty(data.confirmPassword)) {
         errors.confirmPassword = "Confirm Password field required!";
     }
-    if(!Validator.isLength(data.password, { min: 7, max: 30 })) {
+    if (!Validator.isLength(data.password, { min: 7, max: 30 })) {
         errors.password = "Password must be at least 7 characters long!";
     }
-    if(Validator.isAlpha(data.password)) {
+    if (Validator.isAlpha(data.password)) {
         errors.password = "Password must contain at least 1 number!";
     }
-    if(Validator.isLowercase(data.password)) {
+    if (Validator.isLowercase(data.password)) {
         errors.password = "Password must contain at least 1 uppercase letter!";
     }
-    if(!Validator.equals(data.password, data.confirmPassword)) {
+    if (!Validator.equals(data.password, data.confirmPassword)) {
         errors.confirmPassword = "Passwords must match!";
     }
 
     // Validate Access Level
-    if(Validator.isEmpty(data.accessLevel)) {
+    const access_levels = ["representative", "administrator"];
+    if (Validator.isEmpty(data.accessLevel)) {
         errors.accessLevel = "Access Level must be chosen!";
+    } else if (!access_levels.includes(data.accessLevel)) {
+        errors.accessLevel = "Invalid access level chosen!";
     }
 
     return {
         errors,
-        isValid: isEmpty(errors)
+        isValid: isEmpty(errors),
     };
-    
 };
