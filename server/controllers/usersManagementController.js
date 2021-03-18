@@ -19,11 +19,11 @@ const toggleVerifiedStatus = async (req, res) => {
         } else {
             //Change to toggle functionality later
             user.active = !user.active;
-            console.log(user);
             //Look into using update to flip state without reading prev. state
             user.save()
                 .then(() => {
                     res.status(200).json({ success: "Toggled user access!" });
+                    console.log("Toggled user " + user.email + " to active: " + user.active);
                 })
                 .catch((err) =>
                     res.status(500).json({
@@ -45,7 +45,6 @@ const deleteUser = async (req, res) => {
         });
     }
 
-    // Make sure the user actually exists in the database
     User.findOne({ email: req.body.email }).then((user) => {
         if (!user) {
             return res.status(404).json({ emailnotfound: "Email not found!" });

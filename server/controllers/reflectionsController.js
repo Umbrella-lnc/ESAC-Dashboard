@@ -4,7 +4,7 @@ const Reflection = require('../models/Reflection');
 // @route POST api/reflections/createReflection
 // @desc Create a reflection in the database
 // @access Admin
-const createReflection= async (req, res) => {
+const createReflection = async (req, res) => {
 
 };
 
@@ -52,10 +52,22 @@ const getDepartmentReflections = async (req, res) => {
 // @desc Return all reflections in the database
 // @access Admin
 const getAllReflections = async (req, res) => {
+    // Verify that the user has access level "administrator"
+    if (req.user.accessLevel != "administrator") {
+        return res.status(400).json({
+            accessLevel: "Need administrator privileges to delete user!",
+        });
+    }
 
+    Reflection.find().then((reflections) => {
+        return res.json(reflections);
+    }).catch((error) => {
+        return res.send(error);
+    });
 };
 
 exports.createReflection = createReflection;
+exports.deleteReflection = deleteReflection;
 exports.commentOnReflection = commentOnReflection;
 exports.getDepartmentReflections = getDepartmentReflections;
 exports.getAllReflections = getAllReflections;
