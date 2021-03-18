@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { logoutUser } from '../../actions/authActions'
 
-class Dashboard extends React.Component {
+class Profile extends React.Component {
   onLogoutClick = (e) => {
     e.preventDefault()
     this.props.logoutUser()
@@ -18,7 +18,7 @@ class Dashboard extends React.Component {
               <b>Hey there,</b> {user.name.split(' ')[0]}
               <p className='flow-text grey-text text-darken-1'>
                 You are logged into a full-stack{' '}
-                <span style={{ fontFamily: 'monospace' }}>MERN</span> app 👏
+                <span style={{ fontFamily: 'monospace' }}>Profile</span> app 👏
               </p>
             </h4>
             <button
@@ -39,11 +39,11 @@ class Dashboard extends React.Component {
     )
   }
 }
-Dashboard.propTypes = {
+Profile.propTypes = {
   logoutUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 }
 const mapStateToProps = (state) => ({
   auth: state.auth,
 })
-export default connect(mapStateToProps, { logoutUser })(Dashboard)
+export default connect(mapStateToProps, { logoutUser })(Profile)
