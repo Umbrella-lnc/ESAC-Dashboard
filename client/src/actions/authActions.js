@@ -29,7 +29,7 @@ export const loginUser = (userData) => (dispatch) => {
         .then((res) => {
             // debug
             //console.log(res);
-            //console.log(baseURL + '/api/users/login');
+            console.log(baseURL + '/api/users/login');
 
             // Save to localStorage
             // Set token to localStorage
