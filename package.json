@@ -9,7 +9,7 @@
     "client-install": "cd client && npm install",
     "server": "cd server && nodemon server.js",
     "client": "npm start --prefix client",
-    "dev": "export NODE_ENV=development && concurrently \"npm run server\" \"npm run client \""
+    "dev": "concurrently \"npm run server\" \"npm run client \""
   },
   "keywords": [],
   "author": "",
