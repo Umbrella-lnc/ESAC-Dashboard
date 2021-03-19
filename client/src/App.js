@@ -40,9 +40,9 @@ class App extends Component {
             <Route exact path='/' component={Landing} />
             <Route exact path='/register' component={Register} />
             <Route exact path='/login' component={Login} />
-            <Route exact path='/manageProfiles' component={ManageProfiles} />
             <Switch>
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
+              <Route exact path='/manageProfiles' component={ManageProfiles} />
             </Switch>
           </div>
         </Router>
