@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const commentSchema = mongoose.Schema(
     {
         poster: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
             required: true,
         },
         dateposted: {

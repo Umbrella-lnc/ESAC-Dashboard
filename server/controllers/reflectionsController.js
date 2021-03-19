@@ -14,26 +14,32 @@ const createReflection = async (req, res) => {
     }
 
     //Check databse for valid user
-    User.findOne({ _id: req.body.user_id }).then((user) => {
-        // Make sure user exists
-        if (!user) {
-            return res.status(404).json({ usernotfound: "Invalid user id!" });
-        } else {
-            //make reflection and add to database
-            const newReflection = new Reflection({
-                title: req.body.title,
-                department: req.body.department,
-                poster: user._id,
-                date: req.body.date,
-                comments: [],
-            });
+    User.findOne({ _id: req.body.user_id })
+        .then((user) => {
+            // Make sure user exists
+            if (!user) {
+                return res
+                    .status(404)
+                    .json({ usernotfound: "Invalid user id!" });
+            } else {
+                //make reflection and add to database
+                const newReflection = new Reflection({
+                    title: req.body.title,
+                    department: req.body.department,
+                    poster: user._id,
+                    date: req.body.date,
+                    comments: [],
+                });
 
-            newReflection
-                .save()
-                .then((reflection) => res.json(reflection))
-                .catch((err) => console.log(err));
-        }
-    });
+                newReflection
+                    .save()
+                    .then((reflection) => res.json(reflection))
+                    .catch((err) => console.log(err));
+            }
+        })
+        .catch((err) => {
+            res.status(400).json({ bad_id: "Invalid ID passed in request!" });
+        });
 };
 
 // @route POST api/reflections/deleteReflection
