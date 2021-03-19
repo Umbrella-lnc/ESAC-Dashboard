@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const commentSchema = require("./Comment")
+const commentSchema = require("./Comment");
 
 const reflectionSchema = mongoose.Schema(
     {
@@ -9,6 +9,14 @@ const reflectionSchema = mongoose.Schema(
         },
         department: {
             type: String,
+            required: true,
+        },
+        poster: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+        },
+        date: {
+            type: Date,
             required: true,
         },
         comments: {
