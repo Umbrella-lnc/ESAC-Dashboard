@@ -5,6 +5,9 @@ const validateReflection = require("../validate/reflection");
 // @route POST api/reflections/createReflection
 // @desc Create a reflection in the database
 // @access Admin
+//  + req.user => current logged in user object
+//  + req.body.title
+//  + req.body.department
 const createReflection = async (req, res) => {
     // Form Validation
     const { errors, isValid } = validateReflection(req.body);
@@ -45,6 +48,8 @@ const createReflection = async (req, res) => {
 // @route POST api/reflections/deleteReflection
 // @desc Delete a reflection in the database by ID
 // @access Admin
+//  + req.user => current logged in user object
+//  + req.body.reflectionID => reflection ID to delete
 const deleteReflection = async (req, res) => {
     // Verify that the user has access level "administrator"
     if (req.user.accessLevel != "administrator") {
@@ -68,18 +73,34 @@ const deleteReflection = async (req, res) => {
 // @route POST api/reflections/commentOnReflection
 // @desc Comment on a reflection by ID
 // @access User
+// @req
+//  + req.user => current logged in user object
+//  + req.body.reflectionID => reflection ID to comment on
+//  + req.body.commentData => the comment data
 const commentOnReflection = async (req, res) => {};
 
 // @route GET api/reflections/getDepartmentReflections
 // @desc Return all reflections in the department of user
 // @access User
+// @req
+//  + req.user => current logged in user object
 const getDepartmentReflections = async (req, res) => {
-    // req.
+    Reflection.find({ department: req.user.department }).then((reflections) => {
+        if(!reflections) {
+            return res.status(404).json({ invaliddepartment: "Invalid department bro"});
+        } else {
+            return res.json(reflections);
+        }
+    }).catch((error) => {
+        return res.send(error);
+    });
 };
 
 // @route GET api/reflections/getAllReflections
 // @desc Return all reflections in the database
 // @access Admin
+// @req
+//  + req.user => current logged in user object
 const getAllReflections = async (req, res) => {
     // Verify that the user has access level "administrator"
     if (req.user.accessLevel != "administrator") {

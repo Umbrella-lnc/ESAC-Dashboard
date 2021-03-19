@@ -6,6 +6,10 @@ const commentSchema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             required: true,
         },
+        comment: {
+            type: String,
+            required: true,
+        },
         dateposted: {
             type: Date,
             required: true,
