@@ -30,7 +30,7 @@ const createReflection = async (req, res) => {
                     title: req.body.title,
                     department: req.body.department,
                     poster: user._id,
-                    date: req.body.date,
+                    date: new Date(),
                     comments: [],
                 });
 

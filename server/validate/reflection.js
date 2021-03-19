@@ -8,7 +8,6 @@ module.exports = function validateRegiserInput(data) {
     //Check for title and department associated
     data.user_id = !isEmpty(data.user_id) ? data.user_id : "";
     data.title = !isEmpty(data.title) ? data.title : "";
-    data.date = !isEmpty(data.date) ? data.date : "";
     data.department = !isEmpty(data.department) ? data.department : "";
 
     // Validate department
@@ -39,11 +38,6 @@ module.exports = function validateRegiserInput(data) {
     //Validate id
     if (Validator.isEmpty(data.user_id)) {
         errors.user_id = "User id not received!";
-    }
-
-    //Validate date
-    if (Validator.isDate(data.date)) {
-        errors.invalid_date = "Invalid date received!" + data.date;
     }
 
     return {
