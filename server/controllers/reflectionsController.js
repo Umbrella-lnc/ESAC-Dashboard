@@ -1,6 +1,8 @@
 const User = require("../models/User");
+const Comment = require("../models/Comment");
 const Reflection = require("../models/Reflection");
 const validateReflection = require("../validate/reflection");
+const validateComment = require("../validate/comment");
 
 // @route POST api/reflections/createReflection
 // @desc Create a reflection in the database
@@ -16,8 +18,14 @@ const createReflection = async (req, res) => {
         return res.status(400).json(errors);
     }
 
+    if (req.user.accessLevel != "administrator") {
+        res.status(403).json({
+            invalid_permission: "You do not have access to post comments!",
+        });
+    }
+
     //Check databse for valid user
-    User.findOne({ _id: req.body.user_id })
+    User.findOne({ _id: req.user._id })
         .then((user) => {
             // Make sure user exists
             if (!user) {
@@ -67,6 +75,8 @@ const deleteReflection = async (req, res) => {
             console.log("Deleted reflection ID " + req.body.reflectionID);
             res.json({ success: true });
         }
+    }).catch((err) => {
+        res.status(400).json({ bad_id: "Invalid ID passed in request!" });
     });
 };
 
@@ -76,8 +86,47 @@ const deleteReflection = async (req, res) => {
 // @req
 //  + req.user => current logged in user object
 //  + req.body.reflectionID => reflection ID to comment on
-//  + req.body.commentData => the comment data
-const commentOnReflection = async (req, res) => {};
+//  + req.body.comment => the comment data
+const commentOnReflection = async (req, res) => {
+    //Verify Input
+    const { errors, isValid } = validateComment(req);
+
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    Reflection.findById(req.body.reflectionID).then((reflection) => {
+        if (!reflection) {
+            return res
+                .status(404)
+                .json({ reflectionnotfound: "Reflection not found!" });
+        } else {
+            /*
+            const newComment = new Comment({
+                poster: req.user._id,
+                comment: req.body.comment,
+                dateposted: new Date(),
+            });
+            */
+
+            const newComment = {
+                poster: req.user._id,
+                comment: req.body.comment,
+                dateposted: new Date(),
+            };
+
+            console.log("INSIDE");
+            //reflection.updateOne(req)
+            reflection.comments.push(newComment);
+            reflection.save();
+
+            return res.json({ success: true });
+        }
+    });
+    // .catch((err) => {
+    //     res.status(400).json({ error: err });
+    // });
+};
 
 // @route GET api/reflections/getDepartmentReflections
 // @desc Return all reflections in the department of user
@@ -85,15 +134,19 @@ const commentOnReflection = async (req, res) => {};
 // @req
 //  + req.user => current logged in user object
 const getDepartmentReflections = async (req, res) => {
-    Reflection.find({ department: req.user.department }).then((reflections) => {
-        if(!reflections) {
-            return res.status(404).json({ invaliddepartment: "Invalid department bro"});
-        } else {
-            return res.json(reflections);
-        }
-    }).catch((error) => {
-        return res.send(error);
-    });
+    Reflection.find({ department: req.user.department })
+        .then((reflections) => {
+            if (!reflections) {
+                return res
+                    .status(404)
+                    .json({ invaliddepartment: "Invalid department bro" });
+            } else {
+                return res.json(reflections);
+            }
+        })
+        .catch((error) => {
+            return res.send(error);
+        });
 };
 
 // @route GET api/reflections/getAllReflections
