@@ -1,14 +1,9 @@
 const User = require("../models/User");
-const dotenv = require("dotenv");
-
-dotenv.config();
-const secretOrKey = process.env.secretOrKey;
 
 // @route POST api/usersManagementController/toggleVerifiedStatus
 // @desc Register a user in the database
 // @access Admin
 const toggleVerifiedStatus = async (req, res) => {
-    //Look into creating super admins
     if (req.user.accessLevel != "administrator") {
         return res.status(401).json({
             unauthorized: "Need administrator privileges to verify users!",
@@ -24,11 +19,11 @@ const toggleVerifiedStatus = async (req, res) => {
         } else {
             //Change to toggle functionality later
             user.active = !user.active;
-            console.log(user);
             //Look into using update to flip state without reading prev. state
             user.save()
                 .then(() => {
                     res.status(200).json({ success: "Toggled user access!" });
+                    console.log("Toggled user " + user.email + " to active: " + user.active);
                 })
                 .catch((err) =>
                     res.status(500).json({
@@ -50,7 +45,6 @@ const deleteUser = async (req, res) => {
         });
     }
 
-    // Make sure the user actually exists in the database
     User.findOne({ email: req.body.email }).then((user) => {
         if (!user) {
             return res.status(404).json({ emailnotfound: "Email not found!" });
