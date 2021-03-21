@@ -157,7 +157,7 @@ const getAllReflections = async (req, res) => {
   // Verify that the user has access level "administrator"
   if (req.user.accessLevel != "administrator") {
     return res.status(400).json({
-      accessLevel: "Need administrator privileges to delete user!",
+      accessLevel: "Need administrator privileges to get all reflections!",
     });
   }
 

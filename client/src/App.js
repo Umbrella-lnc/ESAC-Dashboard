@@ -16,6 +16,7 @@ import Register from "./auth/Register"
 import Login from "./auth/Login"
 import PrivateRoute from "./components/private-route/PrivateRoute"
 import Dashboard from "./components/dashboard/Dashboard"
+import Reflections from "./components/dashboard/Reflections"
 
 // Import utils
 import setAuthToken from "./utils/setAuthToken"
@@ -52,6 +53,7 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <PrivateRoute exact path="/reflections" component={Reflections} />
             </Switch>
           </div>
         </Router>

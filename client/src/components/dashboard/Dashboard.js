@@ -1,7 +1,8 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
-import jwt_decode from "jwt-decode"
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+//import jwt_decode from "jwt-decode"
 
 import { logoutUser } from "../../actions/authActions"
 
@@ -16,7 +17,7 @@ class Dashboard extends Component {
     const { user } = this.props.auth
     //const token = localStorage.getItem("jwtToken");
     //const user = jwt_decode(token)
-
+    
     return (
       <div style={{ height: "75vh" }} className="container valign-wrapper">
         <div className="row">
@@ -28,6 +29,19 @@ class Dashboard extends Component {
                 <span style={{ fontFamily: "monospace" }}>MERN</span> app 👏
               </p>
             </h4>
+            <div className='col s6'>
+                <Link
+                  to='/reflections'
+                  style={{
+                    width: '140px',
+                    borderRadius: '3px',
+                    letterSpacing: '1.5px',
+                  }}
+                  className='btn btn-large waves-effect waves-light hoverable blue accent-3'
+                >
+                  Reflections
+                </Link>
+            </div>
             <button
               style={{
                 width: "150px",
