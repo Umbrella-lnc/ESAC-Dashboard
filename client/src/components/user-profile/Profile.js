@@ -17,18 +17,16 @@ class Profile extends Component {
     const user = jwt_decode(token)
     return (
       <div style={{ height: '75vh' }} className='container valign-wrapper'>
-        <div className='row'>
-          <div className="col">
-            <div className='col s6 center-align'>
-               <img src={ProfileIcon} width="400" length="500"></img>
+        <div class="row">
+            <div className="col s2">
+              <img class="img" src={ProfileIcon} width="400" length="500"></img>
             </div>
-          </div>
-          <div className="col">
+            <div className="col s8 push-s1">
             <div class="section">
-              <h4 className='col s6 offset-s6 left-align'>
+              <h4 className='col s6 offset-s4 left-align'>
                 <b>Profile</b> 
               </h4>
-              <div className='col s12 offset-s6 left-align'>
+              <div className='col s12 offset-s4 left-align'>
                 <h6>
                   <p className='flow-text grey-text text-darken-1'>
                     Name: {user.firstname} {user.lastname}
@@ -56,14 +54,11 @@ class Profile extends Component {
                   </button>
               </div>
             </div>
-            <div class="divider"></div>
             <div class="section">
-            
-            
-              <h4 className='col s6 offset-s6 left-align'>
+              <h4 className='col s6 offset-s4 left-align'>
                 <b>User Management</b> 
               </h4>
-              <div class="vertical-btn-gp" className='col s6 push-s6'>
+              <div class="vertical-btn-gp" className='col s6 push-s4'>
                 <button
                   style={{
                     width: '400px',
