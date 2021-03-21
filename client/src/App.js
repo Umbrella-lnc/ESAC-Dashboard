@@ -1,46 +1,57 @@
-import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import jwt_decode from 'jwt-decode'
-import setAuthToken from './utils/setAuthToken'
-import { setCurrentUser, logoutUser } from './actions/authActions'
-import { Provider } from 'react-redux'
-import store from './store'
-import Navbar from './components/reusable-components/Navbar'
-import Landing from './components/reusable-components/Landing'
-import Register from './auth/Register'
-import Login from './auth/Login'
-import PrivateRoute from './components/private-route/PrivateRoute'
-import Dashboard from './components/dashboard/Dashboard'
-// Check for token to keep user logged in
+import React, { Component } from "react"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import jwt_decode from "jwt-decode"
+import { Provider } from "react-redux"
+
+// Import actions
+import { setCurrentUser, logoutUser } from "./actions/authActions"
+
+// Import the store
+import store from "./store"
+
+// Import Components
+import Navbar from "./components/reusable-components/Navbar"
+import Landing from "./components/reusable-components/Landing"
+import Register from "./auth/Register"
+import Login from "./auth/Login"
+import PrivateRoute from "./components/private-route/PrivateRoute"
+import Dashboard from "./components/dashboard/Dashboard"
+
+// Import utils
+import setAuthToken from "./utils/setAuthToken"
+
 if (localStorage.jwtToken) {
-  // Set auth token header auth
+  // Get the JWT Token from storage and set the auth token
   const token = localStorage.jwtToken
   setAuthToken(token)
-  // Decode token and get user info and exp
+
+  // Decode the JWT to get the user model
   const decoded = jwt_decode(token)
-  // Set user and isAuthenticated
+
+  // Set the user to dispatch
   store.dispatch(setCurrentUser(decoded))
-  // Check for expired token
-  const currentTime = Date.now() / 1000 // to get in milliseconds
+
+  // Token expiration check
+  const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
-    // Logout user
+    // Logout user to dispatch
     store.dispatch(logoutUser())
-    // Redirect to login
-    window.location.href = './login'
+    window.location.href = "./login"
   }
 }
+
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
         <Router>
-          <div className='App'>
+          <div className="App">
             <Navbar />
-            <Route exact path='/' component={Landing} />
-            <Route exact path='/register' component={Register} />
-            <Route exact path='/login' component={Login} />
+            <Route exact path="/" component={Landing} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/login" component={Login} />
             <Switch>
-              <PrivateRoute exact path='/dashboard' component={Dashboard} />
+              <PrivateRoute exact path="/dashboard" component={Dashboard} />
             </Switch>
           </div>
         </Router>
