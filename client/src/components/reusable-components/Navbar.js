@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Link } from "react-router-dom";
+import AppNavbar from "./AppNavbar"
 
 class Navbar extends Component {
   render() {
@@ -19,6 +20,9 @@ class Navbar extends Component {
                 ESAC
               </Link>
             </BrowserRouter>
+          </div>
+          <div>
+            <AppNavbar />
           </div>
         </nav>
       </div>
