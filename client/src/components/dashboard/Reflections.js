@@ -7,10 +7,11 @@ import PropTypes from "prop-types"
 
 
 class Reflections extends Component {
+    state = {
+        reflections: []
+    }
 
-    render() {
-        let reflections = []
-
+    componentDidMount() {
         const token = localStorage.getItem('jwtToken')
         const user = jwt_decode(token)
 
@@ -18,19 +19,21 @@ class Reflections extends Component {
             axios.get(baseURL + '/api/reflections/getAllReflections').then((res) => {
                 // Debug
                 console.log(baseURL + '/api/reflections/getAllReflections');
-
-                reflections = res.data;
+                this.setState({ reflections: res.data });
             });
         } else {
             axios.get(baseURL + '/api/reflections/getDepartmentReflections').then((res) => {
                 // Debug
                 console.log(baseURL + '/api/reflections/getDepartmentReflections');
-
-                reflections = res.data;
+                this.setState({ reflections: res.data });
             });
         }
+    }
 
-        console.log(reflections);
+    render() {
+        if(!this.state.reflections) {
+            return null;
+        }
 
         return (
             <div className="container valign-wrapper">
@@ -40,7 +43,7 @@ class Reflections extends Component {
                     //direction="column"
                     //alignItems="center"
                     //justify="center"
-                >{reflections.map(reflection => {
+                >{this.state.reflections.map(reflection => {
                     return (
                         <Grid item xs = {12}>
                             <Card>
