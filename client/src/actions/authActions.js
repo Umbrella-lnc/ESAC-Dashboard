@@ -6,9 +6,9 @@ import baseURL from '../baseURL';
 // Register User
 
 export const registerUser = (userData, history) => (dispatch) => {
-    console.log('/api/users/register');
+    console.log(baseURL + '/api/users/register');
     axios
-        .post('/api/users/register', userData)
+        .post(baseURL + '/api/users/register', userData)
         .then((res) => history.push("/login")) // re-direct to login on successful register
         .catch((err) =>
             dispatch({

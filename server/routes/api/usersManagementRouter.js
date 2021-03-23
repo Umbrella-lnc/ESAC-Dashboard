@@ -7,7 +7,6 @@ const {
     listUsers
 } = require('../../controllers/usersManagementController.js');
 
-// Account Management Routes
 router.post("/toggleVerifiedStatus", toggleVerifiedStatus);
 router.post("/deleteUser", deleteUser);
 router.get("/listUsers", listUsers);
