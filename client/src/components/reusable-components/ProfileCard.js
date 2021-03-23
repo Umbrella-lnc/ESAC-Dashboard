@@ -55,12 +55,14 @@ export default function ProfileCard(props) {
   const active = props.user.active
   const email = props.user.email
   const access = props.user.accessLevel
+  const window = props.window
   const userContainer = {
     email: email,
   }
 
   function handleDelete() {
     axios.post(baseURL + `/api/usersManagement/deleteUser`, userContainer)
+    window.location.reload(true)
   }
 
   function handleVerify() {
@@ -68,6 +70,7 @@ export default function ProfileCard(props) {
       baseURL + '/api/usersManagement/toggleVerifiedStatus',
       userContainer
     )
+    window.location.reload(true)
   }
 
   if (access != 'administrator') {

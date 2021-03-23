@@ -10,7 +10,6 @@ class ManageProfiles extends Component {
   state = {
     profiles: [],
   }
-
   componentDidMount() {
     const token = localStorage.getItem('jwtToken')
     const user = jwt_decode(token)
@@ -30,7 +29,7 @@ class ManageProfiles extends Component {
         {elements.map((value, index) => {
           return (
             <ListItem className='input-field col s12'>
-              <ProfileCard user={value} />
+              <ProfileCard user={value} window={window} />
             </ListItem>
           )
         })}
