@@ -10,6 +10,12 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import blue from "@material-ui/core/colors/blue";
 import { Link } from "react-router-dom";
+import setAuthToken from "../../utils/setAuthToken";
+import {
+    GET_ERRORS,
+    SET_CURRENT_USER,
+    USER_LOADING,
+} from "../../actions/types";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,10 +33,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function MenuAppBar() {
+export default function MenuAppBar(props) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+    const { onLogoutClick } = props;
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -84,7 +91,22 @@ export default function MenuAppBar() {
                         <MenuItem onClick={handleClose}>
                             <Link to="/resources">Resources</Link>
                         </MenuItem>
-                        <MenuItem onClick={handleClose}>Logout</MenuItem>
+                        <MenuItem
+                            onClick={(e) => {
+                                // Remove token from local storage
+                                localStorage.removeItem("jwtToken");
+                                // Remove auth header for future requests
+                                setAuthToken(false);
+                                return {
+                                    type: SET_CURRENT_USER,
+                                    payload: {},
+                                };
+                            }}
+                        >
+                            <a href="/login" style={{ textDecoration: "none" }}>
+                                Logout
+                            </a>
+                        </MenuItem>
                     </Menu>
                     <Typography
                         variant="h6"
