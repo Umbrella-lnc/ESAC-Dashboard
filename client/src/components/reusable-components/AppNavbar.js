@@ -9,6 +9,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import blue from "@material-ui/core/colors/blue";
+import { Link } from "react-router-dom";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,10 +68,10 @@ export default function MenuAppBar() {
                 open={open}
                 onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>Dashboard</MenuItem>
-            <MenuItem onClick={handleClose}>Reflections</MenuItem>
-            <MenuItem onClick={handleClose}>Announcements</MenuItem>
-            <MenuItem onClick={handleClose}>Resources</MenuItem>
+            <MenuItem onClick={handleClose}><Link to="/dashboard">Dashboard</Link></MenuItem>
+            <MenuItem onClick={handleClose}><Link to="/reflections">Reflections</Link></MenuItem>
+            <MenuItem onClick={handleClose}><Link to="/announcements">Announcements</Link></MenuItem>
+            <MenuItem onClick={handleClose}><Link to="/resources">Resources</Link></MenuItem>
             <MenuItem onClick={handleClose}>Logout</MenuItem>
           </Menu>
           <Typography variant="h6" className={classes.title}>
@@ -82,7 +84,7 @@ export default function MenuAppBar() {
                 //onClick={}
                 color="inherit"
               >
-                <AccountCircle />
+                <Link to="/profile"><AccountCircle /></Link>
               </IconButton>
             </div>
         </Toolbar>
