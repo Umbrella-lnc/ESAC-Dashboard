@@ -70,6 +70,7 @@ class Register extends Component {
         // If logged in and user navigates to Register page, should redirect them to dashboard
         if (this.props.auth.isAuthenticated) {
             this.props.history.push("/dashboard");
+            window.location.reload();
         }
     }
 
@@ -119,7 +120,7 @@ class Register extends Component {
 
     render() {
         // Debug
-        console.log(this.state.department)
+        console.log(this.state.department);
 
         const { errors } = this.state;
         return (
@@ -296,7 +297,4 @@ const mapStateToProps = (state) => ({
     errors: state.errors,
 });
 
-export default connect(
-    mapStateToProps,
-    { registerUser }
-)(withRouter(Register));
+export default connect(mapStateToProps, { registerUser })(withRouter(Register));
