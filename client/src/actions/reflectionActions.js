@@ -16,7 +16,7 @@ export const makePost = (reflectionData) => (dispatch) => {
     // POST request to backend API
     axios
         .post(baseURL + "/api/reflections/createReflection", reflectionData)
-        .then()
+        .then((res) => console.log(res))
         .catch((err) =>
             dispatch({
                 type: GET_ERRORS,

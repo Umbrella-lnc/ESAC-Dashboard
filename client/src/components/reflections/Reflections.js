@@ -6,11 +6,50 @@ import jwt_decode from "jwt-decode";
 import PropTypes from "prop-types";
 import EditIcon from "@material-ui/icons/Edit";
 import Fab from "@material-ui/core/Fab";
-import { makePost } from "../../actions/reflectionActions";
+import {
+    GET_ERRORS,
+    SET_CURRENT_USER,
+    USER_LOADING,
+} from "../../actions/types";
 
 class Reflections extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     state = {
         reflections: [],
+        title: "testing",
+        department: "Mechanical and Aerospace Engineering (MAE)",
+    };
+
+    user = jwt_decode(localStorage.getItem("jwtToken"));
+
+    makePost = (reflectionData) => (dispatch) => {
+        // POST request to backend API
+    };
+
+    submitPost = () => {
+        console.log("Hi");
+        const newReflection = {
+            title: this.state.title,
+            department: this.state.department,
+        };
+
+        axios
+            .post(baseURL + "/api/reflections/createReflection", newReflection)
+            .then((res) => {
+                axios
+                    .get(baseURL + "/api/reflections/getAllReflections")
+                    .then((res) => {
+                        // Debug
+                        console.log(
+                            baseURL + "/api/reflections/getAllReflections"
+                        );
+                        this.setState({ reflections: res.data });
+                    });
+            })
+            .catch((err) => console.log(err));
     };
 
     componentDidMount() {
@@ -42,13 +81,6 @@ class Reflections extends Component {
         if (!this.state.reflections) {
             return null;
         }
-
-        const makePostRequest = () => {
-            makePost({
-                title: "NEW",
-                department: "Mechanical and Aerospace Engineering (MAE)",
-            });
-        };
 
         return (
             <div
@@ -86,14 +118,20 @@ class Reflections extends Component {
                         );
                     })}
                 </Grid>
-                <div
-                    className="add-reflection"
-                    style={{ position: "fixed", bottom: "5vh", right: "5vw" }}
-                >
-                    <Fab color="secondary" aria-label="edit">
-                        <EditIcon onClick={makePostRequest} />
-                    </Fab>
-                </div>
+                {this.user.accessLevel === "administrator" && (
+                    <div
+                        className="add-reflection"
+                        style={{
+                            position: "fixed",
+                            bottom: "5vh",
+                            right: "5vw",
+                        }}
+                    >
+                        <Fab color="secondary" aria-label="edit">
+                            <EditIcon onClick={this.submitPost} />
+                        </Fab>
+                    </div>
+                )}
             </div>
         );
     }
