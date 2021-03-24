@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Card, CardContent, Typography } from "@material-ui/core";
+import { Grid, Card, CardContent, Typography, Button } from "@material-ui/core";
 import axios from "axios";
 import baseURL from "../../baseURL";
 import jwt_decode from "jwt-decode";
@@ -13,6 +13,7 @@ import {
     SET_CURRENT_USER,
     USER_LOADING,
 } from "../../actions/types";
+import { findByLabelText } from "@testing-library/dom";
 
 class Reflections extends Component {
     constructor(props) {
@@ -62,6 +63,25 @@ class Reflections extends Component {
 
         axios
             .post(baseURL + "/api/reflections/createReflection", newReflection)
+            .then((res) => {
+                axios
+                    .get(baseURL + "/api/reflections/getAllReflections")
+                    .then((res) => {
+                        // Debug
+                        console.log(
+                            baseURL + "/api/reflections/getAllReflections"
+                        );
+                        this.setState({ reflections: res.data });
+                    });
+            })
+            .catch((err) => console.log(err));
+    };
+
+    deleteReflection = (id) => {
+        axios
+            .post(baseURL + "/api/reflections/deleteReflection", {
+                reflectionID: id,
+            })
             .then((res) => {
                 axios
                     .get(baseURL + "/api/reflections/getAllReflections")
@@ -131,9 +151,14 @@ class Reflections extends Component {
                 >
                     {this.state.reflections.map((reflection) => {
                         return (
-                            <Grid item xs={12}>
+                            <Grid item xs={12} key={reflection._id}>
                                 <Card>
-                                    <CardContent>
+                                    <CardContent
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                        }}
+                                    >
                                         <Typography variant="h4">
                                             {reflection.title}
                                         </Typography>
@@ -147,6 +172,26 @@ class Reflections extends Component {
                                         >
                                             {reflection.status}
                                         </Typography>
+                                        <div
+                                            className="delete-btn"
+                                            style={{
+                                                marginLeft: "auto",
+                                                marginRight: "0",
+                                            }}
+                                        >
+                                            <Button
+                                                variant="contained"
+                                                color="secondary"
+                                                id={reflection._id}
+                                                onClick={(e) => {
+                                                    this.deleteReflection(
+                                                        reflection._id
+                                                    );
+                                                }}
+                                            >
+                                                Delete
+                                            </Button>
+                                        </div>
                                     </CardContent>
                                 </Card>
                             </Grid>
