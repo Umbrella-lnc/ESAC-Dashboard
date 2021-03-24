@@ -19,19 +19,32 @@ class Reflections extends Component {
         super(props);
     }
 
+    user = jwt_decode(localStorage.getItem("jwtToken"));
+
     state = {
         reflections: [],
         open: false,
         title: "testing",
-        department: "Mechanical and Aerospace Engineering (MAE)",
+        department: this.user.department,
     };
-
-    user = jwt_decode(localStorage.getItem("jwtToken"));
 
     setOpen = () => {
         this.setState({
             open: !this.state.open,
         });
+    };
+    setTitle = (_title) => {
+        this.setState({
+            title: _title,
+        });
+    };
+    setDepartment = (_department) => {
+        this.setState({
+            department: _department,
+        });
+    };
+    getDepartment = () => {
+        return this.state.department;
     };
 
     submitPost = () => {
@@ -67,7 +80,9 @@ class Reflections extends Component {
                 .then((res) => {
                     // Debug
                     console.log(baseURL + "/api/reflections/getAllReflections");
-                    this.setState({ reflections: res.data });
+                    this.setState({
+                        reflections: res.data,
+                    });
                 });
         } else {
             axios
@@ -92,7 +107,12 @@ class Reflections extends Component {
                 className="container valign-wrapper"
                 style={{ marginTop: "100px" }}
             >
-                <FormDialog open={this.state.open} setOpen={this.setOpen} />
+                <FormDialog
+                    open={this.state.open}
+                    setOpen={this.setOpen}
+                    changeDepartment={this.setDepartment}
+                    getDepartment={this.getDepartment}
+                />
                 <Grid
                     container
                     spacing={3}

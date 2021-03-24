@@ -6,9 +6,12 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { withStyles, Paper } from "@material-ui/core";
+import Dropdown from "../reusable-components/Dropdown";
+import departmentList from "../../data/departmentList";
 
-export default function FormDialog(props) {
-    const { open, setOpen } = props;
+const FormDialog = (props) => {
+    const { open, setOpen, changeDepartment, getDepartment } = props;
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -18,9 +21,13 @@ export default function FormDialog(props) {
         setOpen(false);
     };
 
+    const test = () => {
+        console.log(getDepartment());
+    };
+
     return (
         <div>
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
                 <DialogContent>
                     <TextField
                         autoFocus
@@ -40,16 +47,24 @@ export default function FormDialog(props) {
                         rows={7}
                         fullWidth
                     />
+                    <Dropdown
+                        title="Select your department"
+                        items={departmentList}
+                        changeDept={changeDepartment}
+                        getDepartment={getDepartment}
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={test} color="primary">
                         Submit
                     </Button>
                 </DialogActions>
             </Dialog>
         </div>
     );
-}
+};
+
+export default FormDialog;
