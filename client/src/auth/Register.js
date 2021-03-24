@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import classnames from "classnames";
 
 import { registerUser } from "../actions/authActions";
-import Dropdown from "../components/Dropdown";
+import Dropdown from "../components/reusable-components/Dropdown";
 import Access from "../components/Access-level-radio-button";
 
 class Register extends Component {
