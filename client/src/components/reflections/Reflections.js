@@ -24,7 +24,8 @@ class Reflections extends Component {
     state = {
         reflections: [],
         open: false,
-        title: "testing",
+        title: "",
+        newReflection: "",
         department: this.user.department,
     };
 
@@ -38,6 +39,11 @@ class Reflections extends Component {
             title: _title,
         });
     };
+    setNewReflection = (_reflection) => {
+        this.setState({
+            newReflection: _reflection,
+        });
+    };
     setDepartment = (_department) => {
         this.setState({
             department: _department,
@@ -48,9 +54,9 @@ class Reflections extends Component {
     };
 
     submitPost = () => {
-        console.log("Hi");
         const newReflection = {
             title: this.state.title,
+            post: this.state.newReflection,
             department: this.state.department,
         };
 
@@ -112,6 +118,9 @@ class Reflections extends Component {
                     setOpen={this.setOpen}
                     changeDepartment={this.setDepartment}
                     getDepartment={this.getDepartment}
+                    setTitle={this.setTitle}
+                    setNewReflection={this.setNewReflection}
+                    submitReflection={this.submitPost}
                 />
                 <Grid
                     container

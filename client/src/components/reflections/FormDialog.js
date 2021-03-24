@@ -11,7 +11,15 @@ import Dropdown from "../reusable-components/Dropdown";
 import departmentList from "../../data/departmentList";
 
 const FormDialog = (props) => {
-    const { open, setOpen, changeDepartment, getDepartment } = props;
+    const {
+        open,
+        setOpen,
+        changeDepartment,
+        getDepartment,
+        setTitle,
+        setNewReflection,
+        submitReflection,
+    } = props;
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -37,6 +45,9 @@ const FormDialog = (props) => {
                         multiline
                         rows={1}
                         fullWidth
+                        onChange={(e) => {
+                            setTitle(e.target.value);
+                        }}
                     />
                     <TextField
                         margin="dense"
@@ -46,6 +57,9 @@ const FormDialog = (props) => {
                         multiline
                         rows={7}
                         fullWidth
+                        onChange={(e) => {
+                            setNewReflection(e.target.value);
+                        }}
                     />
                     <Dropdown
                         title="Select your department"
@@ -58,7 +72,13 @@ const FormDialog = (props) => {
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={test} color="primary">
+                    <Button
+                        onClick={() => {
+                            submitReflection();
+                            handleClose();
+                        }}
+                        color="primary"
+                    >
                         Submit
                     </Button>
                 </DialogActions>
