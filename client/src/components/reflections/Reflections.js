@@ -4,6 +4,9 @@ import axios from "axios";
 import baseURL from "../../baseURL";
 import jwt_decode from "jwt-decode";
 import PropTypes from "prop-types";
+import EditIcon from "@material-ui/icons/Edit";
+import Fab from "@material-ui/core/Fab";
+import { makePost } from "../../actions/reflectionActions";
 
 class Reflections extends Component {
     state = {
@@ -39,6 +42,13 @@ class Reflections extends Component {
         if (!this.state.reflections) {
             return null;
         }
+
+        const makePostRequest = () => {
+            makePost({
+                title: "NEW",
+                department: "Mechanical and Aerospace Engineering (MAE)",
+            });
+        };
 
         return (
             <div
@@ -76,6 +86,14 @@ class Reflections extends Component {
                         );
                     })}
                 </Grid>
+                <div
+                    className="add-reflection"
+                    style={{ position: "fixed", bottom: "5vh", right: "5vw" }}
+                >
+                    <Fab color="secondary" aria-label="edit">
+                        <EditIcon onClick={makePostRequest} />
+                    </Fab>
+                </div>
             </div>
         );
     }
