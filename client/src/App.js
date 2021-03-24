@@ -20,7 +20,7 @@ import Profile from "./components/user-profile/Profile";
 import Announcements from "./components/announcements/Announcements";
 import Reflections from "./components/reflections/Reflections";
 import Resources from "./components/resources/Resources";
-import ManageProfiles from './components/dashboard/ManageProfiles'
+import ManageProfiles from './components/user-profile/ManageProfiles'
 
 // Import utils
 import setAuthToken from "./utils/setAuthToken";
@@ -81,7 +81,10 @@ class App extends Component {
                                 path="/profile"
                                 component={Profile}
                             />
-                            <PrivateRoute exact path='/manageProfiles' component={ManageProfiles} />
+                            <PrivateRoute 
+                            exact 
+                            path='/manageProfiles' 
+                            component={ManageProfiles} />
                         </Switch>
                     </div>
                 </Router>
