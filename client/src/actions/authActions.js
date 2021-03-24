@@ -1,15 +1,28 @@
 import axios from "axios";
-import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
-import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
-import baseURL from '../baseURL';
-// Register User
 
+import baseURL from "../baseURL";
+import setAuthToken from "../utils/setAuthToken";
+
+import {
+    GET_ERRORS,
+    SET_CURRENT_USER,
+    USER_LOADING
+} from "./types";
+
+
+// registerUser
+// Make a request to register the user to the backend. If there
+// are errors, dispatch them to the state. If not, redirect
+// to the login page.
 export const registerUser = (userData, history) => (dispatch) => {
-    console.log('/api/users/register');
+    // Debug
+    console.log(baseURL + '/api/users/register');
+
+    // POST request to backend API
     axios
-        .post('/api/users/register', userData)
-        .then((res) => history.push("/login")) // re-direct to login on successful register
+        .post(baseURL + '/api/users/register', userData)
+        .then((res) => history.push("/login"))
         .catch((err) =>
             dispatch({
                 type: GET_ERRORS,
@@ -17,52 +30,66 @@ export const registerUser = (userData, history) => (dispatch) => {
             })
         );
 };
-// Login - get user token
+
+
+// loginUser
+// Make a request to login the user to the backend. If there
+// are errors, dispatch them to the state. If not, get the
+// user token from the response, save it in local storage,
+// set it as our auth token, dispatch setCurrentUser to
+// the newly logged in user.
 export const loginUser = (userData) => (dispatch) => {
-    const config = {
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-        },
-    };
+    // POST request to API backend
     axios
         .post(baseURL + '/api/users/login', userData)
         .then((res) => {
-            // debug
-            //console.log(res);
+            // Debug
             console.log(baseURL + '/api/users/login');
 
             // Save to localStorage
-            // Set token to localStorage
             const { token } = res.data;
             localStorage.setItem("jwtToken", token);
+
             // Set token to Auth header
             setAuthToken(token);
+
             // Decode token to get user data
             const decoded = jwt_decode(token);
+
             // Set current user
             dispatch(setCurrentUser(decoded));
         })
-        .catch((err) => {
+        .catch((err) => 
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data,
             })
-        });
+        );
 };
-// Set logged in user
+
+
+// setCurrentUser
+// Set the current user model
 export const setCurrentUser = (decoded) => {
     return {
         type: SET_CURRENT_USER,
         payload: decoded,
     };
 };
-// User loading
+
+
+// setUserLoading
+// Set the user as loading
 export const setUserLoading = () => {
     return {
         type: USER_LOADING,
     };
 };
-// Log user out
+
+
+// logoutUser
+// Remove the user token from storage, and remove from the 
+// header. Finally dispatch setCurrentUser to an empty user.
 export const logoutUser = () => (dispatch) => {
     // Remove token from local storage
     localStorage.removeItem("jwtToken");
