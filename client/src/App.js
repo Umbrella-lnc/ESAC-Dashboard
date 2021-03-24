@@ -16,8 +16,10 @@ import Register from "./auth/Register"
 import Login from "./auth/Login"
 import PrivateRoute from "./components/private-route/PrivateRoute"
 import Dashboard from "./components/dashboard/Dashboard"
-import Reflections from "./components/dashboard/Reflections"
 import Profile from './components/user-profile/Profile'
+import Announcements from './components/announcements/Announcements'
+import Reflections from './components/reflections/Reflections'
+import Resources from './components/resources/Resources'
 
 // Import utils
 import setAuthToken from "./utils/setAuthToken"
@@ -55,6 +57,8 @@ class App extends Component {
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute exact path="/reflections" component={Reflections} />
+              <PrivateRoute exact path='/announcements' component={Announcements} />
+              <PrivateRoute exact path='/resources' component={Resources} />
               <PrivateRoute exact path='/profile' component={Profile} />
             </Switch>
           </div>
