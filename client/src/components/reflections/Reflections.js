@@ -6,6 +6,8 @@ import jwt_decode from "jwt-decode";
 import PropTypes from "prop-types";
 import EditIcon from "@material-ui/icons/Edit";
 import Fab from "@material-ui/core/Fab";
+import FormDialog from "./FormDialog";
+
 import {
     GET_ERRORS,
     SET_CURRENT_USER,
@@ -19,14 +21,17 @@ class Reflections extends Component {
 
     state = {
         reflections: [],
+        open: false,
         title: "testing",
         department: "Mechanical and Aerospace Engineering (MAE)",
     };
 
     user = jwt_decode(localStorage.getItem("jwtToken"));
 
-    makePost = (reflectionData) => (dispatch) => {
-        // POST request to backend API
+    setOpen = () => {
+        this.setState({
+            open: !this.state.open,
+        });
     };
 
     submitPost = () => {
@@ -87,6 +92,7 @@ class Reflections extends Component {
                 className="container valign-wrapper"
                 style={{ marginTop: "100px" }}
             >
+                <FormDialog open={this.state.open} setOpen={this.setOpen} />
                 <Grid
                     container
                     spacing={3}
@@ -128,7 +134,7 @@ class Reflections extends Component {
                         }}
                     >
                         <Fab color="secondary" aria-label="edit">
-                            <EditIcon onClick={this.submitPost} />
+                            <EditIcon onClick={this.setOpen} />
                         </Fab>
                     </div>
                 )}
