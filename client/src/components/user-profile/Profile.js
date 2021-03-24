@@ -69,21 +69,7 @@ class Profile extends Component {
                   //onClick={}
                   className='btn btn-large waves-effect waves-light hoverable blue accent-3'
                 >
-                  View Representative Profiles
-                </button>
-                <button 
-                  style={{
-                    clear:"left",
-                    width: '400px',
-                    borderRadius: '3px',
-                    letterSpacing: '1.5px',
-                    marginTop: '1rem',
-
-                  }}
-                  //onClick={}
-                  className='btn btn-large waves-effect waves-light hoverable blue accent-3'
-                >
-                  View Administrator Profiles
+                  Manage Profiles
                 </button>
               </div>
             </div>
