@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Route,
+    Switch,
+    useLocation,
+} from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { Provider } from "react-redux";
 
@@ -44,47 +49,68 @@ if (localStorage.jwtToken) {
     }
 }
 
-class App extends Component {
-    render() {
-        return (
-            <Provider store={store}>
-                <Router>
-                    <div className="App">
-                        <Navbar location={this.props.location} />
-                        <Route exact path="/" component={Landing} />
-                        <Route exact path="/register" component={Register} />
-                        <Route exact path="/login" component={Login} />
-                        <Switch>
-                            <PrivateRoute
-                                exact
-                                path="/dashboard"
-                                component={Dashboard}
-                            />
-                            <PrivateRoute
-                                exact
-                                path="/reflections"
-                                component={Reflections}
-                            />
-                            <PrivateRoute
-                                exact
-                                path="/announcements"
-                                component={Announcements}
-                            />
-                            <PrivateRoute
-                                exact
-                                path="/resources"
-                                component={Resources}
-                            />
-                            <PrivateRoute
-                                exact
-                                path="/profile"
-                                component={Profile}
-                            />
-                        </Switch>
-                    </div>
-                </Router>
-            </Provider>
-        );
-    }
-}
+const App = (props) => {
+    const { location } = props;
+
+    return (
+        <Provider store={store}>
+            <Router>
+                <div className="App">
+                    <Navbar location={location} />
+                    <Route
+                        exact
+                        path="/"
+                        component={Landing}
+                        key={document.location.href}
+                    />
+                    <Route
+                        exact
+                        path="/register"
+                        component={Register}
+                        key={document.location.href}
+                    />
+                    <Route
+                        exact
+                        path="/login"
+                        component={Login}
+                        key={document.location.href}
+                    />
+                    <Switch>
+                        <PrivateRoute
+                            exact
+                            path="/dashboard"
+                            component={Dashboard}
+                            key={document.location.href}
+                        />
+                        <PrivateRoute
+                            exact
+                            path="/reflections"
+                            component={Reflections}
+                            key={document.location.href}
+                        />
+                        <PrivateRoute
+                            exact
+                            path="/announcements"
+                            component={Announcements}
+                            key={document.location.href}
+                        />
+                        <PrivateRoute
+                            exact
+                            path="/resources"
+                            component={Resources}
+                            key={document.location.href}
+                        />
+                        <PrivateRoute
+                            exact
+                            path="/profile"
+                            component={Profile}
+                            key={document.location.href}
+                        />
+                    </Switch>
+                </div>
+            </Router>
+        </Provider>
+    );
+};
+
 export default App;
