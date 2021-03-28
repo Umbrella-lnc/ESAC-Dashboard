@@ -7,8 +7,8 @@ import PropTypes from "prop-types";
 import EditIcon from "@material-ui/icons/Edit";
 import Fab from "@material-ui/core/Fab";
 import FormDialog from "./FormDialog";
-import ReflectionMenu from "./ReflectionMenu";
-import Comments from "./Comments";
+
+import Reflection from "./Reflection";
 
 import {
     GET_ERRORS,
@@ -153,65 +153,11 @@ class Reflections extends Component {
                 >
                     {this.state.reflections.map((reflection) => {
                         return (
-                            <Grid item xs={12} key={reflection._id}>
-                                <Card>
-                                    <CardContent
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                        }}
-                                    >
-                                        <Typography
-                                            variant="h4"
-                                            style={{
-                                                textDecoration: "underline",
-                                                marginRight: "0",
-                                                marginLeft: "auto",
-                                            }}
-                                        >
-                                            {reflection.title}
-                                        </Typography>
-
-                                        <Typography
-                                            variant="caption"
-                                            date={new Date(reflection.date)}
-                                            style={{
-                                                marginRight: "0",
-                                                marginLeft: "auto",
-                                            }}
-                                        >
-                                            {new Date(
-                                                reflection.date
-                                            ).toDateString()}
-                                        </Typography>
-                                        <ReflectionMenu
-                                            user={this.user}
-                                            deletePost={this.deleteReflection}
-                                            id={reflection._id}
-                                        />
-                                        <Typography
-                                            variant="subtitle1"
-                                            color={
-                                                reflection.status === "Complete"
-                                                    ? "primary"
-                                                    : "secondary"
-                                            }
-                                        >
-                                            {reflection.status}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardContent>
-                                        <Typography variant="h6">
-                                            {reflection.post}
-                                        </Typography>
-                                    </CardContent>
-                                    <Comments
-                                        user={this.user}
-                                        id={reflection._id}
-                                        comments={reflection.comments}
-                                    />
-                                </Card>
-                            </Grid>
+                            <Reflection
+                                deleteReflection={this.deleteReflection}
+                                user={this.user}
+                                reflection={reflection}
+                            />
                         );
                     })}
                 </Grid>

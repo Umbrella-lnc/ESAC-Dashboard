@@ -87,13 +87,13 @@ const login = async (req, res) => {
         bcrypt.compare(password, user.password).then((isMatch) => {
             if (isMatch) {
                 const payload = {
-                    id: user.id,
+                    _id: user.id,
                     firstname: user.firstname,
                     lastname: user.lastname,
                     department: user.department,
                     email: user.email,
                     accessLevel: user.accessLevel,
-                    active: user.active
+                    active: user.active,
                 };
 
                 jwt.sign(

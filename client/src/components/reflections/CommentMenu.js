@@ -9,7 +9,7 @@ const options = ["Delete"];
 const ITEM_HEIGHT = 48;
 
 export default function LongMenu(props) {
-    const { user, deleteComment, id } = props;
+    const { user, deleteComment, comment } = props;
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -23,7 +23,7 @@ export default function LongMenu(props) {
 
         //Decide action based on what is clicked
         if (option === "Delete") {
-            deleteComment(id);
+            deleteComment(comment._id);
         }
     };
 
@@ -53,7 +53,8 @@ export default function LongMenu(props) {
                 {options.map((option) => {
                     if (
                         option === "delete" &&
-                        !user.accessLevel === "administrator"
+                        (!user.accessLevel === "administrator" ||
+                            comment.poster != user._id)
                     ) {
                         return;
                     }

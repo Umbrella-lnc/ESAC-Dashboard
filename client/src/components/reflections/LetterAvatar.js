@@ -29,11 +29,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LetterAvatars(props) {
     const classes = useStyles();
-    const color = Math.floor(Math.random() * 3 + 1);
     const { user } = props;
     const initials =
         user.firstname.toUpperCase().charAt(0) +
         user.lastname.toUpperCase().charAt(0);
+    const color = ((user.firstname.length + user.lastname.length) % 4) + 1;
 
     return (
         <div className={classes.root} style={{ marginRight: "20px" }}>
