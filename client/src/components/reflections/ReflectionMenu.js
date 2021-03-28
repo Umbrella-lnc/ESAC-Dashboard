@@ -9,7 +9,7 @@ const options = ["Comment", "Delete"];
 const ITEM_HEIGHT = 48;
 
 export default function LongMenu(props) {
-    const { user, deletePost, id } = props;
+    const { user, deletePost, commentPost, id } = props;
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -24,6 +24,7 @@ export default function LongMenu(props) {
         //Decide action based on what is clicked
         if (option === "Delete") {
             deletePost(id);
+        } else if (option === "Comment") {
         }
     };
 

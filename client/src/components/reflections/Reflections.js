@@ -8,6 +8,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import Fab from "@material-ui/core/Fab";
 import FormDialog from "./FormDialog";
 import ReflectionMenu from "./ReflectionMenu";
+import Comments from "./Comments";
 
 import {
     GET_ERRORS,
@@ -204,6 +205,11 @@ class Reflections extends Component {
                                             {reflection.post}
                                         </Typography>
                                     </CardContent>
+                                    <Comments
+                                        user={this.user}
+                                        id={reflection._id}
+                                        comments={reflection.comments}
+                                    />
                                 </Card>
                             </Grid>
                         );
