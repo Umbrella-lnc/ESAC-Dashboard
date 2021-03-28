@@ -20,6 +20,7 @@ export default function LongMenu(props) {
     const open = Boolean(anchorEl);
 
     const options = [
+        "Add Comment",
         showComments ? "Hide Comments" : "Show Comments",
         "Delete",
     ];

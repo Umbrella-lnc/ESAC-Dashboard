@@ -1,6 +1,8 @@
 import { deepOrange, deepPurple, blue, green } from "@material-ui/core/colors";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Typography } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
+import { IconButton } from "@material-ui/core";
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,8 +38,28 @@ export default function LetterAvatars(props) {
     const color = ((user.firstname.length + user.lastname.length) % 4) + 1;
 
     return (
-        <div className={classes.root} style={{ marginRight: "20px" }}>
+        <div
+            className={classes.root}
+            style={{
+                marginRight: "20px",
+                display: "flex",
+                alignItems: "center",
+            }}
+        >
             <Avatar className={classes[color]}>{initials}</Avatar>
+
+            <FiberManualRecordIcon style={{ fontSize: "10px" }} />
+
+            <Typography
+                variant="h6"
+                style={{
+                    marginRight: "0",
+                    marginLeft: "auto",
+                    textTransform: "capitalize",
+                }}
+            >
+                {`${user.firstname} ${user.lastname}`}
+            </Typography>
         </div>
     );
 }

@@ -17,7 +17,8 @@ export default function Comments(props) {
                         className="comment-wrapper"
                         style={{
                             backgroundColor: "#F5F5F5",
-                            paddingBottom: "2vh",
+                            paddingTop: "1vh",
+                            paddingBottom: "1vh",
                         }}
                     >
                         <div
