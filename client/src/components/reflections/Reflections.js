@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import EditIcon from "@material-ui/icons/Edit";
 import Fab from "@material-ui/core/Fab";
 import FormDialog from "./FormDialog";
+import ReflectionMenu from "./ReflectionMenu";
 
 import {
     GET_ERRORS,
@@ -159,9 +160,34 @@ class Reflections extends Component {
                                             alignItems: "center",
                                         }}
                                     >
-                                        <Typography variant="h4">
+                                        <Typography
+                                            variant="h4"
+                                            style={{
+                                                textDecoration: "underline",
+                                                marginRight: "0",
+                                                marginLeft: "auto",
+                                            }}
+                                        >
                                             {reflection.title}
                                         </Typography>
+
+                                        <Typography
+                                            variant="caption"
+                                            date={new Date(reflection.date)}
+                                            style={{
+                                                marginRight: "0",
+                                                marginLeft: "auto",
+                                            }}
+                                        >
+                                            {new Date(
+                                                reflection.date
+                                            ).toDateString()}
+                                        </Typography>
+                                        <ReflectionMenu
+                                            user={this.user}
+                                            deletePost={this.deleteReflection}
+                                            id={reflection._id}
+                                        />
                                         <Typography
                                             variant="subtitle1"
                                             color={
@@ -172,26 +198,11 @@ class Reflections extends Component {
                                         >
                                             {reflection.status}
                                         </Typography>
-                                        <div
-                                            className="delete-btn"
-                                            style={{
-                                                marginLeft: "auto",
-                                                marginRight: "0",
-                                            }}
-                                        >
-                                            <Button
-                                                variant="contained"
-                                                color="secondary"
-                                                id={reflection._id}
-                                                onClick={(e) => {
-                                                    this.deleteReflection(
-                                                        reflection._id
-                                                    );
-                                                }}
-                                            >
-                                                Delete
-                                            </Button>
-                                        </div>
+                                    </CardContent>
+                                    <CardContent>
+                                        <Typography variant="h6">
+                                            {reflection.post}
+                                        </Typography>
                                     </CardContent>
                                 </Card>
                             </Grid>
