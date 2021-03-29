@@ -3,6 +3,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import CommentDialog from "./CommentDialog";
 
 const ITEM_HEIGHT = 48;
 
@@ -10,7 +11,7 @@ export default function LongMenu(props) {
     const {
         user,
         deletePost,
-        commentPost,
+        submitComment,
         id,
         setShowComments,
         showComments,
@@ -18,6 +19,7 @@ export default function LongMenu(props) {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+    const [addCommentOpen, setAddCommentOpen] = React.useState(false);
 
     const options = [
         "Add Comment",
@@ -39,6 +41,8 @@ export default function LongMenu(props) {
             setShowComments(true);
         } else if (option === "Hide Comments") {
             setShowComments(false);
+        } else if (option === "Add Comment") {
+            setAddCommentOpen(true);
         }
     };
 
@@ -49,6 +53,7 @@ export default function LongMenu(props) {
                 aria-controls="long-menu"
                 aria-haspopup="true"
                 onClick={handleClick}
+                style={{ backgroundColor: "transparent" }}
             >
                 <MoreVertIcon />
             </IconButton>
@@ -86,6 +91,14 @@ export default function LongMenu(props) {
                     );
                 })}
             </Menu>
+            {addCommentOpen && (
+                <CommentDialog
+                    addCommentOpen={addCommentOpen}
+                    setAddCommentOpen={setAddCommentOpen}
+                    submitComment={submitComment}
+                    reflectionID={id}
+                />
+            )}
         </div>
     );
 }

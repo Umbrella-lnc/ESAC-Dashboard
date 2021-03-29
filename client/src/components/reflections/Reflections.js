@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import EditIcon from "@material-ui/icons/Edit";
 import Fab from "@material-ui/core/Fab";
 import FormDialog from "./FormDialog";
+import FilterMenu from "./FilterMenu";
 
 import Reflection from "./Reflection";
 
@@ -56,6 +57,31 @@ class Reflections extends Component {
         return this.state.department;
     };
 
+    fetchAllReflections = () => {
+        axios
+            .get(baseURL + "/api/reflections/getAllReflections")
+            .then((res) => {
+                // Debug
+                console.log(baseURL + "/api/reflections/getAllReflections");
+                this.setState({ reflections: res.data });
+            });
+    };
+
+    fetchDepartmentReflections = (department) => {
+        axios
+            .get(
+                baseURL + "/api/reflections/getDepartmentReflections",
+                department
+            )
+            .then((res) => {
+                // Debug
+                console.log(
+                    baseURL + "/api/reflections/getDepartmentReflections"
+                );
+                this.setState({ reflections: res.data });
+            });
+    };
+
     submitPost = () => {
         const newReflection = {
             title: this.state.title,
@@ -84,6 +110,29 @@ class Reflections extends Component {
             .post(baseURL + "/api/reflections/deleteReflection", {
                 reflectionID: id,
             })
+            .then((res) => {
+                axios
+                    .get(baseURL + "/api/reflections/getAllReflections")
+                    .then((res) => {
+                        // Debug
+                        console.log(
+                            baseURL + "/api/reflections/getAllReflections"
+                        );
+                        this.setState({ reflections: res.data });
+                    });
+            })
+            .catch((err) => console.log(err));
+    };
+
+    submitComment = (_id, comment) => {
+        const newComment = {
+            reflectionID: _id,
+            poster: this.user._id,
+            comment: comment,
+        };
+
+        axios
+            .post(baseURL + "/api/reflections/commentOnReflection", newComment)
             .then((res) => {
                 axios
                     .get(baseURL + "/api/reflections/getAllReflections")
@@ -131,51 +180,68 @@ class Reflections extends Component {
         }
 
         return (
-            <div
-                className="container valign-wrapper"
-                style={{ marginTop: "100px" }}
-            >
-                <FormDialog
-                    open={this.state.open}
-                    setOpen={this.setOpen}
-                    changeDepartment={this.setDepartment}
-                    getDepartment={this.getDepartment}
-                    setTitle={this.setTitle}
-                    setNewReflection={this.setNewReflection}
-                    submitReflection={this.submitPost}
-                />
-                <Grid
-                    container
-                    spacing={3}
-                    //direction="column"
-                    //alignItems="center"
-                    //justify="center"
+            <React.Fragment>
+                <div
+                    style={{
+                        marginTop: "60px",
+                        width: "100vw",
+                        display: "flex",
+                        overflow: "auto",
+                        paddingLeft: "00vw",
+                        paddingRight: "00vw",
+                    }}
                 >
-                    {this.state.reflections.map((reflection) => {
-                        return (
-                            <Reflection
-                                deleteReflection={this.deleteReflection}
-                                user={this.user}
-                                reflection={reflection}
-                            />
-                        );
-                    })}
-                </Grid>
-                {this.user.accessLevel === "administrator" && (
-                    <div
-                        className="add-reflection"
-                        style={{
-                            position: "fixed",
-                            bottom: "5vh",
-                            right: "5vw",
-                        }}
+                    <FilterMenu />
+                </div>
+
+                <div className="container" style={{ marginTop: "20px" }}>
+                    <FormDialog
+                        open={this.state.open}
+                        setOpen={this.setOpen}
+                        changeDepartment={this.setDepartment}
+                        getDepartment={this.getDepartment}
+                        setTitle={this.setTitle}
+                        setNewReflection={this.setNewReflection}
+                        submitReflection={this.submitPost}
+                    />
+                    <Grid
+                        container
+                        spacing={3}
+                        //direction="column"
+                        //alignItems="center"
+                        //justify="center"
                     >
-                        <Fab color="secondary" aria-label="edit">
-                            <EditIcon onClick={this.setOpen} />
-                        </Fab>
-                    </div>
-                )}
-            </div>
+                        {this.state.reflections.map((reflection) => {
+                            return (
+                                <Reflection
+                                    deleteReflection={this.deleteReflection}
+                                    user={this.user}
+                                    reflection={reflection}
+                                    submitComment={this.submitComment}
+                                />
+                            );
+                        })}
+                    </Grid>
+                    {this.user.accessLevel === "administrator" && (
+                        <div
+                            className="add-reflection"
+                            style={{
+                                position: "fixed",
+                                bottom: "5vh",
+                                right: "5vw",
+                            }}
+                        >
+                            <Fab
+                                color="secondary"
+                                aria-label="edit"
+                                onClick={this.setOpen}
+                            >
+                                <EditIcon />
+                            </Fab>
+                        </div>
+                    )}
+                </div>
+            </React.Fragment>
         );
     }
 }

@@ -34,6 +34,7 @@ export default function LongMenu(props) {
                 aria-controls="long-menu"
                 aria-haspopup="true"
                 onClick={handleClick}
+                style={{ backgroundColor: "transparent" }}
             >
                 <MoreVertIcon />
             </IconButton>

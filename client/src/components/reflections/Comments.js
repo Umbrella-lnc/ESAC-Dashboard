@@ -1,12 +1,22 @@
 import React from "react";
 import Divider from "@material-ui/core/Divider";
-import { Grid, Card, CardContent, Typography, Button } from "@material-ui/core";
+import {
+    Grid,
+    Card,
+    CardContent,
+    Typography,
+    Button,
+    IconButton,
+} from "@material-ui/core";
 import LetterAvatars from "./LetterAvatar";
 import CommentMenu from "./CommentMenu";
+import ChatIcon from "@material-ui/icons/Chat";
+import CommentDialog from "./CommentDialog";
 
 export default function Comments(props) {
-    const { user, id, comments } = props;
+    const { user, id, comments, submitComment } = props;
     const { showComments } = props;
+    const [addCommentOpen, setAddCommentOpen] = React.useState(false);
 
     return (
         <div>
@@ -71,6 +81,45 @@ export default function Comments(props) {
                     </div>
                 );
             })}
+
+            <IconButton
+                onClick={() => setAddCommentOpen(true)}
+                style={{
+                    backgroundColor: "transparent",
+                    marginLeft: "auto",
+                    marginRight: "0",
+                    display: "flex",
+                    alignItems: "center",
+                }}
+            >
+                <Typography
+                    variant="h6"
+                    style={{
+                        marginRight: "0",
+                        marginLeft: "auto",
+                        color: "gray",
+                    }}
+                >
+                    {`Add Comment`}
+                </Typography>
+
+                <ChatIcon
+                    style={{
+                        fontSize: "40px",
+                        color: "gray",
+                        marginLeft: "0.5vw",
+                    }}
+                />
+            </IconButton>
+
+            {addCommentOpen && (
+                <CommentDialog
+                    addCommentOpen={addCommentOpen}
+                    setAddCommentOpen={setAddCommentOpen}
+                    submitComment={submitComment}
+                    reflectionID={id}
+                />
+            )}
         </div>
     );
 }

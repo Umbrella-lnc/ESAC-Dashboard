@@ -4,7 +4,7 @@ import ReflectionMenu from "./ReflectionMenu";
 import Comments from "./Comments";
 
 const Reflection = (props) => {
-    const { reflection, user, deleteReflection } = props;
+    const { reflection, user, deleteReflection, submitComment } = props;
     const [showComments, setShowComments] = React.useState(false);
 
     return (
@@ -43,6 +43,7 @@ const Reflection = (props) => {
                         id={reflection._id}
                         showComments={showComments}
                         setShowComments={setShowComments}
+                        submitComment={submitComment}
                     />
                     <Typography
                         variant="subtitle1"
@@ -63,6 +64,7 @@ const Reflection = (props) => {
                         user={user}
                         id={reflection._id}
                         comments={reflection.comments}
+                        submitComment={submitComment}
                     />
                 )}
             </Card>
