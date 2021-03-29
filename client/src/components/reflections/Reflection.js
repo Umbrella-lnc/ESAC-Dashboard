@@ -59,6 +59,22 @@ const Reflection = (props) => {
                 <CardContent>
                     <Typography variant="h6">{reflection.post}</Typography>
                 </CardContent>
+
+                <Button
+                    style={{
+                        backgroundColor: "transparent",
+                        color: "gray",
+                        marginLeft: "auto",
+                        marginRight: "25px",
+                        display: "flex",
+                    }}
+                    onClick={() => {
+                        setShowComments(!showComments);
+                    }}
+                >
+                    {showComments ? "Hide Comments" : "Show Comments"}
+                </Button>
+
                 {showComments && (
                     <Comments
                         user={user}

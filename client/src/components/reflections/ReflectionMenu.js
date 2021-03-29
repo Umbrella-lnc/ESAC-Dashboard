@@ -8,24 +8,12 @@ import CommentDialog from "./CommentDialog";
 const ITEM_HEIGHT = 48;
 
 export default function LongMenu(props) {
-    const {
-        user,
-        deletePost,
-        submitComment,
-        id,
-        setShowComments,
-        showComments,
-    } = props;
+    const { user, deletePost, id } = props;
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    const [addCommentOpen, setAddCommentOpen] = React.useState(false);
 
-    const options = [
-        "Add Comment",
-        showComments ? "Hide Comments" : "Show Comments",
-        "Delete",
-    ];
+    const options = ["Edit Status", "Delete"];
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -37,12 +25,6 @@ export default function LongMenu(props) {
         //Decide action based on what is clicked
         if (option === "Delete") {
             deletePost(id);
-        } else if (option === "Show Comments") {
-            setShowComments(true);
-        } else if (option === "Hide Comments") {
-            setShowComments(false);
-        } else if (option === "Add Comment") {
-            setAddCommentOpen(true);
         }
     };
 
@@ -91,14 +73,6 @@ export default function LongMenu(props) {
                     );
                 })}
             </Menu>
-            {addCommentOpen && (
-                <CommentDialog
-                    addCommentOpen={addCommentOpen}
-                    setAddCommentOpen={setAddCommentOpen}
-                    submitComment={submitComment}
-                    reflectionID={id}
-                />
-            )}
         </div>
     );
 }
