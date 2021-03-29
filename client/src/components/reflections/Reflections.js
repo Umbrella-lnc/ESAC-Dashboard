@@ -195,7 +195,9 @@ class Reflections extends Component {
                         paddingRight: "00vw",
                     }}
                 >
-                    <FilterMenu setFiltering={this.setFiltering} />
+                    {this.user.accessLevel === "administrator" && (
+                        <FilterMenu setFiltering={this.setFiltering} />
+                    )}
                 </div>
 
                 <div className="container" style={{ marginTop: "20px" }}>
@@ -231,6 +233,7 @@ class Reflections extends Component {
                                     user={this.user}
                                     reflection={reflection}
                                     submitComment={this.submitComment}
+                                    key={reflection._id}
                                 />
                             );
                         })}

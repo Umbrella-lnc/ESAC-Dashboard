@@ -2,10 +2,28 @@ import { Grid, Card, CardContent, Typography, Button } from "@material-ui/core";
 import React, { Component } from "react";
 import ReflectionMenu from "./ReflectionMenu";
 import Comments from "./Comments";
+import axios from "axios";
+import baseURL from "../../baseURL";
 
 const Reflection = (props) => {
     const { reflection, user, deleteReflection, submitComment } = props;
     const [showComments, setShowComments] = React.useState(false);
+
+    const [usernames, setUsernames] = React.useState({});
+
+    const getNames = () => {
+        axios
+            .get(baseURL + "/api/usersManagement/getAllNamesWithID")
+            .then((res) => {
+                setUsernames(res.data);
+                return res.data;
+            })
+            .catch((err) => console.log(err));
+    };
+
+    React.useEffect(() => {
+        setUsernames(getNames());
+    }, []);
 
     return (
         <Grid item xs={12} key={reflection._id}>
@@ -81,6 +99,7 @@ const Reflection = (props) => {
                         id={reflection._id}
                         comments={reflection.comments}
                         submitComment={submitComment}
+                        usernames={usernames}
                     />
                 )}
             </Card>

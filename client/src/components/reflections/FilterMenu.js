@@ -31,7 +31,6 @@ export default function CenteredTabs(props) {
                 textColor="primary"
                 variant="scrollable"
                 elevation={0}
-                centered
             >
                 <Tab
                     label={"All"}

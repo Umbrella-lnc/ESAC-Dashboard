@@ -31,11 +31,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LetterAvatars(props) {
     const classes = useStyles();
-    const { user } = props;
+    const { name } = props;
     const initials =
-        user.firstname.toUpperCase().charAt(0) +
-        user.lastname.toUpperCase().charAt(0);
-    const color = ((user.firstname.length + user.lastname.length) % 4) + 1;
+        name.firstname.toUpperCase().charAt(0) +
+        name.lastname.toUpperCase().charAt(0);
+    const color = ((name.firstname.length + name.lastname.length) % 4) + 1;
 
     return (
         <div
@@ -58,7 +58,7 @@ export default function LetterAvatars(props) {
                     textTransform: "capitalize",
                 }}
             >
-                {`${user.firstname} ${user.lastname}`}
+                {`${name.firstname} ${name.lastname}`}
             </Typography>
         </div>
     );

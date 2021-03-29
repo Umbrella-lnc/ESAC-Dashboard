@@ -14,14 +14,19 @@ import ChatIcon from "@material-ui/icons/Chat";
 import CommentDialog from "./CommentDialog";
 
 export default function Comments(props) {
-    const { user, id, comments, submitComment } = props;
+    const { user, id, comments, submitComment, usernames } = props;
     const { showComments } = props;
     const [addCommentOpen, setAddCommentOpen] = React.useState(false);
+
+    const getName = (_id) => {
+        return usernames[_id];
+    };
 
     return (
         <div>
             {comments.map((_comment) => {
                 const { _id, poster, comment, dateposted } = _comment;
+
                 return (
                     <div
                         className="comment-wrapper"
@@ -39,7 +44,7 @@ export default function Comments(props) {
                                 alignItems: "center",
                             }}
                         >
-                            <LetterAvatars user={user} />
+                            <LetterAvatars name={getName(poster)} />
                             <div
                                 className="menu-right"
                                 style={{
