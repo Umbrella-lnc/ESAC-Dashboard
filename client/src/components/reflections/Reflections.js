@@ -31,6 +31,7 @@ class Reflections extends Component {
         title: "",
         newReflection: "",
         department: this.user.department,
+        filtering: "All",
     };
 
     setOpen = () => {
@@ -55,6 +56,9 @@ class Reflections extends Component {
     };
     getDepartment = () => {
         return this.state.department;
+    };
+    setFiltering = (_department) => {
+        this.setState({ filtering: _department });
     };
 
     fetchAllReflections = () => {
@@ -191,7 +195,7 @@ class Reflections extends Component {
                         paddingRight: "00vw",
                     }}
                 >
-                    <FilterMenu />
+                    <FilterMenu setFiltering={this.setFiltering} />
                 </div>
 
                 <div className="container" style={{ marginTop: "20px" }}>
@@ -212,6 +216,15 @@ class Reflections extends Component {
                         //justify="center"
                     >
                         {this.state.reflections.map((reflection) => {
+                            const showReflection = true;
+                            if (this.state.filtering !== "All") {
+                                if (
+                                    this.state.filtering !==
+                                    reflection.department
+                                ) {
+                                    return null;
+                                }
+                            }
                             return (
                                 <Reflection
                                     deleteReflection={this.deleteReflection}

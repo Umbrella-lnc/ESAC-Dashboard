@@ -20,7 +20,7 @@ export default function CenteredTabs(props) {
         setValue(newValue);
     };
 
-    const filterDepartments = (department) => {};
+    const { setFiltering } = props;
 
     return (
         <Paper className={classes.root}>
@@ -36,7 +36,7 @@ export default function CenteredTabs(props) {
                 <Tab
                     label={"All"}
                     key={"All"}
-                    onClick={() => filterDepartments("All")}
+                    onClick={() => setFiltering("All")}
                     style={{ backgroundColor: "transparent", width: "9vw" }}
                 />
                 {departments.map((department) => {
@@ -45,7 +45,7 @@ export default function CenteredTabs(props) {
                         <Tab
                             label={value}
                             key={id}
-                            onClick={() => filterDepartments(value)}
+                            onClick={() => setFiltering(value)}
                             style={{
                                 backgroundColor: "transparent",
                                 width: "9vw",
