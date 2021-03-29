@@ -1,0 +1,16 @@
+.vertical-btn-gp{
+    display: block;
+    padding: 10px 24px; /* Some padding */
+}
+
+img{
+    position: absolute;
+    top: 180px;
+    left: 30px;
+}
+
+section{
+    position: absolute;
+    top: 100px;
+    right: 30px;
+}

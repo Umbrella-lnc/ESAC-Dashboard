@@ -11,44 +11,47 @@ const validateComment = require("../validate/comment");
 //  + req.body.title
 //  + req.body.department
 const createReflection = async (req, res) => {
-  // Form Validation
-  const { errors, isValid } = validateReflection(req.body);
+    // Form Validation
+    const { errors, isValid } = validateReflection(req.body);
 
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
 
-  if (req.user.accessLevel != "administrator") {
-    res.status(403).json({
-      invalid_permission: "You do not have access to post comments!",
-    });
-  }
-
-  //Check databse for valid user
-  User.findOne({ _id: req.user._id })
-    .then((user) => {
-      // Make sure user exists
-      if (!user) {
-        return res.status(404).json({ usernotfound: "Invalid user id!" });
-      } else {
-        //make reflection and add to database
-        const newReflection = new Reflection({
-          title: req.body.title,
-          department: req.body.department,
-          poster: user._id,
-          date: new Date(),
-          comments: [],
+    if (req.user.accessLevel != "administrator") {
+        res.status(403).json({
+            invalid_permission: "You do not have access to post comments!",
         });
+    }
 
-        newReflection
-          .save()
-          .then((reflection) => res.json(reflection))
-          .catch((err) => console.log(err));
-      }
-    })
-    .catch((err) => {
-      res.status(400).json({ bad_id: "Invalid ID passed in request!" });
-    });
+    //Check databse for valid user
+    User.findOne({ _id: req.user._id })
+        .then((user) => {
+            // Make sure user exists
+            if (!user) {
+                return res
+                    .status(404)
+                    .json({ usernotfound: "Invalid user id!" });
+            } else {
+                //make reflection and add to database
+                const newReflection = new Reflection({
+                    title: req.body.title,
+                    department: req.body.department,
+                    post: req.body.post,
+                    poster: user._id,
+                    date: new Date(),
+                    comments: [],
+                });
+
+                newReflection
+                    .save()
+                    .then((reflection) => res.json(reflection))
+                    .catch((err) => console.log(err));
+            }
+        })
+        .catch((err) => {
+            res.status(400).json({ bad_id: "Invalid ID passed in request!" });
+        });
 };
 
 // @route POST api/reflections/deleteReflection
@@ -57,25 +60,25 @@ const createReflection = async (req, res) => {
 //  + req.user => current logged in user object
 //  + req.body.reflectionID => reflection ID to delete
 const deleteReflection = async (req, res) => {
-  // Verify that the user has access level "administrator"
-  if (req.user.accessLevel != "administrator") {
-    return res.status(400).json({
-      accessLevel: "Need administrator privileges to delete reflection!",
-    });
-  }
-
-  Reflection.findByIdAndDelete(req.body.reflectionID, (err) => {
-    if (err) {
-      return res
-        .status(400)
-        .json({ reflectionnotfound: "Reflection not found!" });
-    } else {
-      console.log("Deleted reflection ID " + req.body.reflectionID);
-      res.json({ success: true });
+    // Verify that the user has access level "administrator"
+    if (req.user.accessLevel != "administrator") {
+        return res.status(400).json({
+            accessLevel: "Need administrator privileges to delete reflection!",
+        });
     }
-  }).catch((err) => {
-    res.status(400).json({ bad_id: "Invalid ID passed in request!" });
-  });
+
+    Reflection.findByIdAndDelete(req.body.reflectionID, (err) => {
+        if (err) {
+            return res
+                .status(400)
+                .json({ reflectionnotfound: "Reflection not found!" });
+        } else {
+            console.log("Deleted reflection ID " + req.body.reflectionID);
+            res.json({ success: true });
+        }
+    }).catch((err) => {
+        res.status(400).json({ bad_id: "Invalid ID passed in request!" });
+    });
 };
 
 // @route POST api/reflections/commentOnReflection
@@ -86,21 +89,21 @@ const deleteReflection = async (req, res) => {
 //  + req.body.reflectionID => reflection ID to comment on
 //  + req.body.comment => the comment data
 const commentOnReflection = async (req, res) => {
-  //Verify Input
-  const { errors, isValid } = validateComment(req);
+    //Verify Input
+    const { errors, isValid } = validateComment(req);
 
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
 
-  Reflection.findById(req.body.reflectionID)
-    .then((reflection) => {
-      if (!reflection) {
-        return res
-          .status(404)
-          .json({ reflectionnotfound: "Reflection not found!" });
-      } else {
-        /*
+    Reflection.findById(req.body.reflectionID)
+        .then((reflection) => {
+            if (!reflection) {
+                return res
+                    .status(404)
+                    .json({ reflectionnotfound: "Reflection not found!" });
+            } else {
+                /*
             const newComment = new Comment({
                 poster: req.user._id,
                 comment: req.body.comment,
@@ -108,23 +111,23 @@ const commentOnReflection = async (req, res) => {
             });
             */
 
-        const newComment = {
-          poster: req.user._id,
-          comment: req.body.comment,
-          dateposted: new Date(),
-        };
+                const newComment = {
+                    poster: req.user._id,
+                    comment: req.body.comment,
+                    dateposted: new Date(),
+                };
 
-        console.log("INSIDE");
-        //reflection.updateOne(req)
-        reflection.comments.push(newComment);
-        reflection.save();
+                console.log("INSIDE");
+                //reflection.updateOne(req)
+                reflection.comments.push(newComment);
+                reflection.save();
 
-        return res.json({ success: true });
-      }
-    })
-    .catch((err) => {
-      res.status(400).json({ bad_request: "Invalid input format!" });
-    });
+                return res.json({ success: true });
+            }
+        })
+        .catch((err) => {
+            res.status(400).json({ bad_request: "Invalid input format!" });
+        });
 };
 
 // @route GET api/reflections/getDepartmentReflections
@@ -133,19 +136,19 @@ const commentOnReflection = async (req, res) => {
 // @req
 //  + req.user => current logged in user object
 const getDepartmentReflections = async (req, res) => {
-  Reflection.find({ department: req.user.department })
-    .then((reflections) => {
-      if (!reflections) {
-        return res
-          .status(404)
-          .json({ invaliddepartment: "Invalid department bro" });
-      } else {
-        return res.json(reflections);
-      }
-    })
-    .catch((error) => {
-      return res.send(error);
-    });
+    Reflection.find({ department: req.user.department })
+        .then((reflections) => {
+            if (!reflections) {
+                return res
+                    .status(404)
+                    .json({ invaliddepartment: "Invalid department bro" });
+            } else {
+                return res.json(reflections);
+            }
+        })
+        .catch((error) => {
+            return res.send(error);
+        });
 };
 
 // @route GET api/reflections/getAllReflections
@@ -154,20 +157,21 @@ const getDepartmentReflections = async (req, res) => {
 // @req
 //  + req.user => current logged in user object
 const getAllReflections = async (req, res) => {
-  // Verify that the user has access level "administrator"
-  if (req.user.accessLevel != "administrator") {
-    return res.status(400).json({
-      accessLevel: "Need administrator privileges to delete user!",
-    });
-  }
+    // Verify that the user has access level "administrator"
+    if (req.user.accessLevel != "administrator") {
+        return res.status(400).json({
+            accessLevel:
+                "Need administrator privileges to get all reflections!",
+        });
+    }
 
-  Reflection.find()
-    .then((reflections) => {
-      return res.json(reflections);
-    })
-    .catch((error) => {
-      return res.send(error);
-    });
+    Reflection.find()
+        .then((reflections) => {
+            return res.json(reflections);
+        })
+        .catch((error) => {
+            return res.send(error);
+        });
 };
 
 exports.createReflection = createReflection;

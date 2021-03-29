@@ -6,8 +6,8 @@ module.exports = function validateRegiserInput(data) {
     let errors = {};
 
     //Check for title and department associated
-    data.user._id = !isEmpty(data.user_id) ? data.user._id : "";
     data.title = !isEmpty(data.title) ? data.title : "";
+    data.post = !isEmpty(data.post) ? data.post : "";
     data.department = !isEmpty(data.department) ? data.department : "";
 
     // Validate department
@@ -34,10 +34,9 @@ module.exports = function validateRegiserInput(data) {
     if (Validator.isEmpty(data.title)) {
         errors.title = "Title field is required!";
     }
-
-    //Validate id
-    if (Validator.isEmpty(data.user._id)) {
-        errors.user_id = "User id not received!";
+    //Validate post
+    if (Validator.isEmpty(data.post)) {
+        errors.title = "Title field is required!";
     }
 
     return {

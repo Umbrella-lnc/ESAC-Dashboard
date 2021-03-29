@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { registerUser } from "../actions/authActions";
 import classnames from "classnames";
-import Dropdown from "../components/Dropdown";
+
+import { registerUser } from "../actions/authActions";
+import Dropdown from "../components/reusable-components/Dropdown";
 import Access from "../components/Access-level-radio-button";
 
 class Register extends Component {
@@ -21,6 +22,7 @@ class Register extends Component {
             errors: {},
         };
     }
+
     departmentList = [
         {
             id: 1,
@@ -70,6 +72,7 @@ class Register extends Component {
             this.props.history.push("/dashboard");
         }
     }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.errors) {
             this.setState({
@@ -77,24 +80,30 @@ class Register extends Component {
             });
         }
     }
+
     onChange = (e) => {
         this.setState({ [e.target.id]: e.target.value });
     };
+
     changeAccess = (access_val) => {
         this.setState(({ access }) => ({ access: access_val }));
     };
+
     getAccess = (access_val) => {
         return this.state.access;
     };
+
     changeDepartment = (dept_val) => {
         this.setState(({ department }) => ({ department: dept_val }));
     };
+
     getDepartment = () => {
         return this.state.department;
     };
 
     onSubmit = (e) => {
         e.preventDefault();
+
         const newUser = {
             firstname: this.state.firstname,
             lastname: this.state.lastname,
@@ -104,10 +113,14 @@ class Register extends Component {
             password: this.state.password,
             confirmPassword: this.state.confirmPassword,
         };
+
         this.props.registerUser(newUser, this.props.history);
     };
+
     render() {
-        console.log(this.state.department)
+        // Debug
+        console.log(this.state.department);
+
         const { errors } = this.state;
         return (
             <div className="container">
@@ -271,13 +284,16 @@ class Register extends Component {
         );
     }
 }
+
 Register.propTypes = {
     registerUser: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
 };
+
 const mapStateToProps = (state) => ({
     auth: state.auth,
     errors: state.errors,
 });
+
 export default connect(mapStateToProps, { registerUser })(withRouter(Register));

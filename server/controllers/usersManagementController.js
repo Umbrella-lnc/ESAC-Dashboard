@@ -23,7 +23,12 @@ const toggleVerifiedStatus = async (req, res) => {
             user.save()
                 .then(() => {
                     res.status(200).json({ success: "Toggled user access!" });
-                    console.log("Toggled user " + user.email + " to active: " + user.active);
+                    console.log(
+                        "Toggled user " +
+                            user.email +
+                            " to active: " +
+                            user.active
+                    );
                 })
                 .catch((err) =>
                     res.status(500).json({
@@ -68,14 +73,34 @@ const listUsers = async (req, res) => {
     }
 
     // Make sure the user actually exists in the database
-    User.find().then((users) => {
-        return res.json(users);
-    }).catch((error) => {
-        return res.send(error);
-    });
+    User.find()
+        .then((users) => {
+            return res.json(users);
+        })
+        .catch((error) => {
+            return res.send(error);
+        });
 };
 
+const getAllNamesWithID = async (req, res) => {
+    User.find()
+        .then((users) => {
+            let usersMap = {};
+            users.forEach((user) => {
+                usersMap[user._id] = {
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                };
+            });
+
+            return res.json(usersMap);
+        })
+        .catch((error) => {
+            return res.send(error);
+        });
+};
 
 exports.toggleVerifiedStatus = toggleVerifiedStatus;
 exports.deleteUser = deleteUser;
 exports.listUsers = listUsers;
+exports.getAllNamesWithID = getAllNamesWithID;
