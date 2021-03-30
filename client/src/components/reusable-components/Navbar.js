@@ -5,6 +5,8 @@ import { useLocation } from "react-router-dom";
 
 const Navbar = (props) => {
     const [showNav, setShowNav] = React.useState(false);
+    let browser_location = useLocation();
+    console.log(browser_location);
 
     React.useEffect(() => {
         const noShowLocs = ["/", "/login", "/register"];
@@ -14,7 +16,7 @@ const Navbar = (props) => {
         } else {
             setShowNav(false);
         }
-    }, []);
+    }, [browser_location]);
 
     return (
         <div className="navbar-fixed">

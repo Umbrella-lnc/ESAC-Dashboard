@@ -12,60 +12,42 @@ import departmentList from "../../data/departmentList";
 
 const FormDialog = (props) => {
     const {
-        open,
-        setOpen,
-        changeDepartment,
-        getDepartment,
-        setTitle,
-        setNewReflection,
-        submitReflection,
+        addCommentOpen,
+        setAddCommentOpen,
+        submitComment,
+        reflectionID,
     } = props;
 
     const handleClickOpen = () => {
-        setOpen(true);
+        setAddCommentOpen(true);
     };
 
     const handleClose = () => {
-        setOpen(false);
+        setAddCommentOpen(false);
     };
 
-    const test = () => {
-        console.log(getDepartment());
-    };
+    const [comment, setComment] = React.useState("");
 
     return (
         <div>
-            <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+            <Dialog
+                open={addCommentOpen}
+                onClose={handleClose}
+                fullWidth
+                maxWidth="sm"
+            >
                 <DialogContent>
                     <TextField
-                        autoFocus
                         margin="dense"
-                        id="title"
-                        label="Reflection Title"
-                        multiline
-                        rows={1}
-                        fullWidth
-                        onChange={(e) => {
-                            setTitle(e.target.value);
-                        }}
-                    />
-                    <TextField
-                        margin="dense"
-                        id="reflection"
-                        label="Reflection"
+                        id="comment"
+                        label="New Comment"
                         variant="outlined"
                         multiline
                         rows={7}
                         fullWidth
                         onChange={(e) => {
-                            setNewReflection(e.target.value);
+                            setComment(e.target.value);
                         }}
-                    />
-                    <Dropdown
-                        title="Select your department"
-                        items={departmentList}
-                        changeDept={changeDepartment}
-                        getDepartment={getDepartment}
                     />
                 </DialogContent>
                 <DialogActions>
@@ -74,7 +56,7 @@ const FormDialog = (props) => {
                     </Button>
                     <Button
                         onClick={() => {
-                            submitReflection();
+                            submitComment(reflectionID, comment);
                             handleClose();
                         }}
                         color="primary"

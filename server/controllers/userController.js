@@ -93,7 +93,7 @@ const login = async (req, res) => {
                     department: user.department,
                     email: user.email,
                     accessLevel: user.accessLevel,
-                    active: user.active
+                    active: user.active,
                 };
 
                 jwt.sign(

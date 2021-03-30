@@ -70,7 +70,6 @@ class Register extends Component {
         // If logged in and user navigates to Register page, should redirect them to dashboard
         if (this.props.auth.isAuthenticated) {
             this.props.history.push("/dashboard");
-            window.location.reload();
         }
     }
 
