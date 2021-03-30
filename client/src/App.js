@@ -107,6 +107,12 @@ const App = (props) => {
               component={Profile}
               key={document.location.href}
             />
+            <PrivateRoute
+              exact
+              path='/manageProfiles'
+              component={ManageProfiles}
+              key={document.location.href}
+            />
           </Switch>
         </div>
       </Router>
