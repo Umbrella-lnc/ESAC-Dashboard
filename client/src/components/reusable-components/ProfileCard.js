@@ -32,6 +32,7 @@ const useStyles = makeStyles({
   },
   content: {
     justifyContent: 'space-between',
+    maxWidth: 150,
   },
   activateButton: {
     width: '100%',
