@@ -5,6 +5,7 @@ import { logoutUser } from '../../actions/authActions'
 import jwt_decode from "jwt-decode"
 import "./Profile.css"
 import ProfileIcon from '../../image/profile-icon.jpg'
+import { Link } from "react-router-dom";
 
 
 class Profile extends Component {
@@ -58,19 +59,13 @@ class Profile extends Component {
               <h4 className='col s6 offset-s4 left-align'>
                 <b>User Management</b> 
               </h4>
-              <div class="vertical-btn-gp" className='col s6 push-s4'>
-                <button
-                  style={{
-                    width: '400px',
-                    borderRadius: '3px',
-                    letterSpacing: '1.5px',
-                    marginTop: '1rem',
-                  }}
-                  //onClick={}
+              <div className='col s6 push-s4'>
+                  <Link to="/manageProfiles"                   
+                  style={{letterSpacing: '1.5px'}}
                   className='btn btn-large waves-effect waves-light hoverable blue accent-3'
-                >
-                  Manage Profiles
-                </button>
+                  >
+                    Manage Profiles
+                  </Link>
               </div>
             </div>
           </div> 
