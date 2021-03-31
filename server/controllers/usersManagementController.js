@@ -15,30 +15,6 @@ const toggleVerifiedStatus = async (req, res) => {
     })
   }
 
-<<<<<<< HEAD
-  // Make sure the user actually exists in the database
-  User.findOne({ email: req.body.email }).then((user) => {
-    if (!user) {
-      return res.status(400).json({ doesnotexist: 'User does not exist!' })
-    } else {
-      //Change to toggle functionality later
-      user.active = !user.active
-      console.log(user)
-      //Look into using update to flip state without reading prev. state
-      user
-        .save()
-        .then(() => {
-          res.status(200).json({ success: 'Toggled user access!' })
-        })
-        .catch((err) =>
-          res.status(500).json({
-            failure: 'Internal error, could not update db.',
-          })
-        )
-    }
-  })
-}
-=======
     // Make sure the user actually exists in the database
     User.findOne({ email: req.body.email }).then((user) => {
         if (!user) {
@@ -67,7 +43,6 @@ const toggleVerifiedStatus = async (req, res) => {
         }
     });
 };
->>>>>>> 21ed4acf836354af501d8ecbb2078abf76099e40
 
 // @route POST api/usersManagementController/deleteUser
 // @desc Delete a user from the database
