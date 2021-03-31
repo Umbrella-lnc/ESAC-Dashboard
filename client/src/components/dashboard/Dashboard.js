@@ -5,12 +5,30 @@ import { Link } from "react-router-dom";
 //import jwt_decode from "jwt-decode"
 
 import { logoutUser } from "../../actions/authActions";
+import { List, ListItem, makeStyles, GridList } from "@material-ui/core";
 
 class Dashboard extends Component {
-    onLogoutClick = (e) => {
-        e.preventDefault();
-        this.props.logoutUser();
-    };
+    classes = makeStyles({
+        mainContainer: {
+            display: 'flex',
+            flexDirection: 'row',
+            background: 'red',
+            padding: 100,
+        },
+        innerContainer: {
+            diplay: 'flex',
+            flexDirection: 'column',
+            background: 'blue',
+            margin: '100px 100px 100px 100px',
+        },
+        header:{
+            border: 'solid #000',
+            width: '100px',
+            background: 'red',
+            color: 'blue',
+            borderWidth: '0 1px',
+        }
+    })
 
     render() {
         const { user } = this.props.auth;
@@ -19,23 +37,48 @@ class Dashboard extends Component {
 
         return (
             <div
-                style={{ height: "75vh" }}
+                style={{ height: "40vh" }}
                 className="container valign-wrapper"
             >
-                <div className="row">
-                    <div className="col s12 center-align">
-                        <h4>
-                            <b>Hey there,</b> {user.firstname}
-                            <p className="flow-text grey-text text-darken-1">
-                                You are logged into a full-stack{" "}
-                                <span style={{ fontFamily: "monospace" }}>
-                                    MERN
-                                </span>{" "}
-                                app 👏
-                            </p>
-                        </h4>
-                    </div>
-                </div>
+               <GridList cols={3} spacing={'400'} padding={80}>
+                    <ListItem style>
+                        <List style={this.classes.innerContainer}>
+                            <ListItem style = {this.classes.header}>
+                            To do
+                            </ListItem>
+                            <ListItem>
+                            11
+                            </ListItem>
+                            <ListItem>
+                            12
+                            </ListItem>
+                        </List>
+                    </ListItem>
+                        <List style={this.classes.innerContainer}>
+                            <ListItem>
+                            Doing
+                            </ListItem>
+                            <ListItem>
+                            21
+                            </ListItem>
+                            <ListItem>
+                            22
+                            </ListItem>
+                        </List>
+                    <ListItem>
+                        <List style={this.classes.innerContainer}>
+                            <ListItem>
+                            Done
+                            </ListItem>
+                            <ListItem>
+                            31
+                            </ListItem>
+                            <ListItem>
+                            32
+                            </ListItem>
+                        </List>
+                    </ListItem>
+               </GridList>
             </div>
         );
     }
