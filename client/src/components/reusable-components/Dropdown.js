@@ -30,6 +30,14 @@ function Dropdown({
         }
     }
 
+    React.useEffect(() => {
+        items.map((item) => {
+            if (item.value === getDepartment() && title != getDepartment()) {
+                setTitle(item.value);
+            }
+        });
+    }, [title]);
+
     function isItemInSelection(item) {
         if (item.value === getDepartment()) {
             return true;

@@ -7,6 +7,7 @@ module.exports = function validateRegiserInput(data) {
 
     //Check for title and department associated
     data.title = !isEmpty(data.title) ? data.title : "";
+    data.post = !isEmpty(data.post) ? data.post : "";
     data.department = !isEmpty(data.department) ? data.department : "";
 
     // Validate department
@@ -31,6 +32,10 @@ module.exports = function validateRegiserInput(data) {
 
     //Validate title
     if (Validator.isEmpty(data.title)) {
+        errors.title = "Title field is required!";
+    }
+    //Validate post
+    if (Validator.isEmpty(data.post)) {
         errors.title = "Title field is required!";
     }
 
