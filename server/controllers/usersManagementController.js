@@ -71,28 +71,6 @@ const deleteUser = async (req, res) => {
 // @desc Return all users in the database
 // @access Admin
 const listUsers = async (req, res) => {
-<<<<<<< HEAD
-  // Verify that the user has access level "administrator"
-  if (req.user.accessLevel != 'administrator') {
-    return res.status(400).json({
-      accessLevel: 'Need administrator privileges to delete user!',
-    })
-  }
-
-  // Make sure the user actually exists in the database
-  User.find()
-    .then((users) => {
-      return res.json(users)
-    })
-    .catch((error) => {
-      return res.send(error)
-    })
-}
-
-exports.toggleVerifiedStatus = toggleVerifiedStatus
-exports.deleteUser = deleteUser
-exports.listUsers = listUsers
-=======
     // Verify that the user has access level "administrator"
     if (req.user.accessLevel != "administrator") {
         return res.status(400).json({
@@ -132,4 +110,3 @@ exports.toggleVerifiedStatus = toggleVerifiedStatus;
 exports.deleteUser = deleteUser;
 exports.listUsers = listUsers;
 exports.getAllNamesWithID = getAllNamesWithID;
->>>>>>> 21ed4acf836354af501d8ecbb2078abf76099e40
