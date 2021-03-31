@@ -25,7 +25,7 @@ const drive = google.drive('v3');
 async function runSample(fileId) {
   // Obtain user credentials to use for the request
   const auth = await authenticate({
-    keyfilePath: path.join(__dirname, '../oauth2.keys.json'),
+    keyfilePath: path.join(__dirname, '/oauth2.keys.json'),
     scopes: [
       'https://www.googleapis.com/auth/drive',
       'https://www.googleapis.com/auth/drive.appdata',
