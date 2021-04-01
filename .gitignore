@@ -3,3 +3,4 @@ node_modules
 .env
 keys.js
 client/build/
+client/src/trelloProfileInfo.js
