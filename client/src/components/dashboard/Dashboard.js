@@ -19,7 +19,7 @@ class Dashboard extends Component {
     componentDidMount(){
         axios
         .get(trelloURL +  "lists/" + toDoList + "cards?" + "key=" + trelloKey + "&" + "token=" + trelloToken + "&response_type=token")
-        .then((res) => {const toDo = res.data ; console.log(toDo); this.setState({ toDo });});
+        .then((res) => {const toDo = res.data ;  this.setState({ toDo });});
 
         axios
         .get(trelloURL +  "lists/" + doingList + "cards?" + "key=" + trelloKey + "&" + "token=" + trelloToken + "&response_type=token")

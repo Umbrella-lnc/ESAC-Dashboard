@@ -26,7 +26,6 @@ const useStyles = makeStyles({
 
 export default function ColumnLabel(props) {
   const classes = useStyles()
-  console.log(props);
   const name = props.cardInfo.name;
 
   /*function handleDelete() {
