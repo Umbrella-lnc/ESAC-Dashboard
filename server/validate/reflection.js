@@ -2,7 +2,7 @@ const Validator = require("validator");
 const isEmpty = require("is-empty");
 const User = require("../models/User");
 
-module.exports = function validateRegiserInput(data) {
+module.exports = function validateReflection(data) {
     let errors = {};
 
     //Check for title and department associated
