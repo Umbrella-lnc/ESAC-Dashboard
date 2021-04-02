@@ -56,6 +56,11 @@ class Dashboard extends Component {
             background: 'red',
             color: 'blue',
             borderWidth: '0 1px',
+        },
+        flexContainer: {
+            display: 'flex',
+            flexDirection: 'column',
+            padding: 0,
         }
     })
 
@@ -65,10 +70,24 @@ class Dashboard extends Component {
         const doingHeader = {name: 'Doing'}
         const doneHeader = {name: 'Done'}
 
+        const flex2 = {
+            display: 'flex',
+            flexDirection: 'row',
+            padding: 0,
+            alignContent: 'flex-start',
+            alignItems: 'flex-start',
+            padding: 100,
+        };
+        const flex1 = {
+            display: 'flex',
+            flexDirection: 'column',
+            padding: 0,
+        };
+
         return (
-               <GridList cols={3} spacing={200} style={{padding: 300}}>
+               <List style={flex2}>
                     <ListItem>
-                        <List style = {this.classes.innerContainer}>
+                        <List style = {flex1}>
                                 <ListItem className='input-field col s12'>
                                     <ColumnLabel cardInfo={toDoHeader} />
                                 </ListItem>
@@ -83,7 +102,7 @@ class Dashboard extends Component {
                         </List>
                     </ListItem>
                     <ListItem>
-                        <List style = {this.classes.innerContainer}>
+                        <List style = {flex1}>
                             <ListItem className='input-field col s12'>
                                 <ColumnLabel cardInfo={doingHeader} />
                             </ListItem>
@@ -97,7 +116,7 @@ class Dashboard extends Component {
                         </List>
                     </ListItem>
                     <ListItem>
-                        <List style = {this.classes.innerContainer}>
+                        <List style = {flex1}>
                             <ListItem className='input-field col s12'>
                                 <ColumnLabel cardInfo={doneHeader} />
                             </ListItem>
@@ -110,8 +129,9 @@ class Dashboard extends Component {
                             })}
                         </List>
                     </ListItem>
-               </GridList>
+               </List>
         );
+
     }
 }
 
