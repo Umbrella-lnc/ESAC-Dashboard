@@ -1,21 +1,12 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import { InfoOutlined } from '@material-ui/icons'
-import baseURL from '../../baseURL'
-import axios from 'axios'
-import { List } from '@material-ui/core'
-import { blue } from '@material-ui/core/colors'
 
 const useStyles = makeStyles({
   root: {
     width: '300px',
     height: '50px',
-    margin: '0px 20px 0px 20px',
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-between',

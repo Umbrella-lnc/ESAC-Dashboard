@@ -1,17 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import {trelloURL, toDoList, doneList, doingList} from "../../trelloURL";
 import {trelloKey, trelloToken} from "../../trelloProfileInfo"
-//import jwt_decode from "jwt-decode"
-
 import { logoutUser } from "../../actions/authActions";
-import { List, ListItem, makeStyles, GridList } from "@material-ui/core";
-import { ListAlt } from "@material-ui/icons";
+import { List, ListItem } from "@material-ui/core";
 import TrelloCard from "../reusable-components/TrelloCard";
-import { ConnectionStates } from "mongoose";
 import ColumnLabel from "../reusable-components/ColumnLabel";
 
 class Dashboard extends Component {
@@ -35,42 +30,13 @@ class Dashboard extends Component {
         .then((res2) => {const done = res2.data ; this.setState({done});});
 
     }
-    classes = makeStyles({
-        mainContainer: {
-            display: 'flex',
-            flexDirection: 'row',
-            background: 'red',
-            padding: 100,
-            alignContent: 'flex-start',
-        },
-        innerContainer: {
-            diplay: 'flex',
-            flexDirection: 'column',
-            background: 'blue',
-            margin: '100px 100px 100px 100px',
-            alignItems: 'flex-start',
-        },
-        header:{
-            border: 'solid #000',
-            width: '100px',
-            background: 'red',
-            color: 'blue',
-            borderWidth: '0 1px',
-        },
-        flexContainer: {
-            display: 'flex',
-            flexDirection: 'column',
-            padding: 0,
-        }
-    })
 
     render() {
-        const { user } = this.props.auth;
         const toDoHeader = {name: 'To Do'}
         const doingHeader = {name: 'Doing'}
         const doneHeader = {name: 'Done'}
 
-        const flex2 = {
+        const horiList = {
             display: 'flex',
             flexDirection: 'row',
             padding: 0,
@@ -78,16 +44,16 @@ class Dashboard extends Component {
             alignItems: 'flex-start',
             padding: 100,
         };
-        const flex1 = {
+        const vertiList = {
             display: 'flex',
             flexDirection: 'column',
             padding: 0,
         };
 
         return (
-               <List style={flex2}>
+               <List style={horiList}>
                     <ListItem>
-                        <List style = {flex1}>
+                        <List style = {vertiList}>
                                 <ListItem className='input-field col s12'>
                                     <ColumnLabel cardInfo={toDoHeader} />
                                 </ListItem>
@@ -102,7 +68,7 @@ class Dashboard extends Component {
                         </List>
                     </ListItem>
                     <ListItem>
-                        <List style = {flex1}>
+                        <List style = {vertiList}>
                             <ListItem className='input-field col s12'>
                                 <ColumnLabel cardInfo={doingHeader} />
                             </ListItem>
@@ -116,7 +82,7 @@ class Dashboard extends Component {
                         </List>
                     </ListItem>
                     <ListItem>
-                        <List style = {flex1}>
+                        <List style = {vertiList}>
                             <ListItem className='input-field col s12'>
                                 <ColumnLabel cardInfo={doneHeader} />
                             </ListItem>
