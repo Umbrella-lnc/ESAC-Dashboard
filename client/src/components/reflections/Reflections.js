@@ -50,11 +50,6 @@ class Reflections extends Component {
             newReflection: _reflection,
         });
     };
-    setNewReflectionStatus = (_status) => {
-        this.setState({
-            newReflectionStatus: _status,
-        });
-    };
     setDepartment = (_department) => {
         this.setState({
             department: _department,
@@ -97,7 +92,6 @@ class Reflections extends Component {
             title: this.state.title,
             post: this.state.newReflection,
             department: this.state.department,
-            status: this.state.newReflectionStatus,
         };
 
         axios
@@ -144,6 +138,25 @@ class Reflections extends Component {
 
         axios
             .post(baseURL + "/api/reflections/commentOnReflection", newComment)
+            .then((res) => {
+                axios
+                    .get(baseURL + "/api/reflections/getAllReflections")
+                    .then((res) => {
+                        // Debug
+                        console.log(
+                            baseURL + "/api/reflections/getAllReflections"
+                        );
+                        this.setState({ reflections: res.data });
+                    });
+            })
+            .catch((err) => console.log(err));
+    };
+
+    toggleStatus = (id) => {
+        axios
+            .post(baseURL + "/api/reflections/toggleStatus", {
+                reflectionID: id,
+            })
             .then((res) => {
                 axios
                     .get(baseURL + "/api/reflections/getAllReflections")
@@ -216,7 +229,6 @@ class Reflections extends Component {
                         setTitle={this.setTitle}
                         setNewReflection={this.setNewReflection}
                         submitReflection={this.submitPost}
-                        setNewReflectionStatus={this.setNewReflectionStatus}
                     />
                     <Grid
                         container
@@ -242,6 +254,7 @@ class Reflections extends Component {
                                     reflection={reflection}
                                     submitComment={this.submitComment}
                                     key={reflection._id}
+                                    toggleStatus={this.toggleStatus}
                                 />
                             );
                         })}
