@@ -1,19 +1,19 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const
-{
+const {
     createReflection,
     deleteReflection,
     commentOnReflection,
     getDepartmentReflections,
-    getAllReflections
-} = require('../../controllers/reflectionsController.js');
-
+    getAllReflections,
+    toggleStatus,
+} = require("../../controllers/reflectionsController.js");
 
 router.post("/createReflection", createReflection);
 router.post("/deleteReflection", deleteReflection);
 router.post("/commentOnReflection", commentOnReflection);
+router.post("/toggleStatus", toggleStatus);
 router.get("/getDepartmentReflections", getDepartmentReflections);
 router.get("/getAllReflections", getAllReflections);
 
