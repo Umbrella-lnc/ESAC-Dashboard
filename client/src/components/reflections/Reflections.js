@@ -30,6 +30,7 @@ class Reflections extends Component {
         open: false,
         title: "",
         newReflection: "",
+        newReflectionStatus: "",
         department: this.user.department,
         filtering: "All",
     };
@@ -47,6 +48,11 @@ class Reflections extends Component {
     setNewReflection = (_reflection) => {
         this.setState({
             newReflection: _reflection,
+        });
+    };
+    setNewReflectionStatus = (_status) => {
+        this.setState({
+            newReflectionStatus: _status,
         });
     };
     setDepartment = (_department) => {
@@ -91,6 +97,7 @@ class Reflections extends Component {
             title: this.state.title,
             post: this.state.newReflection,
             department: this.state.department,
+            status: this.state.newReflectionStatus,
         };
 
         axios
@@ -209,6 +216,7 @@ class Reflections extends Component {
                         setTitle={this.setTitle}
                         setNewReflection={this.setNewReflection}
                         submitReflection={this.submitPost}
+                        setNewReflectionStatus={this.setNewReflectionStatus}
                     />
                     <Grid
                         container

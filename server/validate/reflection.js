@@ -9,6 +9,7 @@ module.exports = function validateRegiserInput(data) {
     data.title = !isEmpty(data.title) ? data.title : "";
     data.post = !isEmpty(data.post) ? data.post : "";
     data.department = !isEmpty(data.department) ? data.department : "";
+    data.status = !isEmpty(data.status) ? data.status : "";
 
     // Validate department
     const departments = [
@@ -37,6 +38,11 @@ module.exports = function validateRegiserInput(data) {
     //Validate post
     if (Validator.isEmpty(data.post)) {
         errors.title = "Title field is required!";
+    }
+
+    //Validate Status
+    if (data.status !== "Complete" || data.status !== "Incomplete") {
+        errors.status = "Valid Status is required!";
     }
 
     return {

@@ -19,6 +19,7 @@ const FormDialog = (props) => {
         setTitle,
         setNewReflection,
         submitReflection,
+        setNewReflectionStatus,
     } = props;
 
     const handleClickOpen = () => {
