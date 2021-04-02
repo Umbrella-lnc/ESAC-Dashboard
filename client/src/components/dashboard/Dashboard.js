@@ -9,29 +9,30 @@ import {trelloKey, trelloToken} from "../../trelloProfileInfo"
 
 import { logoutUser } from "../../actions/authActions";
 import { List, ListItem, makeStyles, GridList } from "@material-ui/core";
+import { ListAlt } from "@material-ui/icons";
+import TrelloCard from "../reusable-components/TrelloCard";
+import { ConnectionStates } from "mongoose";
+import ColumnLabel from "../reusable-components/ColumnLabel";
 
 class Dashboard extends Component {
     state = {
-        toDo: {},
-        doing: {},
-        done: {},
+        toDo:[],
+        doing: [],
+        done: [],
     }
     
     componentDidMount(){
-        let toDo = {}
-        let doing = {}
-        let done = {}
         axios
         .get(trelloURL +  "lists/" + toDoList + "cards?" + "key=" + trelloKey + "&" + "token=" + trelloToken + "&response_type=token")
-        .then((res) => {toDo = res.data ; console.log(toDo); this.setState(done);});
+        .then((res) => {const toDo = res.data ; console.log(toDo); this.setState({ toDo });});
 
         axios
         .get(trelloURL +  "lists/" + doingList + "cards?" + "key=" + trelloKey + "&" + "token=" + trelloToken + "&response_type=token")
-        .then((res1) => {doing = res1.data ; console.log(doing); this.setState(doing);});
+        .then((res1) => {const doing = res1.data ;  this.setState({doing});});
 
         axios
         .get(trelloURL +  "lists/" + doneList + "cards?" + "key=" + trelloKey + "&" + "token=" + trelloToken + "&response_type=token")
-        .then((res2) => {done = res2.data ; console.log(done); this.setState(done);});
+        .then((res2) => {const done = res2.data ; this.setState({done});});
 
     }
     classes = makeStyles({
@@ -40,12 +41,14 @@ class Dashboard extends Component {
             flexDirection: 'row',
             background: 'red',
             padding: 100,
+            alignContent: 'flex-start',
         },
         innerContainer: {
             diplay: 'flex',
             flexDirection: 'column',
             background: 'blue',
             margin: '100px 100px 100px 100px',
+            alignItems: 'flex-start',
         },
         header:{
             border: 'solid #000',
@@ -58,80 +61,59 @@ class Dashboard extends Component {
 
     render() {
         const { user } = this.props.auth;
-        //const token = localStorage.getItem("jwtToken");
-        //const user = jwt_decode(token)
-        //const elements = ;
-        /*.catch((err) =>
-            dispatch({
-                type: GET_ERRORS,
-                payload: err.response.data,
-            })
-        )*/;
-        /*axios
-        .get(trelloURL + '/api/users/register', userData)
-        .then((res) => history.push("/login"))
-        .catch((err) =>
-            dispatch({
-                type: GET_ERRORS,
-                payload: err.response.data,
-            })
-        ); 
-        axios
-        .get(baseURL + '/api/users/register', userData)
-        .then((res) => history.push("/login"))
-        .catch((err) =>
-            dispatch({
-                type: GET_ERRORS,
-                payload: err.response.data,
-            })
-        );*/
+        const toDoHeader = {name: 'To Do'}
+        const doingHeader = {name: 'Doing'}
+        const doneHeader = {name: 'Done'}
 
         return (
-            <div
-                style={{ height: "40vh" }}
-                className="container valign-wrapper"
-            >
-               <GridList cols={3} spacing={400} padding={80}>
+               <GridList cols={3} spacing={200} style={{padding: 300}}>
                     <ListItem>
-                        <List style={this.classes.innerContainer}>
-                            <ListItem>
-                            Doing
-                            </ListItem>
-                            <ListItem>
-                            21
-                            </ListItem>
-                            <ListItem>
-                            22
-                            </ListItem>
+                        <List style = {this.classes.innerContainer}>
+                                <ListItem className='input-field col s12'>
+                                    <ColumnLabel cardInfo={toDoHeader} />
+                                </ListItem>
+                            
+                            {this.state.toDo.map((value, index) => {
+                                return (
+                                    <ListItem className='input-field col s12'>
+                                        <TrelloCard cardInfo={value} />
+                                    </ListItem>
+                                )
+                            })}
                         </List>
                     </ListItem>
                     <ListItem>
-                        <List style={this.classes.innerContainer}>
-                            <ListItem>
-                            Done
+                        <List style = {this.classes.innerContainer}>
+                            <ListItem className='input-field col s12'>
+                                <ColumnLabel cardInfo={doingHeader} />
                             </ListItem>
-                            <ListItem>
-                            31
+                            {this.state.doing.map((value, index) => {
+                                return (
+                                    <ListItem className='input-field col s12'>
+                                        <TrelloCard cardInfo={value} />
+                                    </ListItem>
+                                )
+                            })}
+                        </List>
+                    </ListItem>
+                    <ListItem>
+                        <List style = {this.classes.innerContainer}>
+                            <ListItem className='input-field col s12'>
+                                <ColumnLabel cardInfo={doneHeader} />
                             </ListItem>
-                            <ListItem>
-                            32
-                            </ListItem>
+                            {this.state.done.map((value, index) => {
+                                return (
+                                    <ListItem className='input-field col s12'>
+                                        <TrelloCard cardInfo={value} />
+                                    </ListItem>
+                                )
+                            })}
                         </List>
                     </ListItem>
                </GridList>
-            </div>
         );
     }
 }
-{/* <ListItem style = {this.classes.innerContainer}>
-                        {elements.map((value, index) => {
-                            return (
-                                <ListItem className='input-field col s12'>
-                                    <ProfileCard user={value} window={window} />
-                                </ListItem>
-                            )
-                        })}
-                    </ListItem> */}
 
 Dashboard.propTypes = {
     logoutUser: PropTypes.func.isRequired,

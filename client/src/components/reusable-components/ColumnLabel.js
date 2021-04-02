@@ -14,11 +14,12 @@ import { blue } from '@material-ui/core/colors'
 const useStyles = makeStyles({
   root: {
     width: '300px',
-    height: '140px',
-    margin: '10px 20px 10px 20px',
+    height: '50px',
+    margin: '0px 20px 0px 20px',
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+	background: '#e6e5d5',
   },
   title: {
     fontSize: 14,
@@ -26,30 +27,13 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
-  buttonContainer: {
-    justifyContent: 'space-between',
-    width: 100,
-  },
   content: {
     justifyContent: 'space-between',
     maxWidth: 150,
   },
-  activateButton: {
-    width: '100%',
-    color: 'blue',
-  },
-  deleteButton: {
-    position: '-webkit-sticky',
-    position: 'sticky',
-    top: 0,
-    width: '100%',
-    color: 'blue',
-    marginTop: '10px',
-    marginBottom: '10px',
-  },
 })
 
-export default function TrelloCard(props) {
+export default function ColumnLabel(props) {
   const classes = useStyles()
   console.log(props);
   const name = props.cardInfo.name;
@@ -60,21 +44,9 @@ export default function TrelloCard(props) {
   }*/
     return (
     <Card className={classes.root} raised={true}>
-        <CardContent className={classes.content}>
-        	<Typography
-          	className={classes.title}
-          	color='textSecondary'
-          	gutterBottom
-        	>
-          	{name}
-        	</Typography>
-        	<Typography variant='h5' component='h2'>
+        	<Typography variant='h5' component='h2' style={{margin: "10px 10px 10px 10px"}}>
     	  	{name}
         	</Typography>
-        	<Typography className={classes.pos} color='textSecondary'>
-          	{name}
-        	</Typography>
-    	</CardContent>
 	</Card>
     )
 }
