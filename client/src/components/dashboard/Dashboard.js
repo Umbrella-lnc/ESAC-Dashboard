@@ -42,15 +42,30 @@ class Dashboard extends Component {
             padding: 0,
             alignContent: 'flex-start',
             alignItems: 'flex-start',
-            padding: 100,
         };
         const vertiList = {
             display: 'flex',
             flexDirection: 'column',
             padding: 0,
         };
+        const mainContainer = {
+            padding: 100,
+        };
+        const header = {
+            paddingLeft: '28px',
+        };
+        const subheader = {
+            paddingLeft: '32px',
+        }
 
         return (
+            <div style = {mainContainer}>
+                <h1 style = {header}>
+                    Tasks
+                </h1>
+                <h5 style = {subheader}>
+                    Imported From trello
+                </h5>
                <List style={horiList}>
                     <ListItem>
                         <List style = {vertiList}>
@@ -96,6 +111,7 @@ class Dashboard extends Component {
                         </List>
                     </ListItem>
                </List>
+            </div>
         );
 
     }
