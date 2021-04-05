@@ -29,7 +29,6 @@ import ManageProfiles from './components/user-profile/ManageProfiles'
 
 // Import utils
 import setAuthToken from "./utils/setAuthToken";
-import ManageProfiles from "./components/user-profile/ManageProfiles";
 
 if (localStorage.jwtToken) {
     // Get the JWT Token from storage and set the auth token
