@@ -6,10 +6,12 @@ const {
     deleteUser,
     listUsers,
     getAllNamesWithID,
+    updateUser,
 } = require("../../controllers/usersManagementController.js");
 
 router.post("/toggleVerifiedStatus", toggleVerifiedStatus);
 router.post("/deleteUser", deleteUser);
+router.post("/updateUser", updateUser);
 router.get("/listUsers", listUsers);
 router.get("/getAllNamesWithID", getAllNamesWithID);
 
