@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Card, CardContent, Typography } from "@material-ui/core";
+import { Grid, Card, CardContent, Typography, Button } from "@material-ui/core";
 import axios from "axios";
 import baseURL from "../../baseURL";
 import jwt_decode from "jwt-decode";
@@ -7,42 +7,156 @@ import PropTypes from "prop-types";
 import EditIcon from "@material-ui/icons/Edit";
 import Fab from "@material-ui/core/Fab";
 import FormDialog from "./FormDialog";
+import FilterMenu from "./FilterMenu";
+
+import Reflection from "./Reflection";
 
 import {
     GET_ERRORS,
     SET_CURRENT_USER,
     USER_LOADING,
 } from "../../actions/types";
+import { findByLabelText } from "@testing-library/dom";
 
 class Reflections extends Component {
     constructor(props) {
         super(props);
     }
 
+    user = jwt_decode(localStorage.getItem("jwtToken"));
+
     state = {
         reflections: [],
         open: false,
-        title: "testing",
-        department: "Mechanical and Aerospace Engineering (MAE)",
+        title: "",
+        newReflection: "",
+        newReflectionStatus: "",
+        department: this.user.department,
+        filtering: "All",
     };
-
-    user = jwt_decode(localStorage.getItem("jwtToken"));
 
     setOpen = () => {
         this.setState({
             open: !this.state.open,
         });
     };
+    setTitle = (_title) => {
+        this.setState({
+            title: _title,
+        });
+    };
+    setNewReflection = (_reflection) => {
+        this.setState({
+            newReflection: _reflection,
+        });
+    };
+    setDepartment = (_department) => {
+        this.setState({
+            department: _department,
+        });
+    };
+    getDepartment = () => {
+        return this.state.department;
+    };
+    setFiltering = (_department) => {
+        this.setState({ filtering: _department });
+    };
+
+    fetchAllReflections = () => {
+        axios
+            .get(baseURL + "/api/reflections/getAllReflections")
+            .then((res) => {
+                // Debug
+                console.log(baseURL + "/api/reflections/getAllReflections");
+                this.setState({ reflections: res.data });
+            });
+    };
+
+    fetchDepartmentReflections = (department) => {
+        axios
+            .get(
+                baseURL + "/api/reflections/getDepartmentReflections",
+                department
+            )
+            .then((res) => {
+                // Debug
+                console.log(
+                    baseURL + "/api/reflections/getDepartmentReflections"
+                );
+                this.setState({ reflections: res.data });
+            });
+    };
 
     submitPost = () => {
-        console.log("Hi");
         const newReflection = {
             title: this.state.title,
+            post: this.state.newReflection,
             department: this.state.department,
         };
 
         axios
             .post(baseURL + "/api/reflections/createReflection", newReflection)
+            .then((res) => {
+                axios
+                    .get(baseURL + "/api/reflections/getAllReflections")
+                    .then((res) => {
+                        // Debug
+                        console.log(
+                            baseURL + "/api/reflections/getAllReflections"
+                        );
+                        this.setState({ reflections: res.data });
+                    });
+            })
+            .catch((err) => console.log(err));
+    };
+
+    deleteReflection = (id) => {
+        axios
+            .post(baseURL + "/api/reflections/deleteReflection", {
+                reflectionID: id,
+            })
+            .then((res) => {
+                axios
+                    .get(baseURL + "/api/reflections/getAllReflections")
+                    .then((res) => {
+                        // Debug
+                        console.log(
+                            baseURL + "/api/reflections/getAllReflections"
+                        );
+                        this.setState({ reflections: res.data });
+                    });
+            })
+            .catch((err) => console.log(err));
+    };
+
+    submitComment = (_id, comment) => {
+        const newComment = {
+            reflectionID: _id,
+            poster: this.user._id,
+            comment: comment,
+        };
+
+        axios
+            .post(baseURL + "/api/reflections/commentOnReflection", newComment)
+            .then((res) => {
+                axios
+                    .get(baseURL + "/api/reflections/getAllReflections")
+                    .then((res) => {
+                        // Debug
+                        console.log(
+                            baseURL + "/api/reflections/getAllReflections"
+                        );
+                        this.setState({ reflections: res.data });
+                    });
+            })
+            .catch((err) => console.log(err));
+    };
+
+    toggleStatus = (id) => {
+        axios
+            .post(baseURL + "/api/reflections/toggleStatus", {
+                reflectionID: id,
+            })
             .then((res) => {
                 axios
                     .get(baseURL + "/api/reflections/getAllReflections")
@@ -67,7 +181,9 @@ class Reflections extends Component {
                 .then((res) => {
                     // Debug
                     console.log(baseURL + "/api/reflections/getAllReflections");
-                    this.setState({ reflections: res.data });
+                    this.setState({
+                        reflections: res.data,
+                    });
                 });
         } else {
             axios
@@ -88,57 +204,81 @@ class Reflections extends Component {
         }
 
         return (
-            <div
-                className="container valign-wrapper"
-                style={{ marginTop: "100px" }}
-            >
-                <FormDialog open={this.state.open} setOpen={this.setOpen} />
-                <Grid
-                    container
-                    spacing={3}
-                    //direction="column"
-                    //alignItems="center"
-                    //justify="center"
+            <React.Fragment>
+                <div
+                    style={{
+                        marginTop: "60px",
+                        width: "100vw",
+                        display: "flex",
+                        overflow: "auto",
+                        paddingLeft: "00vw",
+                        paddingRight: "00vw",
+                    }}
                 >
-                    {this.state.reflections.map((reflection) => {
-                        return (
-                            <Grid item xs={12}>
-                                <Card>
-                                    <CardContent>
-                                        <Typography variant="h4">
-                                            {reflection.title}
-                                        </Typography>
-                                        <Typography
-                                            variant="subtitle1"
-                                            color={
-                                                reflection.status === "Complete"
-                                                    ? "primary"
-                                                    : "secondary"
-                                            }
-                                        >
-                                            {reflection.status}
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        );
-                    })}
-                </Grid>
-                {this.user.accessLevel === "administrator" && (
-                    <div
-                        className="add-reflection"
-                        style={{
-                            position: "fixed",
-                            bottom: "5vh",
-                            right: "5vw",
-                        }}
+                    {this.user.accessLevel === "administrator" && (
+                        <FilterMenu setFiltering={this.setFiltering} />
+                    )}
+                </div>
+
+                <div className="container" style={{ marginTop: "20px" }}>
+                    <FormDialog
+                        open={this.state.open}
+                        setOpen={this.setOpen}
+                        changeDepartment={this.setDepartment}
+                        getDepartment={this.getDepartment}
+                        setTitle={this.setTitle}
+                        setNewReflection={this.setNewReflection}
+                        submitReflection={this.submitPost}
+                    />
+                    <Grid
+                        container
+                        spacing={3}
+                        //direction="column"
+                        //alignItems="center"
+                        //justify="center"
                     >
-                        <Fab color="secondary" aria-label="edit">
-                            <EditIcon onClick={this.setOpen} />
-                        </Fab>
-                    </div>
-                )}
-            </div>
+                        {this.state.reflections.map((reflection) => {
+                            const showReflection = true;
+                            if (this.state.filtering !== "All") {
+                                if (
+                                    this.state.filtering !==
+                                    reflection.department
+                                ) {
+                                    return null;
+                                }
+                            }
+                            return (
+                                <Reflection
+                                    deleteReflection={this.deleteReflection}
+                                    user={this.user}
+                                    reflection={reflection}
+                                    submitComment={this.submitComment}
+                                    key={reflection._id}
+                                    toggleStatus={this.toggleStatus}
+                                />
+                            );
+                        })}
+                    </Grid>
+                    {this.user.accessLevel === "administrator" && (
+                        <div
+                            className="add-reflection"
+                            style={{
+                                position: "fixed",
+                                bottom: "5vh",
+                                right: "5vw",
+                            }}
+                        >
+                            <Fab
+                                color="secondary"
+                                aria-label="edit"
+                                onClick={this.setOpen}
+                            >
+                                <EditIcon />
+                            </Fab>
+                        </div>
+                    )}
+                </div>
+            </React.Fragment>
         );
     }
 }

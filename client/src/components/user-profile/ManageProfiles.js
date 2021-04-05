@@ -25,7 +25,7 @@ class ManageProfiles extends Component {
     const elements = this.state.profiles
     console.log(elements)
     return (
-      <GridList cols={4} spacing={15} style={{padding: 80}}>
+      <GridList cols={4} spacing={15} style={{ padding: 80 }}>
         {elements.map((value, index) => {
           return (
             <ListItem className='input-field col s12'>
