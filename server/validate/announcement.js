@@ -5,7 +5,7 @@ const User = require("../models/User");
 module.exports = function validateAnnouncement(data) {
     let errors = {};
 
-    //Check for title and department associated
+    //Check if title and/or post are empty
     data.title = !isEmpty(data.title) ? data.title : "";
     data.post = !isEmpty(data.post) ? data.post : "";
 

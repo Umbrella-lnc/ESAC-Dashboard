@@ -23,7 +23,7 @@ const createAnnouncement = async (req, res) => {
             if (!user) {
                 return res
                     .status(404)
-                    .json({ user_not_found: "User not found!" });
+                    .json({ not_found: "User not found!" });
             } else if (user.accessLevel != "administrator") {
                 return res
                     .status(403)
@@ -44,7 +44,7 @@ const createAnnouncement = async (req, res) => {
             }
         })
         .catch((err) => {
-            res.status(400).json({ bad_user_id: "Invalid user id!" });
+            res.status(400).json({ bad_id: "Invalid user id!" });
         });
 };
 
@@ -62,7 +62,7 @@ const deleteAnnouncement = async (req, res) => {
             if (!user) {
                 return res
                     .status(404)
-                    .json({ user_not_found: "User not found!" });
+                    .json({ not_found: "User not found!" });
             } else if (user.accessLevel != "administrator") {
                 return res
                     .status(403)
@@ -72,18 +72,18 @@ const deleteAnnouncement = async (req, res) => {
                     if (err) {
                         return res
                             .status(400)
-                            .json({ announcement_not_found: "Announcement not found!" });
+                            .json({ not_found: "Announcement not found!" });
                     } else {
                         console.log("Deleted announcement ID " + req.body.announcementID);
                         res.json({ success: true });
                     }
                 }).catch((err) => {
-                    res.status(400).json({ bad_announcement_id: "Invalid Announcement ID passed in request!" });
+                    res.status(400).json({ bad_id: "Invalid Announcement ID passed in request!" });
                 });
             }
         })
         .catch((err) => {
-            res.status(400).json({ bad_user_id: "Invalid user id!" });
+            res.status(400).json({ bad_id: "Invalid user id!" });
         }); 
 };
 
@@ -101,7 +101,7 @@ const getAnnouncements = async (req, res) => {
             if (!user) {
                 return res
                     .status(404)
-                    .json({ user_not_found: "User not found!" });
+                    .json({ not_found: "User not found!" });
             } else {
                 Announcement.find()
                 .then((announcements) => {
@@ -113,7 +113,7 @@ const getAnnouncements = async (req, res) => {
             }
         })
         .catch((err) => {
-            res.status(400).json({ bad_user_id: "Invalid user id!" });
+            res.status(400).json({ bad_id: "Invalid user id!" });
         });
 };
 
