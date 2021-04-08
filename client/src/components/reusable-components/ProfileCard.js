@@ -1,9 +1,12 @@
+import React from "react"
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
+import Modal from '@material-ui/core/Modal';
+import Dialog from '@material-ui/core/Modal';
 import baseURL from '../../baseURL'
 import axios from 'axios'
 import { List } from '@material-ui/core'
@@ -44,6 +47,15 @@ const useStyles = makeStyles({
     marginTop: '10px',
     marginBottom: '10px',
   },
+  paper: {
+    position: 'absolute',
+    left: '50%',
+    right: '50%',
+    transform: 'translate(-50%, 50%)',
+
+    width: 400,
+    backgroundColor: "white",
+  },
 })
 
 export default function ProfileCard(props) {
@@ -57,10 +69,23 @@ export default function ProfileCard(props) {
   const userContainer = {
     email: email,
   }
+  const [open, setOpen] = React.useState(false);
+
+
+  const handleOpen = () => {
+      setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
 
   function handleDelete() {
     axios.post(baseURL + `/api/usersManagement/deleteUser`, userContainer)
     window.location.reload(true)
+	handleClose()
   }
 
   function handleVerify() {
@@ -74,6 +99,7 @@ export default function ProfileCard(props) {
   if (access != 'administrator') {
     if (active === false) {
       return (
+        <div>
         <Card className={classes.root} raised={true}>
           <CardContent className={classes.content}>
             <Typography
@@ -95,7 +121,7 @@ export default function ProfileCard(props) {
               <Button
                 className={classes.deleteButton}
                 size='small'
-                onClick={handleDelete}
+                onClick={handleOpen}
               >
                 Delete
               </Button>
@@ -109,9 +135,30 @@ export default function ProfileCard(props) {
             </List>
           </CardActions>
         </Card>
+        <Modal
+          open={open}
+          onClose={handleClose}
+		  aria-labelledby="simple-modal-title"
+  		  aria-describedby="simple-modal-description"
+		><div className ={classes.paper}>
+			<h5 style={classes.title}>Are you sure you would like to delete?</h5>
+			<Button onClick={handleDelete}
+      				className={classes.deleteButton}
+             		size='small'>
+				yes
+			</Button>
+			<Button onClick={handleClose}
+      				className={classes.deleteButton}
+              		size='small'>
+				No
+			</Button>
+      	</div>
+        </Modal>
+        </div>
       )
     } else {
       return (
+		<div>
         <Card className={classes.root} raised={true}>
           <CardContent className={classes.content}>
             <Typography
@@ -132,16 +179,37 @@ export default function ProfileCard(props) {
             <Button
               className={classes.deleteButton}
               size='small'
-              onClick={handleDelete}
+              onClick={handleOpen}
             >
               delete
             </Button>
           </CardActions>
         </Card>
+		<Dialog
+          open={open}
+          onClose={handleClose}
+		  /*aria-labelledby="simple-modal-title"
+  		  aria-describedby="simple-modal-description"*/
+		><div className={classes.paper}>
+			<h6>Are you sure you would like to delete this user?</h6>
+			<Button onClick={handleDelete}
+      				className={classes.deleteButton}
+             		size='small'>
+				yes
+			</Button>
+			<Button onClick={handleClose}
+      				className={classes.deleteButton}
+              		size='small'>
+				No
+			</Button>
+      	</div>
+        </Dialog>
+		</div>
       )
     }
   } else {
     return (
+	  <div>
       <Card className={classes.root} raised={true}>
         <CardContent className={classes.content}>
           <Typography
@@ -159,6 +227,7 @@ export default function ProfileCard(props) {
           </Typography>
         </CardContent>
       </Card>
+	  </div>
     )
   }
 }

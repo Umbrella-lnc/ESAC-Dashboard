@@ -9,6 +9,7 @@ import baseURL from '../../baseURL'
 class ManageProfiles extends Component {
   state = {
     profiles: [],
+    modalOpen: false,
   }
   componentDidMount() {
     const token = localStorage.getItem('jwtToken')
@@ -25,6 +26,7 @@ class ManageProfiles extends Component {
     const elements = this.state.profiles
     console.log(elements)
     return (
+      <div>
       <GridList cols={4} spacing={15} style={{ padding: 80 }}>
         {elements.map((value, index) => {
           return (
@@ -34,6 +36,7 @@ class ManageProfiles extends Component {
           )
         })}
       </GridList>
+      </div>
     )
   }
 }
