@@ -30,6 +30,7 @@ class Reflections extends Component {
         open: false,
         title: "",
         newReflection: "",
+        newReflectionStatus: "",
         department: this.user.department,
         filtering: "All",
     };
@@ -151,6 +152,25 @@ class Reflections extends Component {
             .catch((err) => console.log(err));
     };
 
+    toggleStatus = (id) => {
+        axios
+            .post(baseURL + "/api/reflections/toggleStatus", {
+                reflectionID: id,
+            })
+            .then((res) => {
+                axios
+                    .get(baseURL + "/api/reflections/getAllReflections")
+                    .then((res) => {
+                        // Debug
+                        console.log(
+                            baseURL + "/api/reflections/getAllReflections"
+                        );
+                        this.setState({ reflections: res.data });
+                    });
+            })
+            .catch((err) => console.log(err));
+    };
+
     componentDidMount() {
         const token = localStorage.getItem("jwtToken");
         const user = jwt_decode(token);
@@ -234,6 +254,7 @@ class Reflections extends Component {
                                     reflection={reflection}
                                     submitComment={this.submitComment}
                                     key={reflection._id}
+                                    toggleStatus={this.toggleStatus}
                                 />
                             );
                         })}

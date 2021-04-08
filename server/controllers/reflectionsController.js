@@ -37,6 +37,7 @@ const createReflection = async (req, res) => {
                 const newReflection = new Reflection({
                     title: req.body.title,
                     department: req.body.department,
+                    status: "Incomplete",
                     post: req.body.post,
                     poster: user._id,
                     date: new Date(),
@@ -174,8 +175,40 @@ const getAllReflections = async (req, res) => {
         });
 };
 
+const toggleStatus = async (req, res) => {
+    if (req.user.accessLevel != "administrator") {
+        return res.status(404).json({
+            accessLevel:
+                "Need administrator privileges to get all reflections!",
+        });
+    }
+    Reflection.findById(req.body.reflectionID)
+        .then((reflection) => {
+            if (!reflection) {
+                return res.status(400).json({
+                    status: "Invalid Status!",
+                });
+            } else {
+                if (reflection.status === "Complete") {
+                    reflection.status = "Incomplete";
+                } else {
+                    reflection.status = "Complete";
+                }
+                reflection.save();
+
+                return res.json({ success: true });
+            }
+        })
+        .catch((err) => {
+            res.status(500).json({
+                error: "Something went wrong! Please contact server owner.",
+            });
+        });
+};
+
 exports.createReflection = createReflection;
 exports.deleteReflection = deleteReflection;
 exports.commentOnReflection = commentOnReflection;
 exports.getDepartmentReflections = getDepartmentReflections;
 exports.getAllReflections = getAllReflections;
+exports.toggleStatus = toggleStatus;

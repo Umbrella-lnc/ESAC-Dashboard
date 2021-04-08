@@ -4,9 +4,18 @@ import ReflectionMenu from "./ReflectionMenu";
 import Comments from "./Comments";
 import axios from "axios";
 import baseURL from "../../baseURL";
+import { makeStyles } from "@material-ui/core/styles";
+import pink from "@material-ui/core/colors/pink";
+import green from "@material-ui/core/colors/green";
 
 const Reflection = (props) => {
-    const { reflection, user, deleteReflection, submitComment } = props;
+    const {
+        reflection,
+        user,
+        deleteReflection,
+        submitComment,
+        toggleStatus,
+    } = props;
     const [showComments, setShowComments] = React.useState(false);
 
     const [usernames, setUsernames] = React.useState({});
@@ -25,12 +34,24 @@ const Reflection = (props) => {
         setUsernames(getNames());
     }, []);
 
+    const useStyles = makeStyles((theme) => ({
+        Complete: {
+            color: green["A700"],
+        },
+        Incomplete: {
+            color: pink["A400"],
+        },
+    }));
+
+    const classes = useStyles();
+
     return (
         <Grid item xs={12} key={reflection._id}>
             <Card>
                 <CardContent
                     style={{
                         display: "flex",
+                        justifyContent: "center",
                         alignItems: "center",
                     }}
                 >
@@ -38,20 +59,15 @@ const Reflection = (props) => {
                         variant="h4"
                         style={{
                             textDecoration: "underline",
-                            marginRight: "0",
-                            marginLeft: "auto",
+                            position: "absolute",
                         }}
                     >
                         {reflection.title}
                     </Typography>
-
                     <Typography
                         variant="caption"
                         date={new Date(reflection.date)}
-                        style={{
-                            marginRight: "0",
-                            marginLeft: "auto",
-                        }}
+                        style={{ marginLeft: "auto" }}
                     >
                         {new Date(reflection.date).toDateString()}
                     </Typography>
@@ -62,18 +78,29 @@ const Reflection = (props) => {
                         showComments={showComments}
                         setShowComments={setShowComments}
                         submitComment={submitComment}
+                        toggleStatus={toggleStatus}
                     />
+                </CardContent>
+                <div
+                    className="status-container"
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        textDecoration: "none",
+                        marginTop: "-10px",
+                    }}
+                >
                     <Typography
                         variant="subtitle1"
-                        color={
+                        className={
                             reflection.status === "Complete"
-                                ? "primary"
-                                : "secondary"
+                                ? classes.Complete
+                                : classes.Incomplete
                         }
                     >
                         {reflection.status}
                     </Typography>
-                </CardContent>
+                </div>
                 <CardContent>
                     <Typography variant="h6">{reflection.post}</Typography>
                 </CardContent>
