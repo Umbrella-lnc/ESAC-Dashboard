@@ -42,17 +42,12 @@ class Profile extends Component {
                     Access Level: {user.accessLevel}
                   </p>
                 </h6>
-                <button
-                    style={{
-                      width: '170px',
-                      borderRadius: '3px',
-                      letterSpacing: '1.5px',
-                      marginTop: '1rem',
-                    }}
-                    //onClick={}
-                    className='btn btn-large waves-effect waves-light hoverable blue accent-3'>
-                    Edit Profile
-                  </button>
+                  <Link to="/editProfile"                   
+                    style={{letterSpacing: '1.5px'}}
+                    className='btn btn-large waves-effect waves-light hoverable blue accent-3'
+                    >
+                      Edit Profile
+                  </Link>
               </div>
             </div>
             <div class="section">
