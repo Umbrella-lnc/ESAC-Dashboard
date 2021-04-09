@@ -88,9 +88,6 @@ export default function MenuAppBar(props) {
                         <MenuItem onClick={handleClose}>
                             <Link to="/announcements">Announcements</Link>
                         </MenuItem>
-                        <MenuItem onClick={handleClose}>
-                            <Link to="/resources">Resources</Link>
-                        </MenuItem>
                         <MenuItem
                             onClick={(e) => {
                                 // Remove token from local storage
