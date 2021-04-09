@@ -31,6 +31,8 @@ import EditProfile from './components/user-profile/EditProfile'
 // Import utils
 import setAuthToken from "./utils/setAuthToken";
 
+app.use('/uploads', express.static('uploads'));
+
 if (localStorage.jwtToken) {
     // Get the JWT Token from storage and set the auth token
     const token = localStorage.jwtToken;
