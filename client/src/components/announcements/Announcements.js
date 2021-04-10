@@ -48,11 +48,12 @@ class Announcements extends Component {
     };
 
     fetchAnnouncements = () => {
+        console.log(baseURL);
+        console.log(baseURL + '/api/announcements/getAnnouncements')
         axios
             .get(baseURL + '/api/announcements/getAnnouncements')
             .then((res) => {
                 this.setState({ announcements: res.data });
-                console.log(res.data);
             })
             .catch(err => console.log(err));
     };
