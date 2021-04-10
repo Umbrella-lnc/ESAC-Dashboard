@@ -25,7 +25,7 @@ class Announcements extends Component {
     user = jwt_decode(localStorage.getItem("jwtToken"));
 
     state = {
-        announcements: [],
+        announcements: [{}],
         open: false,
         title: "",
         newAnnouncement: ""
@@ -47,14 +47,13 @@ class Announcements extends Component {
         });
     };
 
-    fetchAllAnnouncements = () => {
+    fetchAnnouncements = () => {
         axios
             .get(baseURL + "/api/announcements/getAnnouncements")
             .then((res) => {
-                // Debug
-                console.log(baseURL + "/api/announcements/getAnnouncements");
                 this.setState({ announcements: res.data });
-            });
+            })
+            .catch(err => console.log(err));
     };
 
     submitPost = () => {
@@ -67,15 +66,7 @@ class Announcements extends Component {
         axios
             .post(baseURL + "/api/announcements/createAnnouncement", newAnnouncement)
             .then((res) => {
-                axios
-                    .get(baseURL + "/api/announcements/getAnnouncements")
-                    .then((res) => {
-                        // Debug
-                        console.log(
-                            baseURL + "/api/announcements/getAnnouncements"
-                        );
-                        this.setState({ announcements: res.data });
-                    });
+                this.fetchAnnouncements();
             })
             .catch((err) => console.log(err));
     };
@@ -86,15 +77,7 @@ class Announcements extends Component {
                 announcementID: id,
             })
             .then((res) => {
-                axios
-                    .get(baseURL + "/api/announcements/getAnnouncements")
-                    .then((res) => {
-                        // Debug
-                        console.log(
-                            baseURL + "/api/announcements/getAnnouncements"
-                        );
-                        this.setState({ announcements: res.data });
-                    });
+                this.fetchAnnouncements();
             })
             .catch((err) => console.log(err));
     };
@@ -103,15 +86,7 @@ class Announcements extends Component {
         const token = localStorage.getItem("jwtToken");
         const user = jwt_decode(token);
 
-        axios
-            .get(baseURL + "/api/announcements/getAnnouncements")
-            .then((res) => {
-                // Debug
-                console.log(baseURL + "/api/announcements/getAnnouncements");
-                this.setState({
-                    announcements: res.data,
-                });
-            });
+        this.fetchAnnouncements();
     }
 
     render() {
@@ -141,25 +116,23 @@ class Announcements extends Component {
                         setNewAnnouncement={this.setNewAnnouncement}
                         submitAnnouncement={this.submitPost}
                     />
-                    <Grid
-                        container
-                        spacing={3}
-                        //direction="column"
-                        //alignItems="center"
-                        //justify="center"
-                    >
-                        {this.state.announcements.map((announcement) => {
-                            const showAnnouncement = true;
-                            return (
-                                <Announcement
-                                    deleteAnnouncement={this.deleteAnnouncement}
-                                    user={this.user}
-                                    announcement={announcement}
-                                    key={announcement._id}
-                                />
-                            );
-                        })}
-                    </Grid>
+
+                    {this.state.announcements.length ? (
+                            <Grid container spacing={3}>
+                                {this.state.announcements.map(announcement => (
+                                    <Announcement
+                                        key={announcement._id}
+                                        deleteAnnouncement={this.deleteAnnouncement}
+                                        user={this.user}
+                                        announcement={announcement}>
+                                    </Announcement>
+                                ))}
+                            </Grid>
+
+                    ) :
+                        (<h3>No Announcements</h3>)
+                    }
+
                     {this.user.accessLevel === "administrator" && (
                         <div
                             className="add-announcement"
