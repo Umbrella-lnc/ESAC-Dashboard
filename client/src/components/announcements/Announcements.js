@@ -25,7 +25,7 @@ class Announcements extends Component {
     user = jwt_decode(localStorage.getItem("jwtToken"));
 
     state = {
-        announcements: [{}],
+        announcements: [],
         open: false,
         title: "",
         newAnnouncement: ""
@@ -52,6 +52,7 @@ class Announcements extends Component {
             .get(baseURL + "/api/announcements/getAnnouncements")
             .then((res) => {
                 this.setState({ announcements: res.data });
+                console.log(res.data);
             })
             .catch(err => console.log(err));
     };
