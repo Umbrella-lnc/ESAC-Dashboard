@@ -5,13 +5,13 @@ const passport = require("passport");
 const userRoutes = require("./routes/api/userRouter");
 const usersManagementRoutes = require("./routes/api/usersManagementRouter");
 const reflectionsRoutes = require("./routes/api/reflectionsRouter");
+const emailRoutes = require("./routes/api/emailRouter");
 const dotenv = require("dotenv");
 const path = require("path");
 
-
 // Configure Environment Vars
 dotenv.config();
-const ENV =  process.env.NODE_ENV || 'development';
+const ENV = process.env.NODE_ENV || "development";
 const PORT = process.env.PORT || 5000;
 const DB_URI = process.env.MONGODB_URI.replace("mode", ENV);
 
@@ -48,13 +48,18 @@ app.use("/api/users", userRoutes);
 // Protected Routes
 app.use(
     "/api/usersManagement",
-    passport.authenticate('jwt', {session:false}),
+    passport.authenticate("jwt", { session: false }),
     usersManagementRoutes
 );
 app.use(
     "/api/reflections",
-    passport.authenticate('jwt', {session:false}),
+    passport.authenticate("jwt", { session: false }),
     reflectionsRoutes
+);
+app.use(
+    "/api/emails",
+    passport.authenticate("jwt", { session: false }),
+    emailRoutes
 );
 
 // Database Connection
