@@ -48,13 +48,17 @@ const useStyles = makeStyles({
     marginBottom: '10px',
   },
   paper: {
+    borderRadius: '5px',
     position: 'absolute',
     left: '50%',
     right: '50%',
+    top: '20%',
     transform: 'translate(-50%, 50%)',
+    textAlign: 'center',
 
     width: 400,
     backgroundColor: "white",
+    outline: 'none',
   },
 })
 
@@ -191,7 +195,7 @@ export default function ProfileCard(props) {
 		  /*aria-labelledby="simple-modal-title"
   		  aria-describedby="simple-modal-description"*/
 		><div className={classes.paper}>
-			<h6>Are you sure you would like to delete this user?</h6>
+			<h5 style={{color:"black"}}>Are you sure you would like to delete this user?</h5>
 			<Button onClick={handleDelete}
       				className={classes.deleteButton}
              		size='small'>
