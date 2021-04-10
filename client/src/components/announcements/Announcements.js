@@ -1,62 +1,193 @@
 import React, { Component } from "react";
+import { Grid, Card, CardContent, Typography, Button } from "@material-ui/core";
+import axios from "axios";
+import baseURL from "../../baseURL";
+import jwt_decode from "jwt-decode";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-//import jwt_decode from "jwt-decode"
+import EditIcon from "@material-ui/icons/Edit";
+import Fab from "@material-ui/core/Fab";
+import FormDialog from "./FormDialog";
 
-import { logoutUser } from "../../actions/authActions"
+import Announcement from "./Announcement";
 
+import {
+    GET_ERRORS,
+    SET_CURRENT_USER,
+    USER_LOADING,
+} from "../../actions/types";
+import { findByLabelText } from "@testing-library/dom";
 
 class Announcements extends Component {
-  onLogoutClick = (e) => {
-    e.preventDefault()
-    this.props.logoutUser()
-  }
+    constructor(props) {
+        super(props);
+    }
 
-  render() {
-    const { user } = this.props.auth
-    //const token = localStorage.getItem("jwtToken");
-    //const user = jwt_decode(token)
-    
-    return (
-      <div style={{ height: "75vh" }} className="container valign-wrapper">
-        <div className="row">
-          <div className="col s12 center-align">
-            <h4>
-              <b>Hey there,</b> {user.firstname}
-              <p className="flow-text grey-text text-darken-1">
-                Announcements
-              </p>
-            </h4>
-            <button
-              style={{
-                width: "150px",
-                borderRadius: "3px",
-                letterSpacing: "1.5px",
-                marginTop: "1rem",
-              }}
-              onClick={this.onLogoutClick}
-              className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      </div>
-    )
-  }
+    user = jwt_decode(localStorage.getItem("jwtToken"));
+
+    state = {
+        announcements: [],
+        open: false,
+        title: "",
+        newAnnouncement: ""
+    };
+
+    setOpen = () => {
+        this.setState({
+            open: !this.state.open,
+        });
+    };
+    setTitle = (_title) => {
+        this.setState({
+            title: _title,
+        });
+    };
+    setNewAnnouncement = (_announcement) => {
+        this.setState({
+            newAnnouncement: _announcement,
+        });
+    };
+
+    fetchAllAnnouncements = () => {
+        axios
+            .get(baseURL + "/api/announcements/getAnnouncements")
+            .then((res) => {
+                // Debug
+                console.log(baseURL + "/api/announcements/getAnnouncements");
+                this.setState({ announcements: res.data });
+            });
+    };
+
+    submitPost = () => {
+        const newAnnouncement = {
+            title: this.state.title,
+            post: this.state.newAnnouncement,
+            department: this.state.department,
+        };
+
+        axios
+            .post(baseURL + "/api/announcements/createAnnouncement", newAnnouncement)
+            .then((res) => {
+                axios
+                    .get(baseURL + "/api/announcements/getAnnouncements")
+                    .then((res) => {
+                        // Debug
+                        console.log(
+                            baseURL + "/api/announcements/getAnnouncements"
+                        );
+                        this.setState({ announcements: res.data });
+                    });
+            })
+            .catch((err) => console.log(err));
+    };
+
+    deleteAnnouncement = (id) => {
+        axios
+            .post(baseURL + "/api/announcements/deleteAnnouncement", {
+                announcementID: id,
+            })
+            .then((res) => {
+                axios
+                    .get(baseURL + "/api/announcements/getAnnouncements")
+                    .then((res) => {
+                        // Debug
+                        console.log(
+                            baseURL + "/api/announcements/getAnnouncements"
+                        );
+                        this.setState({ announcements: res.data });
+                    });
+            })
+            .catch((err) => console.log(err));
+    };
+
+    componentDidMount() {
+        const token = localStorage.getItem("jwtToken");
+        const user = jwt_decode(token);
+
+        axios
+            .get(baseURL + "/api/announcements/getAnnouncements")
+            .then((res) => {
+                // Debug
+                console.log(baseURL + "/api/announcements/getAnnouncements");
+                this.setState({
+                    announcements: res.data,
+                });
+            });
+    }
+
+    render() {
+        if (!this.state.announcements) {
+            return null;
+        }
+
+        return (
+            <React.Fragment>
+                <div
+                    style={{
+                        marginTop: "60px",
+                        width: "100vw",
+                        display: "flex",
+                        overflow: "auto",
+                        paddingLeft: "00vw",
+                        paddingRight: "00vw",
+                    }}
+                >
+                </div>
+
+                <div className="container" style={{ marginTop: "20px" }}>
+                    <FormDialog
+                        open={this.state.open}
+                        setOpen={this.setOpen}
+                        setTitle={this.setTitle}
+                        setNewAnnouncement={this.setNewAnnouncement}
+                        submitAnnouncement={this.submitPost}
+                    />
+                    <Grid
+                        container
+                        spacing={3}
+                        //direction="column"
+                        //alignItems="center"
+                        //justify="center"
+                    >
+                        {this.state.announcements.map((announcement) => {
+                            const showAnnouncement = true;
+                            return (
+                                <Announcement
+                                    deleteAnnouncement={this.deleteAnnouncement}
+                                    user={this.user}
+                                    announcement={announcement}
+                                    key={announcement._id}
+                                />
+                            );
+                        })}
+                    </Grid>
+                    {this.user.accessLevel === "administrator" && (
+                        <div
+                            className="add-announcement"
+                            style={{
+                                position: "fixed",
+                                bottom: "5vh",
+                                right: "5vw",
+                            }}
+                        >
+                            <Fab
+                                color="secondary"
+                                aria-label="edit"
+                                onClick={this.setOpen}
+                            >
+                                <EditIcon />
+                            </Fab>
+                        </div>
+                    )}
+                </div>
+            </React.Fragment>
+        );
+    }
 }
 
-Announcements.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-};
+Announcements.propTypes = {};
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+    auth: state.auth,
 });
 
-export default connect(
-  mapStateToProps,
-  { logoutUser }
-)(Announcements);
+export default Announcements;

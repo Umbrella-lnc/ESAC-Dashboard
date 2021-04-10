@@ -6,6 +6,8 @@ const userRoutes = require("./routes/api/userRouter");
 const usersManagementRoutes = require("./routes/api/usersManagementRouter");
 const reflectionsRoutes = require("./routes/api/reflectionsRouter");
 const emailRoutes = require("./routes/api/emailRouter");
+const announcementRoutes = require("./routes/api/announcementsRouter");
+
 const dotenv = require("dotenv");
 const path = require("path");
 
@@ -60,6 +62,11 @@ app.use(
     "/api/emails",
     passport.authenticate("jwt", { session: false }),
     emailRoutes
+);
+app.use(
+    "/api/announcements",
+    passport.authenticate("jwt", { session:false }),
+    announcementRoutes
 );
 
 // Database Connection
