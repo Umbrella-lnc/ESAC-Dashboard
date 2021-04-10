@@ -24,10 +24,11 @@ import Dashboard from "./components/dashboard/Dashboard";
 import Profile from "./components/user-profile/Profile";
 import Announcements from "./components/announcements/Announcements";
 import Reflections from "./components/reflections/Reflections";
-import Resources from "./components/resources/Resources";
+import ManageProfiles from './components/user-profile/ManageProfiles'
 
 // Import utils
 import setAuthToken from "./utils/setAuthToken";
+import ManageProfiles from "./components/user-profile/ManageProfiles";
 
 if (localStorage.jwtToken) {
     // Get the JWT Token from storage and set the auth token
@@ -57,54 +58,34 @@ const App = (props) => {
             <Router>
                 <div className="App">
                     <Navbar location={location} />
-                    <Route
-                        exact
-                        path="/"
-                        component={Landing}
-                        key={document.location.href}
-                    />
-                    <Route
-                        exact
-                        path="/register"
-                        component={Register}
-                        key={document.location.href}
-                    />
-                    <Route
-                        exact
-                        path="/login"
-                        component={Login}
-                        key={document.location.href}
-                    />
+                    <Route exact path="/" component={Landing} />
+                    <Route exact path="/register" component={Register} />
+                    <Route exact path="/login" component={Login} />
                     <Switch>
                         <PrivateRoute
                             exact
                             path="/dashboard"
                             component={Dashboard}
-                            key={document.location.href}
                         />
                         <PrivateRoute
                             exact
                             path="/reflections"
                             component={Reflections}
-                            key={document.location.href}
                         />
                         <PrivateRoute
                             exact
                             path="/announcements"
                             component={Announcements}
-                            key={document.location.href}
-                        />
-                        <PrivateRoute
-                            exact
-                            path="/resources"
-                            component={Resources}
-                            key={document.location.href}
                         />
                         <PrivateRoute
                             exact
                             path="/profile"
                             component={Profile}
-                            key={document.location.href}
+                        />
+                        <PrivateRoute
+                            exact
+                            path="/manageProfiles"
+                            component={ManageProfiles}
                         />
                     </Switch>
                 </div>

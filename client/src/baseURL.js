@@ -1,9 +1,9 @@
-let baseURL = "";
+let baseURL = ''
 
-if (process.env.NODE_ENV === "production") {
-  baseURL = "";
+if (process.env.NODE_ENV === 'production') {
+  baseURL = 'https://esac-dashboard.herokuapp.com'
 } else {
-  baseURL = "http://localhost:5000";
+  baseURL = 'http://localhost:5000'
 }
 
-export default baseURL;
+export default baseURL
