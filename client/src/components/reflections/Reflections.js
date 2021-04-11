@@ -1,28 +1,15 @@
 import React, { Component } from "react";
-import { Grid, Card, CardContent, Typography, Button } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import axios from "axios";
 import baseURL from "../../baseURL";
 import jwt_decode from "jwt-decode";
-import PropTypes from "prop-types";
 import EditIcon from "@material-ui/icons/Edit";
 import Fab from "@material-ui/core/Fab";
 import FormDialog from "./FormDialog";
 import FilterMenu from "./FilterMenu";
-
 import Reflection from "./Reflection";
 
-import {
-    GET_ERRORS,
-    SET_CURRENT_USER,
-    USER_LOADING,
-} from "../../actions/types";
-import { findByLabelText } from "@testing-library/dom";
-
 class Reflections extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     user = jwt_decode(localStorage.getItem("jwtToken"));
 
     state = {
@@ -32,7 +19,7 @@ class Reflections extends Component {
         newReflection: "",
         newReflectionStatus: "",
         department: this.user.department,
-        filtering: "All",
+        filtering: "All"
     };
 
     setOpen = () => {
@@ -40,24 +27,29 @@ class Reflections extends Component {
             open: !this.state.open,
         });
     };
+
     setTitle = (_title) => {
         this.setState({
             title: _title,
         });
     };
+
     setNewReflection = (_reflection) => {
         this.setState({
             newReflection: _reflection,
         });
     };
+
     setDepartment = (_department) => {
         this.setState({
             department: _department,
         });
     };
+
     getDepartment = () => {
         return this.state.department;
     };
+
     setFiltering = (_department) => {
         this.setState({ filtering: _department });
     };
@@ -97,15 +89,7 @@ class Reflections extends Component {
         axios
             .post(baseURL + "/api/reflections/createReflection", newReflection)
             .then((res) => {
-                axios
-                    .get(baseURL + "/api/reflections/getAllReflections")
-                    .then((res) => {
-                        // Debug
-                        console.log(
-                            baseURL + "/api/reflections/getAllReflections"
-                        );
-                        this.setState({ reflections: res.data });
-                    });
+                this.fetchAllReflections();
             })
             .catch((err) => console.log(err));
     };
@@ -116,15 +100,7 @@ class Reflections extends Component {
                 reflectionID: id,
             })
             .then((res) => {
-                axios
-                    .get(baseURL + "/api/reflections/getAllReflections")
-                    .then((res) => {
-                        // Debug
-                        console.log(
-                            baseURL + "/api/reflections/getAllReflections"
-                        );
-                        this.setState({ reflections: res.data });
-                    });
+                this.fetchAllReflections();
             })
             .catch((err) => console.log(err));
     };
@@ -139,15 +115,7 @@ class Reflections extends Component {
         axios
             .post(baseURL + "/api/reflections/commentOnReflection", newComment)
             .then((res) => {
-                axios
-                    .get(baseURL + "/api/reflections/getAllReflections")
-                    .then((res) => {
-                        // Debug
-                        console.log(
-                            baseURL + "/api/reflections/getAllReflections"
-                        );
-                        this.setState({ reflections: res.data });
-                    });
+                    this.fetchDepartmentReflections();
             })
             .catch((err) => console.log(err));
     };
@@ -158,15 +126,7 @@ class Reflections extends Component {
                 reflectionID: id,
             })
             .then((res) => {
-                axios
-                    .get(baseURL + "/api/reflections/getAllReflections")
-                    .then((res) => {
-                        // Debug
-                        console.log(
-                            baseURL + "/api/reflections/getAllReflections"
-                        );
-                        this.setState({ reflections: res.data });
-                    });
+                this.fetchAllReflections();
             })
             .catch((err) => console.log(err));
     };
@@ -176,25 +136,9 @@ class Reflections extends Component {
         const user = jwt_decode(token);
 
         if (user.accessLevel === "administrator") {
-            axios
-                .get(baseURL + "/api/reflections/getAllReflections")
-                .then((res) => {
-                    // Debug
-                    console.log(baseURL + "/api/reflections/getAllReflections");
-                    this.setState({
-                        reflections: res.data,
-                    });
-                });
+            this.fetchAllReflections();
         } else {
-            axios
-                .get(baseURL + "/api/reflections/getDepartmentReflections")
-                .then((res) => {
-                    // Debug
-                    console.log(
-                        baseURL + "/api/reflections/getDepartmentReflections"
-                    );
-                    this.setState({ reflections: res.data });
-                });
+            this.fetchDepartmentReflections();
         }
     }
 
@@ -230,35 +174,33 @@ class Reflections extends Component {
                         setNewReflection={this.setNewReflection}
                         submitReflection={this.submitPost}
                     />
-                    <Grid
-                        container
-                        spacing={3}
-                        //direction="column"
-                        //alignItems="center"
-                        //justify="center"
-                    >
-                        {this.state.reflections.map((reflection) => {
-                            const showReflection = true;
-                            if (this.state.filtering !== "All") {
-                                if (
-                                    this.state.filtering !==
-                                    reflection.department
-                                ) {
-                                    return null;
+
+                    {this.state.reflections.length ? (
+                        <Grid container spacing={3}>
+                            {this.state.reflections.map(reflection => {
+                                if (this.state.filtering !== "All") {
+                                    if (
+                                        this.state.filtering !==
+                                        reflection.department
+                                    ) {
+                                        return null;
+                                    }
                                 }
-                            }
-                            return (
-                                <Reflection
-                                    deleteReflection={this.deleteReflection}
-                                    user={this.user}
-                                    reflection={reflection}
-                                    submitComment={this.submitComment}
-                                    key={reflection._id}
-                                    toggleStatus={this.toggleStatus}
-                                />
-                            );
-                        })}
-                    </Grid>
+                                return (
+                                    <Reflection
+                                        deleteReflection={this.deleteReflection}
+                                        user={this.user}
+                                        reflection={reflection}
+                                        submitComment={this.submitComment}
+                                        key={reflection._id}
+                                        toggleStatus={this.toggleStatus}>
+                                    </Reflection>
+                                )})}
+                        </Grid>
+                    ) :
+                        (<h3>No Reflections</h3>)
+                    }
+                    
                     {this.user.accessLevel === "administrator" && (
                         <div
                             className="add-reflection"
@@ -282,11 +224,5 @@ class Reflections extends Component {
         );
     }
 }
-
-Reflections.propTypes = {};
-
-const mapStateToProps = (state) => ({
-    auth: state.auth,
-});
 
 export default Reflections;

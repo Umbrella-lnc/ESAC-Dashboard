@@ -24,7 +24,6 @@ import Dashboard from "./components/dashboard/Dashboard";
 import Profile from "./components/user-profile/Profile";
 import Announcements from "./components/announcements/Announcements";
 import Reflections from "./components/reflections/Reflections";
-import Resources from "./components/resources/Resources";
 import ManageProfiles from './components/user-profile/ManageProfiles'
 import EditProfile from './components/user-profile/EditProfile'
 
@@ -77,11 +76,6 @@ const App = (props) => {
                             exact
                             path="/announcements"
                             component={Announcements}
-                        />
-                        <PrivateRoute
-                            exact
-                            path="/resources"
-                            component={Resources}
                         />
                         <PrivateRoute
                             exact

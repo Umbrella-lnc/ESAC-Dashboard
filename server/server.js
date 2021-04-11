@@ -5,27 +5,20 @@ const passport = require("passport");
 const userRoutes = require("./routes/api/userRouter");
 const usersManagementRoutes = require("./routes/api/usersManagementRouter");
 const reflectionsRoutes = require("./routes/api/reflectionsRouter");
+const emailRoutes = require("./routes/api/emailRouter");
+const announcementRoutes = require("./routes/api/announcementsRouter");
+
 const dotenv = require("dotenv");
 const path = require("path");
 
-
 // Configure Environment Vars
 dotenv.config();
-const ENV =  process.env.NODE_ENV || 'development';
+const ENV = process.env.NODE_ENV || "development";
 const PORT = process.env.PORT || 5000;
 const DB_URI = process.env.MONGODB_URI.replace("mode", ENV);
 
 // Create Express Server
 const app = express();
-
-// Serve static assets if in production
-if (ENV === "production") {
-    //Set static folder
-    app.use(express.static("../client/build"));
-    app.get("*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, "../client/build/index.html"));
-    });
-}
 
 //Info
 console.log("Running in " + ENV);
@@ -50,14 +43,33 @@ app.use("/api/users", userRoutes);
 // Protected Routes
 app.use(
     "/api/usersManagement",
-    passport.authenticate('jwt', {session:false}),
+    passport.authenticate("jwt", { session: false }),
     usersManagementRoutes
 );
 app.use(
     "/api/reflections",
-    passport.authenticate('jwt', {session:false}),
+    passport.authenticate("jwt", { session: false }),
     reflectionsRoutes
 );
+app.use(
+    "/api/emails",
+    passport.authenticate("jwt", { session: false }),
+    emailRoutes
+);
+app.use(
+    "/api/announcements",
+    passport.authenticate("jwt", { session:false }),
+    announcementRoutes
+);
+
+// Serve static assets if in production
+if (ENV === "production") {
+    //Set static folder
+    app.use(express.static("../client/build"));
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "../client/build/index.html"));
+    });
+}
 
 // Database Connection
 mongoose

@@ -92,7 +92,10 @@ class Profile extends Component {
 
   render() {
     const token = localStorage.getItem("jwtToken");
-    const user = jwt_decode(token)
+    const user = jwt_decode(token);
+
+    console.log(user);
+    
     return (
       <div style={{ height: '75vh' }} className='container valign-wrapper'>
         <div class="row">

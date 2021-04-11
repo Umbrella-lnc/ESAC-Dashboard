@@ -57,7 +57,10 @@ class EditProfile extends Component {
 
     axios
         .post(baseURL + "/api/usersManagement/updateUser", newProfileInfo)
-        .then((res) => (dispatch) =>{
+        .then((res,dispatch) =>{
+
+            console.log("in updateProfile");
+
             // Save to localStorage
             const { token } = res.data;
             localStorage.setItem("jwtToken", token);
