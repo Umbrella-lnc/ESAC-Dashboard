@@ -1,27 +1,14 @@
 import React, { Component } from "react";
-import { Grid, Card, CardContent, Typography, Button } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import axios from "axios";
 import baseURL from "../../baseURL";
 import jwt_decode from "jwt-decode";
-import PropTypes from "prop-types";
 import EditIcon from "@material-ui/icons/Edit";
 import Fab from "@material-ui/core/Fab";
 import FormDialog from "./FormDialog";
-
 import Announcement from "./Announcement";
 
-import {
-    GET_ERRORS,
-    SET_CURRENT_USER,
-    USER_LOADING,
-} from "../../actions/types";
-import { findByLabelText } from "@testing-library/dom";
-
 class Announcements extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     user = jwt_decode(localStorage.getItem("jwtToken"));
 
     state = {
@@ -85,9 +72,6 @@ class Announcements extends Component {
     };
 
     componentDidMount() {
-        const token = localStorage.getItem("jwtToken");
-        const user = jwt_decode(token);
-
         this.fetchAnnouncements();
     }
 
@@ -158,11 +142,5 @@ class Announcements extends Component {
         );
     }
 }
-
-Announcements.propTypes = {};
-
-const mapStateToProps = (state) => ({
-    auth: state.auth,
-});
 
 export default Announcements;
