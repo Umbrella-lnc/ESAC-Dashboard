@@ -4,6 +4,7 @@ const isEmpty = require("is-empty");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
+const Validator = require("validator");
 
 dotenv.config();
 const secretOrKey = process.env.secretOrKey;
@@ -12,12 +13,12 @@ const secretOrKey = process.env.secretOrKey;
 // @desc Register a user in the database
 // @access Admin
 const toggleVerifiedStatus = async (req, res) => {
-  //Look into creating super admins
-  if (req.user.accessLevel != 'administrator') {
-    return res.status(401).json({
-      unauthorized: 'Need administrator privileges to verify users!',
-    })
-  }
+    //Look into creating super admins
+    if (req.user.accessLevel != "administrator") {
+        return res.status(401).json({
+            unauthorized: "Need administrator privileges to verify users!",
+        });
+    }
 
     // Make sure the user actually exists in the database
     User.findOne({ email: req.body.email }).then((user) => {
@@ -38,6 +39,43 @@ const toggleVerifiedStatus = async (req, res) => {
                             " to active: " +
                             user.active
                     );
+                })
+                .catch((err) =>
+                    res.status(500).json({
+                        failure: "Internal error, could not update db.",
+                    })
+                );
+        }
+    });
+};
+
+// @route POST api/usersManagementController/setOptOut
+// @desc Set opt out status
+// @access Same user id
+// + req.body.email_opt_out (boolean)
+const setOptOut = async (req, res) => {
+    User.findOne({ _id: req.user._id }).then((user) => {
+        if (!user) {
+            return res.status(404).json({ userNotFound: "User not found!" });
+        } else {
+            //Update the fields based on what is empty
+            if (
+                !isEmpty(req.body.email_opt_out) &&
+                Validator.isBoolean(req.body.email_opt_out)
+            ) {
+                user.email_opt_out = Boolean(req.body.email_opt_out);
+            } else {
+                let errors = {};
+                errors.email_opt_out = "Invalid email_opt_out field!";
+                return res.status(400).json(errors);
+            }
+
+            //Save user
+            user.save()
+                .then(() => {
+                    res.status(200).json({
+                        success: "Changed email opt out status!",
+                    });
                 })
                 .catch((err) =>
                     res.status(500).json({
@@ -94,6 +132,7 @@ const updateUser = async (req, res) => {
                         email: user.email,
                         accessLevel: user.accessLevel,
                         active: user.active,
+                        email_opt_out: user.email_opt_out,
                     };
 
                     jwt.sign(
@@ -118,24 +157,24 @@ const updateUser = async (req, res) => {
 // @desc Delete a user from the database
 // @access Admin
 const deleteUser = async (req, res) => {
-  // Verify that the user has access level "administrator"
-  if (req.user.accessLevel != 'administrator') {
-    return res.status(400).json({
-      accessLevel: 'Need administrator privileges to delete user!',
-    })
-  }
-
-  // Make sure the user actually exists in the database
-  User.findOne({ email: req.body.email }).then((user) => {
-    if (!user) {
-      return res.status(404).json({ emailnotfound: 'Email not found!' })
-    } else {
-      User.findOneAndRemove({ email: req.body.email }).then((email) => {
-        res.json({ success: true })
-      })
+    // Verify that the user has access level "administrator"
+    if (req.user.accessLevel != "administrator") {
+        return res.status(400).json({
+            accessLevel: "Need administrator privileges to delete user!",
+        });
     }
-  })
-}
+
+    // Make sure the user actually exists in the database
+    User.findOne({ email: req.body.email }).then((user) => {
+        if (!user) {
+            return res.status(404).json({ emailnotfound: "Email not found!" });
+        } else {
+            User.findOneAndRemove({ email: req.body.email }).then((email) => {
+                res.json({ success: true });
+            });
+        }
+    });
+};
 
 // @route GET api/usersManagementController/listUsers
 // @desc Return all users in the database
@@ -181,3 +220,4 @@ exports.deleteUser = deleteUser;
 exports.listUsers = listUsers;
 exports.getAllNamesWithID = getAllNamesWithID;
 exports.updateUser = updateUser;
+exports.setOptOut = setOptOut;

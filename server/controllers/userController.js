@@ -41,6 +41,7 @@ const register = async (req, res) => {
             password: req.body.password,
             accessLevel: req.body.accessLevel,
             active: false,
+            email_opt_out: false,
         });
 
         // Make sure to hash password for DB storage
@@ -94,6 +95,7 @@ const login = async (req, res) => {
                     email: user.email,
                     accessLevel: user.accessLevel,
                     active: user.active,
+                    email_opt_out: user.email_opt_out,
                 };
 
                 jwt.sign(
