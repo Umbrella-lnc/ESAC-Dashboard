@@ -34,6 +34,8 @@ app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 app.use(passport.initialize());
 require("./config/passport")(passport);
+app.use('/uploads', express.static('uploads'));
+
 
 // Routes
 app.use("/api/users", userRoutes);
