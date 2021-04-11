@@ -24,11 +24,10 @@ import Dashboard from "./components/dashboard/Dashboard";
 import Profile from "./components/user-profile/Profile";
 import Announcements from "./components/announcements/Announcements";
 import Reflections from "./components/reflections/Reflections";
-import Resources from "./components/resources/Resources";
+import ManageProfiles from './components/user-profile/ManageProfiles'
 
 // Import utils
 import setAuthToken from "./utils/setAuthToken";
-import ManageProfiles from "./components/user-profile/ManageProfiles";
 
 if (localStorage.jwtToken) {
     // Get the JWT Token from storage and set the auth token
@@ -76,11 +75,6 @@ const App = (props) => {
                             exact
                             path="/announcements"
                             component={Announcements}
-                        />
-                        <PrivateRoute
-                            exact
-                            path="/resources"
-                            component={Resources}
                         />
                         <PrivateRoute
                             exact
