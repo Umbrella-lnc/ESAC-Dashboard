@@ -5,7 +5,7 @@ import { logoutUser } from '../../actions/authActions'
 import jwt_decode from "jwt-decode"
 import "./Profile.css"
 import ProfileIcon from '../../image/profile-icon.jpg'
-import { Link } from "react-router-dom";
+import {  } from "react-router-dom";
 import axios from 'axios'
 
 import baseURL from "../../baseURL";
@@ -57,13 +57,11 @@ class EditProfile extends Component {
 
     axios
         .post(baseURL + "/api/usersManagement/updateUser", newProfileInfo)
-        .then((res,dispatch) =>{
-
-            console.log("in updateProfile");
+        .then((res) =>{
 
             // Save to localStorage
             const { token } = res.data;
-            localStorage.setItem("jwtToken", token);
+            localStorage.setItem('jwtToken', token);
 
             // Set token to Auth header
             setAuthToken(token);
@@ -71,8 +69,9 @@ class EditProfile extends Component {
             // Decode token to get user data
             const decoded = jwt_decode(token);
 
-            // Set current user
-            dispatch(setCurrentUser(decoded));
+            //redirect profile
+            this.props.history.push("/profile");
+            
         })
         .catch((err) => console.log(err));
   }
@@ -180,14 +179,14 @@ class EditProfile extends Component {
                   </h6>
                 </div>
                   <div className='col s12 offset-s4 left-align' onClick={this.updateProfile}>
-                  <Link to="/profile"                   
+                  <div                   
                         style={{letterSpacing: '1.5px'}}
                   
                         type="submit"
                         className='btn btn-large waves-effect waves-light hoverable blue accent-3'
                         >
                           Submit Edits
-                  </Link>
+                  </div>
                 </div>
               </form>
             </div>

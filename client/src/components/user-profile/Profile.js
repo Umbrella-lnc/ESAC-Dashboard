@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { logoutUser } from '../../actions/authActions'
@@ -10,31 +10,33 @@ import axios from 'axios'
 
 const API_URL = "http://localhost:3000";
 
-class Profile extends Component {
+const Profile = (props) => {
 
-  constructor(props) {
-    super(props);
+  const [state, setState] = React.useState({
+    multerImage: ProfileIcon,
+    user: {},
+  })
 
-    this.state = {
-      multerImage: ProfileIcon,
-   
-    }
-  }
+  React.useEffect(()=> {
+      const token = localStorage.getItem("jwtToken");
+      const newUser = jwt_decode(token);
+      console.log(state.user)
+      console.log(newUser)
+      if(JSON.stringify(state.user) !== JSON.stringify(newUser)) {
+        setState({...state, user: newUser})
+      }
+  })
 
-  setDefaultImage(uploadType) {
+  const setDefaultImage = (uploadType) => {
     if (uploadType === "multer") {
-      this.setState({
+      setState({
         multerImage: ProfileIcon
       });
     }
   }
 
-  onLogoutClick = (e) => {
-    e.preventDefault()
-    this.props.logoutUser()
-  }
 
-  uploadImage(e, method) {
+  const uploadImage = (e, method) => {
 
     if (method === "multer") {
 
@@ -45,7 +47,7 @@ class Profile extends Component {
 
       // stores a readable instance of 
       // the image being uploaded using multer
-      this.setState({
+      setState({
         multerImage: URL.createObjectURL(e.target.files[0])
       });
 
@@ -53,55 +55,22 @@ class Profile extends Component {
         .then((data) => {
           if (data.data.success) {
             alert("Image has been successfully uploaded using multer");
-            this.setDefaultImage("multer");
+            setDefaultImage("multer");
           }
         })
         .catch((err) => {
           alert("Error while uploading image using multer");
-          this.setDefaultImage("multer");
+          setDefaultImage("multer");
         });
     } 
   }
 
-  uploadImage(e, method){
-    if(method === "multer") {
-      
-      let imageFormObj = new FormData();
-
-      imageFormObj.append("imageName", "multer-image-" + Date.now());
-      imageFormObj.append("imageData", e.target.files[0]);
-
-      //image being uploaded using multer, stores readable instance
-      this.setState({
-        multerImage: URL.createObjectURL(e.target.files[0])
-      });
-
-      axios.post(`${API_URL}/image/uploadmulter`, imageFormObj)
-        .then((data) => {
-          if(data.data.success){
-            alert("Profile Pic Uploaded.");
-            this.setDefaultImage("multer");
-          }
-        })
-        .catch((err) => {
-          alert("Error while uploading Profile Pic");
-          this.setDefaultImage("multer");
-        });
-    }
-  }
-
-  render() {
-    const token = localStorage.getItem("jwtToken");
-    const user = jwt_decode(token);
-
-    console.log(user);
-    
     return (
       <div style={{ height: '75vh' }} className='container valign-wrapper'>
         <div class="row">
             <div className="col s2">
-              <img src={this.state.multerImage} alt="upload-image" className="process-profile-pic"/>
-              <input type="file" style={{marginTop: 180}} className="upload-profile-pic" onChange={(e) => this.uploadImage(e, "multer")} />
+              <img src={state.multerImage} alt="upload-image" className="process-profile-pic"/>
+              <input type="file" style={{marginTop: 180}} className="upload-profile-pic" onChange={(e) => uploadImage(e, "multer")} />
             </div>
             <div className="col s8 push-s1">
             <div class="section">
@@ -111,16 +80,16 @@ class Profile extends Component {
               <div className='col s12 offset-s4 left-align'>
                 <h6>
                   <p className='flow-text grey-text text-darken-1'>
-                    Name: {user.firstname} {user.lastname}
+                    Name: {state.user.firstname} {state.user.lastname}
                   </p>
                   <p className='flow-text grey-text text-darken-1'>
-                    Email: {user.email}
+                    Email: {state.user.email}
                   </p>
                   <p className='flow-text grey-text text-darken-1'>
-                    Department: {user.department}
+                    Department: {state.user.department}
                   </p>
                   <p className='flow-text grey-text text-darken-1'>
-                    Access Level: {user.accessLevel}
+                    Access Level: {state.user.accessLevel}
                   </p>
                 </h6>
                   <Link to="/editProfile"                   
@@ -150,12 +119,6 @@ class Profile extends Component {
       
     )
   }
-}
-Profile.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-}
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-})
-export default connect(mapStateToProps, { logoutUser })(Profile)
+
+
+export default Profile;
