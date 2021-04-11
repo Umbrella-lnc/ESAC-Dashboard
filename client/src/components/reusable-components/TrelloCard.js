@@ -42,6 +42,15 @@ const useStyles = makeStyles({
         position: '-webkit-sticky',
         position: 'sticky',
         top: 0,
+        width: '20%',
+        color: 'blue',
+        marginTop: '10px',
+        marginBottom: '10px',
+    },
+    ogDeleteButton: {
+        position: '-webkit-sticky',
+        position: 'sticky',
+        top: 0,
         width: '100%',
         color: 'blue',
         marginTop: '10px',
@@ -60,6 +69,9 @@ const useStyles = makeStyles({
         backgroundColor: 'white',
         outline: 'none',
     },
+    selectRow: {
+        float: 'left',
+    },
 })
 
 export default function TrelloCard(props) {
@@ -70,6 +82,7 @@ export default function TrelloCard(props) {
     const cardId = props.cardInfo.id
 
     const [open, setOpen] = React.useState(false)
+    const [open1, setOpen1] = React.useState(false)
 
     const [state, setState] = React.useState({
         column: colName,
@@ -105,6 +118,14 @@ export default function TrelloCard(props) {
 
     const handleClose = () => {
         setOpen(false)
+    }
+
+    const handleOpen1 = () => {
+        setOpen1(true)
+    }
+
+    const handleClose1 = () => {
+        setOpen1(false)
     }
 
     function handleDelete() {
@@ -238,26 +259,28 @@ export default function TrelloCard(props) {
                     <h6 style={{ color: 'black' }}>{dialogSubheading}</h6>
                     <h6 style={{ color: 'black' }}>{description}</h6>
 
-                    <Select
-                        native
-                        value={state.column}
-                        onChange={handleChange}
-                        inputProps={{
-                            name: state.column,
-                            id: 'age-native-simple',
-                        }}
-                    >
-                        <option value={'toDo'}>To Do</option>
-                        <option value={'doing'}>Doing</option>
-                        <option value={'done'}>Done</option>
-                    </Select>
-                    <Button
-                        onClick={handleChangeColumn}
-                        className={classes.deleteButton}
-                        size='small'
-                    >
-                        HandleSelect
-                    </Button>
+                    <div class='selectRow'>
+                        <Select
+                            native
+                            value={state.column}
+                            onChange={handleChange}
+                            inputProps={{
+                                name: state.column,
+                                id: 'age-native-simple',
+                            }}
+                        >
+                            <option value={'toDo'}>To Do</option>
+                            <option value={'doing'}>Doing</option>
+                            <option value={'done'}>Done</option>
+                        </Select>
+                        <Button
+                            onClick={handleChangeColumn}
+                            className={classes.deleteButton}
+                            size='small'
+                        >
+                            Update
+                        </Button>
+                    </div>
 
                     <Button
                         onClick={handleClose}
@@ -267,11 +290,32 @@ export default function TrelloCard(props) {
                         Close
                     </Button>
                     <Button
-                        onClick={handleDelete}
+                        onClick={handleOpen1}
                         className={classes.deleteButton}
                         size='small'
                     >
                         Delete
+                    </Button>
+                </div>
+            </Dialog>
+            <Dialog open={open1} onClose={handleClose1}>
+                <div className={classes.paper}>
+                    <h5 style={{ color: 'black' }}>
+                        Are you sure you would like to delete this user?
+                    </h5>
+                    <Button
+                        onClick={handleDelete}
+                        className={classes.ogDeleteButton}
+                        size='small'
+                    >
+                        yes
+                    </Button>
+                    <Button
+                        onClick={handleClose1}
+                        className={classes.ogDeleteButton}
+                        size='small'
+                    >
+                        No
                     </Button>
                 </div>
             </Dialog>
