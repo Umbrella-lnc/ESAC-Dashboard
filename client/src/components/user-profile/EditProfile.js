@@ -45,7 +45,7 @@ class EditProfile extends Component {
     }
  }
 
-  updateProfile(){
+  updateProfile = () => {
 
     const newProfileInfo = {
       firstname: this.state.firstname,
@@ -176,15 +176,17 @@ class EditProfile extends Component {
                     
                   </h6>
                 </div>
+                  <div className='col s12 offset-s4 left-align' onClick={this.updateProfile}>
+                  <Link to="/profile"                   
+                        style={{letterSpacing: '1.5px'}}
+                  
+                        type="submit"
+                        className='btn btn-large waves-effect waves-light hoverable blue accent-3'
+                        >
+                          Submit Edits
+                  </Link>
+                </div>
               </form>
-              <div className='col s12 offset-s4 left-align'>
-                <Link to="/profile"                   
-                      style={{letterSpacing: '1.5px'}}
-                      className='btn btn-large waves-effect waves-light hoverable blue accent-3'
-                      >
-                        Done
-                </Link>
-              </div>
             </div>
           </div> 
         </div>
