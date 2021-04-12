@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 dotenv.config();
+const User = require("../models/User");
 
 const validateEmail = require("../validate/email");
 
@@ -52,4 +53,44 @@ const sendEmail = async (req, res) => {
     });
 };
 
+// Called as a function, not in a route. Ensure use after admin authorization.
+// @desc Send an Email to all ESAC users who did not opt out
+//  + req.body.title
+//  + req.body.post
+const announcementEmail = async (req) => {
+    const { title, post } = req.body;
+
+    console.log("Sending Emails!");
+
+    User.find()
+        .then((users) => {
+            mailList = [];
+
+            //Go through all users in database and add them to mailing list if they are not opted out
+            users.forEach((user) => {
+                if (!user.email_opt_out && user.active) {
+                    mailList.push(user.email);
+                }
+            });
+
+            let mailOptions = {
+                from: "emailer.esac@gmail.com",
+                to: mailList,
+                subject: title,
+                text: post,
+            };
+            console.log(mailList);
+
+            transporter.sendMail(mailOptions, function (err, data) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+};
+
 exports.sendEmail = sendEmail;
+exports.announcementEmail = announcementEmail;
