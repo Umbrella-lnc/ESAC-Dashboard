@@ -105,7 +105,7 @@ const getAnnouncements = async (req, res) => {
             } else {
                 Announcement.find()
                 .then((announcements) => {
-                    return res.json(announcements);
+                    res.json(announcements);
                 })
                 .catch((error) => {
                     return res.send(error);

@@ -25,6 +25,7 @@ import Profile from "./components/user-profile/Profile";
 import Announcements from "./components/announcements/Announcements";
 import Reflections from "./components/reflections/Reflections";
 import ManageProfiles from './components/user-profile/ManageProfiles'
+import EditProfile from './components/user-profile/EditProfile'
 
 // Import utils
 import setAuthToken from "./utils/setAuthToken";
@@ -85,6 +86,11 @@ const App = (props) => {
                             exact
                             path="/manageProfiles"
                             component={ManageProfiles}
+                        />
+                        <PrivateRoute
+                            exact
+                            path="/editProfile"
+                            component={EditProfile}
                         />
                     </Switch>
                 </div>
