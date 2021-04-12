@@ -1,10 +1,14 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
 
-const { getCards } = require('../../controllers/trelloController.js')
+const {
+    getCards,
+    deleteCard,
+    editCard,
+} = require('../../controllers/trelloController.js');
 
-router.post('/deleteCard')
-router.post('/editCard')
-router.post('/getCards', getCards)
+router.post('/deleteCard', deleteCard);
+router.post('/editCard', editCard);
+router.post('/getCards', getCards);
 
-module.exports = router
+module.exports = router;
