@@ -1,27 +1,14 @@
 import React, { Component } from "react";
-import { Grid, Card, CardContent, Typography, Button } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import axios from "axios";
 import baseURL from "../../baseURL";
 import jwt_decode from "jwt-decode";
-import PropTypes from "prop-types";
 import EditIcon from "@material-ui/icons/Edit";
 import Fab from "@material-ui/core/Fab";
 import FormDialog from "./FormDialog";
-
 import Announcement from "./Announcement";
 
-import {
-    GET_ERRORS,
-    SET_CURRENT_USER,
-    USER_LOADING,
-} from "../../actions/types";
-import { findByLabelText } from "@testing-library/dom";
-
 class Announcements extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     user = jwt_decode(localStorage.getItem("jwtToken"));
 
     state = {
@@ -47,14 +34,15 @@ class Announcements extends Component {
         });
     };
 
-    fetchAllAnnouncements = () => {
+    fetchAnnouncements = () => {
+        console.log(baseURL);
+        console.log(baseURL + '/api/announcements/getAnnouncements')
         axios
-            .get(baseURL + "/api/announcements/getAnnouncements")
+            .get(baseURL + '/api/announcements/getAnnouncements')
             .then((res) => {
-                // Debug
-                console.log(baseURL + "/api/announcements/getAnnouncements");
                 this.setState({ announcements: res.data });
-            });
+            })
+            .catch(err => console.log(err));
     };
 
     submitPost = () => {
@@ -67,15 +55,7 @@ class Announcements extends Component {
         axios
             .post(baseURL + "/api/announcements/createAnnouncement", newAnnouncement)
             .then((res) => {
-                axios
-                    .get(baseURL + "/api/announcements/getAnnouncements")
-                    .then((res) => {
-                        // Debug
-                        console.log(
-                            baseURL + "/api/announcements/getAnnouncements"
-                        );
-                        this.setState({ announcements: res.data });
-                    });
+                this.fetchAnnouncements();
             })
             .catch((err) => console.log(err));
     };
@@ -86,32 +66,13 @@ class Announcements extends Component {
                 announcementID: id,
             })
             .then((res) => {
-                axios
-                    .get(baseURL + "/api/announcements/getAnnouncements")
-                    .then((res) => {
-                        // Debug
-                        console.log(
-                            baseURL + "/api/announcements/getAnnouncements"
-                        );
-                        this.setState({ announcements: res.data });
-                    });
+                this.fetchAnnouncements();
             })
             .catch((err) => console.log(err));
     };
 
     componentDidMount() {
-        const token = localStorage.getItem("jwtToken");
-        const user = jwt_decode(token);
-
-        axios
-            .get(baseURL + "/api/announcements/getAnnouncements")
-            .then((res) => {
-                // Debug
-                console.log(baseURL + "/api/announcements/getAnnouncements");
-                this.setState({
-                    announcements: res.data,
-                });
-            });
+        this.fetchAnnouncements();
     }
 
     render() {
@@ -141,25 +102,23 @@ class Announcements extends Component {
                         setNewAnnouncement={this.setNewAnnouncement}
                         submitAnnouncement={this.submitPost}
                     />
-                    <Grid
-                        container
-                        spacing={3}
-                        //direction="column"
-                        //alignItems="center"
-                        //justify="center"
-                    >
-                        {this.state.announcements.map((announcement) => {
-                            const showAnnouncement = true;
-                            return (
-                                <Announcement
-                                    deleteAnnouncement={this.deleteAnnouncement}
-                                    user={this.user}
-                                    announcement={announcement}
-                                    key={announcement._id}
-                                />
-                            );
-                        })}
-                    </Grid>
+
+                    {this.state.announcements.length ? (
+                            <Grid container spacing={3}>
+                                {this.state.announcements.map(announcement => (
+                                    <Announcement
+                                        key={announcement._id}
+                                        deleteAnnouncement={this.deleteAnnouncement}
+                                        user={this.user}
+                                        announcement={announcement}>
+                                    </Announcement>
+                                ))}
+                            </Grid>
+
+                    ) :
+                        (<h3>No Announcements</h3>)
+                    }
+
                     {this.user.accessLevel === "administrator" && (
                         <div
                             className="add-announcement"
@@ -183,11 +142,5 @@ class Announcements extends Component {
         );
     }
 }
-
-Announcements.propTypes = {};
-
-const mapStateToProps = (state) => ({
-    auth: state.auth,
-});
 
 export default Announcements;

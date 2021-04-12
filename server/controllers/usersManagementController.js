@@ -105,7 +105,7 @@ const updateUser = async (req, res) => {
                 user.firstname = req.body.firstname;
             }
             if (!isEmpty(req.body.lastname)) {
-                user.firstname = req.body.lastname;
+                user.lastname = req.body.lastname;
             }
             if (!isEmpty(req.body.email)) {
                 user.email = req.body.email;
