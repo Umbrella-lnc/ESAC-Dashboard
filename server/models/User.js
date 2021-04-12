@@ -30,6 +30,10 @@ const userSchema = mongoose.Schema(
             type: Boolean,
             required: true,
         },
+        email_opt_out: {
+            type: Boolean,
+            required: true,
+        },
     },
     { collection: "Users" }
 );
