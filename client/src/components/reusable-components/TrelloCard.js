@@ -259,7 +259,7 @@ export default function TrelloCard(props) {
                     <h6 style={{ color: 'black' }}>{dialogSubheading}</h6>
                     <h6 style={{ color: 'black' }}>{description}</h6>
 
-                    <div class='selectRow'>
+                    <div className='selectRow'>
                         <Select
                             native
                             value={state.column}

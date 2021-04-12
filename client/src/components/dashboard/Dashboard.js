@@ -8,6 +8,7 @@ import { logoutUser } from '../../actions/authActions'
 import { List, ListItem } from '@material-ui/core'
 import TrelloCard from '../reusable-components/TrelloCard'
 import ColumnLabel from '../reusable-components/ColumnLabel'
+import baseURL from '../../baseURL'
 
 class Dashboard extends Component {
     state = {
@@ -18,57 +19,73 @@ class Dashboard extends Component {
 
     componentDidMount() {
         axios
-            .get(
-                trelloURL +
-                    'lists/' +
-                    toDoList +
-                    'cards?' +
-                    'key=' +
-                    trelloKey +
-                    '&' +
-                    'token=' +
-                    trelloToken +
-                    '&response_type=token'
-            )
+            .post(baseURL + '/api/trello/getCards', {
+                listId: '60638369236486515ccc1ec8',
+            })
             .then((res) => {
+                console.log(res)
                 const toDo = res.data
                 this.setState({ toDo })
             })
-
+            .catch(function (error) {
+                if (error.response) {
+                    // Request made and server responded
+                    console.log(error.response.data)
+                    console.log(error.response.status)
+                    console.log(error.response.headers)
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request)
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('Error', error.message)
+                }
+            })
         axios
-            .get(
-                trelloURL +
-                    'lists/' +
-                    doingList +
-                    'cards?' +
-                    'key=' +
-                    trelloKey +
-                    '&' +
-                    'token=' +
-                    trelloToken +
-                    '&response_type=token'
-            )
-            .then((res1) => {
-                const doing = res1.data
+            .post(baseURL + '/api/trello/getCards', {
+                listId: '6063836bf49a2c5dc7e08dc6',
+            })
+            .then((res) => {
+                console.log(res)
+                const doing = res.data
                 this.setState({ doing })
             })
-
+            .catch(function (error) {
+                if (error.response) {
+                    // Request made and server responded
+                    console.log(error.response.data)
+                    console.log(error.response.status)
+                    console.log(error.response.headers)
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request)
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('Error', error.message)
+                }
+            })
         axios
-            .get(
-                trelloURL +
-                    'lists/' +
-                    doneList +
-                    'cards?' +
-                    'key=' +
-                    trelloKey +
-                    '&' +
-                    'token=' +
-                    trelloToken +
-                    '&response_type=token'
-            )
-            .then((res2) => {
-                const done = res2.data
+            .post(baseURL + '/api/trello/getCards', {
+                listId: '6063836cce7e3326413eb0f2',
+            })
+            .then((res) => {
+                console.log(res)
+                const done = res.data
                 this.setState({ done })
+            })
+            .catch(function (error) {
+                if (error.response) {
+                    // Request made and server responded
+                    console.log(error.response.data)
+                    console.log(error.response.status)
+                    console.log(error.response.headers)
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request)
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('Error', error.message)
+                }
             })
     }
 
