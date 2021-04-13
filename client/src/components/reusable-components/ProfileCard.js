@@ -71,6 +71,10 @@ export default function ProfileCard(props) {
     const access = props.user.accessLevel
     const department = props.user.department
     const window = props.window
+    const departAbrev = department.slice(
+        department.length - 4,
+        department.length - 1
+    )
     const userContainer = {
         email: email,
     }
@@ -124,6 +128,12 @@ export default function ProfileCard(props) {
                         </Typography>
                         <Typography variant='h5' component='h2'>
                             {lastName}
+                        </Typography>
+                        <Typography
+                            className={classes.pos}
+                            style={{ color: 'black' }}
+                        >
+                            {departAbrev}
                         </Typography>
                     </CardActionArea>
                 </CardContent>
