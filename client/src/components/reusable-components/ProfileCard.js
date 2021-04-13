@@ -69,6 +69,7 @@ export default function ProfileCard(props) {
     const active = props.user.active
     const email = props.user.email
     const access = props.user.accessLevel
+    const department = props.user.department
     const window = props.window
     const userContainer = {
         email: email,
@@ -190,6 +191,12 @@ export default function ProfileCard(props) {
                         style={{ color: 'black' }}
                     >
                         {email}
+                    </Typography>
+                    <Typography
+                        className={classes.pos}
+                        style={{ color: 'black' }}
+                    >
+                        {department}
                     </Typography>
                     <Button
                         className={classes.deleteButton}
