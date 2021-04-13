@@ -7,6 +7,7 @@ import "./Profile.css"
 import ProfileIcon from '../../image/profile-icon.jpg'
 import { Link } from "react-router-dom";
 import axios from 'axios'
+import AnnouncementsCheckbox from "../reusable-components/email-announcements-checkbox"
 
 const API_URL = "http://localhost:3000";
 
@@ -98,6 +99,10 @@ const Profile = (props) => {
                     >
                       Edit Profile
                   </Link>
+                  <div style={{paddingTop: 50}}>
+                    <h4><b>Announcements Email Opt-in</b></h4>
+                    <AnnouncementsCheckbox />
+                  </div>
               </div>
             </div>
           </div> 
