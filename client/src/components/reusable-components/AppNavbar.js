@@ -1,26 +1,26 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
-import blue from "@material-ui/core/colors/blue";
-import { Link } from "react-router-dom";
-import setAuthToken from "../../utils/setAuthToken";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import blue from '@material-ui/core/colors/blue';
+import { Link, useHistory } from 'react-router-dom';
+import setAuthToken from '../../utils/setAuthToken';
 import {
     GET_ERRORS,
     SET_CURRENT_USER,
     USER_LOADING,
-} from "../../actions/types";
+} from '../../actions/types';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        position: "relative",
+        position: 'relative',
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -33,23 +33,26 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function MenuAppBar(props) {
+const MenuAppBar = (props) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    const { onLogoutClick } = props;
+    const history = useHistory();
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = () => {
+    const handleClose = (dest) => {
+        if (dest) {
+            history.push(dest);
+        }
         setAnchorEl(null);
     };
 
     return (
         <div className={classes.root}>
-            <AppBar style={{ position: "relative" }}>
+            <AppBar style={{ position: 'relative' }}>
                 <Toolbar>
                     <IconButton
                         aria-label="options"
@@ -68,39 +71,40 @@ export default function MenuAppBar(props) {
                         id="menu-appbar"
                         anchorEl={anchorEl}
                         anchorOrigin={{
-                            vertical: "top",
-                            horizontal: "right",
+                            vertical: 'top',
+                            horizontal: 'right',
                         }}
                         keepMounted
                         transformOrigin={{
-                            vertical: "top",
-                            horizontal: "right",
+                            vertical: 'top',
+                            horizontal: 'right',
                         }}
                         open={open}
-                        onClose={handleClose}
+                        onClose={() => handleClose('')}
                     >
-                        <MenuItem onClick={handleClose}>
+                        <MenuItem onClick={() => handleClose('/dashboard')}>
                             <Link to="/dashboard">Dashboard</Link>
                         </MenuItem>
-                        <MenuItem onClick={handleClose}>
+                        <MenuItem onClick={() => handleClose('/reflections')}>
                             <Link to="/reflections">Reflections</Link>
                         </MenuItem>
-                        <MenuItem onClick={handleClose}>
+                        <MenuItem onClick={() => handleClose('/announcements')}>
                             <Link to="/announcements">Announcements</Link>
                         </MenuItem>
                         <MenuItem
                             onClick={(e) => {
                                 // Remove token from local storage
-                                localStorage.removeItem("jwtToken");
+                                localStorage.removeItem('jwtToken');
                                 // Remove auth header for future requests
                                 setAuthToken(false);
+                                window.location.href = '/login';
                                 return {
                                     type: SET_CURRENT_USER,
                                     payload: {},
                                 };
                             }}
                         >
-                            <a href="/login" style={{ textDecoration: "none" }}>
+                            <a href="/login" style={{ textDecoration: 'none' }}>
                                 Logout
                             </a>
                         </MenuItem>
@@ -110,20 +114,22 @@ export default function MenuAppBar(props) {
                         className={classes.title}
                     ></Typography>
                     <div>
-                        <IconButton
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            //onClick={}
-                            color="inherit"
-                        >
-                            <Link to="/profile">
+                        <Link to="/profile">
+                            <IconButton
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                //onClick={}
+                                color="inherit"
+                            >
                                 <AccountCircle />
-                            </Link>
-                        </IconButton>
+                            </IconButton>
+                        </Link>
                     </div>
                 </Toolbar>
             </AppBar>
         </div>
     );
-}
+};
+
+export default MenuAppBar;
