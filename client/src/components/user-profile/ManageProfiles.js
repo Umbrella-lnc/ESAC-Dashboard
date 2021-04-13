@@ -27,7 +27,7 @@ class ManageProfiles extends Component {
         console.log(elements)
         return (
             <div>
-                <GridList cols={4} spacing={15} style={{ padding: 80 }}>
+                <GridList cols={3} spacing={15} style={{ padding: 80 }}>
                     {elements.map((value, index) => {
                         return (
                             <ListItem className='input-field col s12'>
