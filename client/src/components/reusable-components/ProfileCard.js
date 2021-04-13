@@ -174,14 +174,21 @@ export default function ProfileCard(props) {
                         className={classes.title}
                         color='textSecondary'
                         gutterBottom
-                        style={{ marginTop: '10px' }}
+                        style={{ marginTop: '15px', color: 'black' }}
                     >
                         {access}
                     </Typography>
-                    <Typography variant='h5' component='h2'>
+                    <Typography
+                        variant='h5'
+                        component='h2'
+                        style={{ color: 'black' }}
+                    >
                         {firstName} {lastName}
                     </Typography>
-                    <Typography className={classes.pos} color='textSecondary'>
+                    <Typography
+                        className={classes.pos}
+                        style={{ color: 'black' }}
+                    >
                         {email}
                     </Typography>
                     <Button
