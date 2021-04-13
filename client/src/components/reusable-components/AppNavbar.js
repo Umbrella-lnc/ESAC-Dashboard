@@ -18,7 +18,7 @@ const MenuAppBar = (props) => {
     const user = jwt_decode(token);
     var isAdmin = Boolean(false);
 
-    if(user.accessLevel === "administrator"){
+    if (user.accessLevel === "administrator") {
         isAdmin = Boolean(true);
     }
 
@@ -26,81 +26,77 @@ const MenuAppBar = (props) => {
         <div>
             <AppBar style={{ position: "relative" }}>
                 <Toolbar>
-                    <MenuButtons
-                        iconType={MenuIcon}
-                        items={[
-                            {
-                                url: "/dashboard",
-                                code: <Link to="/dashboard">Dashboard</Link>,
-                            },
-                            {
-                                url: "/reflections",
-                                code: (
-                                    <Link to="/reflections">Reflections</Link>
-                                ),
-                            },
-                            {
-                                url: "/announcements",
-                                code: (
-                                    <Link to="/announcements">
-                                        Announcements
-                                    </Link>
-                                ),
-                            },
-                        ]}
-                    />
-                    <Typography variant="h6">
-                        {" "}
-                        {user.firstname} {user.lastname}
-                    </Typography>
-                    {isAdmin && (
-                    <MenuButtons
-                        iconType={AccountCircle}
-                        items={[
-                            {
-                                url: "/profile",
-                                code: <Link to="/profile">Profile</Link>,
-                            },
+                    <div
+                        className="page-container"
+                        style={{
+                            marginRight: "auto",
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                    >
+                        <MenuButtons
+                            iconType={MenuIcon}
+                            items={[
+                                {
+                                    url: "/dashboard",
+                                    code: (
+                                        <Link to="/dashboard">Dashboard</Link>
+                                    ),
+                                },
+                                {
+                                    url: "/reflections",
+                                    code: (
+                                        <Link to="/reflections">
+                                            Reflections
+                                        </Link>
+                                    ),
+                                },
+                                {
+                                    url: "/announcements",
+                                    code: (
+                                        <Link to="/announcements">
+                                            Announcements
+                                        </Link>
+                                    ),
+                                },
+                            ]}
+                        />
+                    </div>
+                    <div
+                        className="profile-menu-container"
+                        style={{ display: "flex", alignItems: "center" }}
+                    >
+                        <Typography variant="h6">
+                            {" "}
+                            {user.firstname} {user.lastname}
+                        </Typography>
+                        <MenuButtons
+                            iconType={AccountCircle}
+                            items={[
+                                {
+                                    url: "/profile",
+                                    code: <Link to="/profile">Profile</Link>,
+                                },
 
-                            {
-                                url: "/manageProfiles",
-                                code: (
-                                    <Link to="/manageProfiles">
-                                        ManageProfiles
-                                    </Link>
-                                ),
-                            },
-                            {
-                                url: "/login",
-                                code: (
-                                    <a style={{ textDecoration: "none" }}>
-                                        Logout
-                                    </a>
-                                ),
-                            },
-                        ]}
-                    />
-                    )}
-                    {!isAdmin && (
-                    <MenuButtons
-                        iconType={AccountCircle}
-                        items={[
-                            {
-                                url: "/profile",
-                                code: <Link to="/profile">Profile</Link>,
-                            },
-                            {
-                                url: "/login",
-                                code: (
-                                    <a style={{ textDecoration: "none" }}>
-                                        Logout
-                                    </a>
-                                ),
-                            },
-                        ]}
-                    />
-                    )}
-
+                                isAdmin && {
+                                    url: "/manageProfiles",
+                                    code: (
+                                        <Link to="/manageProfiles">
+                                            ManageProfiles
+                                        </Link>
+                                    ),
+                                },
+                                {
+                                    url: "/login",
+                                    code: (
+                                        <a style={{ textDecoration: "none" }}>
+                                            Logout
+                                        </a>
+                                    ),
+                                },
+                            ]}
+                        />
+                    </div>
                 </Toolbar>
             </AppBar>
         </div>
