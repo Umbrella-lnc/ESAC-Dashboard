@@ -223,7 +223,7 @@ class Register extends Component {
                                         invalid: errors.email,
                                     })}
                                 />
-                                <label htmlFor="email">Email</label>
+                                <label htmlFor="email">Email (registered UF email)</label>
                                 <span className="red-text">{errors.email}</span>
                             </div>
                             <div className="input-field col s12">
@@ -237,7 +237,7 @@ class Register extends Component {
                                         invalid: errors.password,
                                     })}
                                 />
-                                <label htmlFor="password">Password</label>
+                                <label htmlFor="password">Password (atleast: | 7 characters long | 1 uppercase letter | 1 number)</label>
                                 <span className="red-text">
                                     {errors.password}
                                 </span>
