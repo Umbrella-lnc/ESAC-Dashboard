@@ -7,7 +7,6 @@ import "./Profile.css"
 import ProfileIcon from '../../image/profile-icon.jpg'
 import {  } from "react-router-dom";
 import axios from 'axios'
-
 import baseURL from "../../baseURL";
 import setAuthToken from "../../utils/setAuthToken";
 import { setCurrentUser } from "../../actions/authActions"
