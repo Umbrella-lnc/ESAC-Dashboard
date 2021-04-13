@@ -16,6 +16,11 @@ import MenuButtons from "./MenuButtons";
 const MenuAppBar = (props) => {
     const token = localStorage.getItem("jwtToken");
     const user = jwt_decode(token);
+    var isAdmin = Boolean(false);
+
+    if(user.accessLevel === "administrator"){
+        isAdmin = Boolean(true);
+    }
 
     return (
         <div>
@@ -48,6 +53,7 @@ const MenuAppBar = (props) => {
                         {" "}
                         {user.firstname} {user.lastname}
                     </Typography>
+                    {isAdmin && (
                     <MenuButtons
                         iconType={AccountCircle}
                         items={[
@@ -55,6 +61,7 @@ const MenuAppBar = (props) => {
                                 url: "/profile",
                                 code: <Link to="/profile">Profile</Link>,
                             },
+
                             {
                                 url: "/manageProfiles",
                                 code: (
@@ -73,6 +80,27 @@ const MenuAppBar = (props) => {
                             },
                         ]}
                     />
+                    )}
+                    {!isAdmin && (
+                    <MenuButtons
+                        iconType={AccountCircle}
+                        items={[
+                            {
+                                url: "/profile",
+                                code: <Link to="/profile">Profile</Link>,
+                            },
+                            {
+                                url: "/login",
+                                code: (
+                                    <a style={{ textDecoration: "none" }}>
+                                        Logout
+                                    </a>
+                                ),
+                            },
+                        ]}
+                    />
+                    )}
+
                 </Toolbar>
             </AppBar>
         </div>
