@@ -1,87 +1,26 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import CardActions from '@material-ui/core/CardActions'
 import { CardActionArea, List } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Modal'
 import Select from '@material-ui/core/Select'
 import axios from 'axios'
+import { useStyles } from './cardStyles'
 import baseURL from '../../baseURL'
-
-const useStyles = makeStyles({
-    root: {
-        width: '300px',
-        height: '140px',
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
-    buttonContainer: {
-        justifyContent: 'space-between',
-        width: 100,
-    },
-    content: {
-        justifyContent: 'space-between',
-    },
-    activateButton: {
-        width: '100%',
-        color: 'blue',
-    },
-    deleteButton: {
-        position: '-webkit-sticky',
-        position: 'sticky',
-        top: 0,
-        width: '20%',
-        color: 'blue',
-        marginTop: '10px',
-        marginBottom: '10px',
-    },
-    ogDeleteButton: {
-        position: '-webkit-sticky',
-        position: 'sticky',
-        top: 0,
-        width: '100%',
-        color: 'blue',
-        marginTop: '10px',
-        marginBottom: '10px',
-    },
-    paper: {
-        borderRadius: '5px',
-        position: 'absolute',
-        left: '50%',
-        right: '50%',
-        top: '20%',
-        transform: 'translate(-50%, 50%)',
-        textAlign: 'center',
-
-        width: 600,
-        backgroundColor: 'white',
-        outline: 'none',
-    },
-    selectRow: {
-        float: 'left',
-    },
-})
 
 export default function TrelloCard(props) {
     const classes = useStyles()
+
     const name = props.cardInfo.name
     const description = props.cardInfo.desc
     const colName = props.colName
     const cardId = props.cardInfo.id
     const { updateCards } = props
 
-    const [open, setOpen] = React.useState(false)
-    const [open1, setOpen1] = React.useState(false)
+    const [confirmDeleteOpen, setConfirmDeleteOpen] = React.useState(false)
+    const [cardDetailsOpen, setCardDetailsOpen] = React.useState(false)
 
     const [state, setState] = React.useState({
         column: colName,
@@ -111,20 +50,20 @@ export default function TrelloCard(props) {
         label = 'No Labels'
     }
 
-    const handleOpen = () => {
-        setOpen(true)
+    const handleConfirmDeleteOpen = () => {
+        setConfirmDeleteOpen(true)
     }
 
-    const handleClose = () => {
-        setOpen(false)
+    const handleConfirmDeleteClose = () => {
+        setConfirmDeleteOpen(false)
     }
 
-    const handleOpen1 = () => {
-        setOpen1(true)
+    const handleCardDetailsOpen = () => {
+        setCardDetailsOpen(true)
     }
 
-    const handleClose1 = () => {
-        setOpen1(false)
+    const handleCardDetailsClose = () => {
+        setCardDetailsOpen(false)
     }
 
     function handleDelete() {
@@ -203,12 +142,10 @@ export default function TrelloCard(props) {
         }
     }
 
-    const dialogSubheading = label + '        Due Date: ' + due
-
     return (
         <div>
             <Card className={classes.root} raised={true}>
-                <CardActionArea onClick={handleOpen}>
+                <CardActionArea onClick={handleConfirmDeleteOpen}>
                     <CardContent className={classes.content}>
                         <Typography
                             className={classes.title}
@@ -229,10 +166,23 @@ export default function TrelloCard(props) {
                     </CardContent>
                 </CardActionArea>
             </Card>
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={confirmDeleteOpen} onClose={handleConfirmDeleteClose}>
                 <div className={classes.paper}>
                     <h3 style={{ color: 'black' }}>{name}</h3>
-                    <h6 style={{ color: 'black' }}>{dialogSubheading}</h6>
+                    <ul className={classes.subHeadingList}>
+                        <h6
+                            className={classes.listItem}
+                            style={{ color: 'black' }}
+                        >
+                            {label}
+                        </h6>
+                        <h6
+                            className={classes.listItem}
+                            style={{ color: 'black' }}
+                        >
+                            {due}
+                        </h6>
+                    </ul>
                     <h6 style={{ color: 'black' }}>{description}</h6>
 
                     <div className='selectRow'>
@@ -251,44 +201,43 @@ export default function TrelloCard(props) {
                         </Select>
                         <Button
                             onClick={handleChangeColumn}
-                            className={classes.deleteButton}
+                            className={classes.skinnyDeleteButton}
                             size='small'
                         >
-                            Update
+                            Update Status
                         </Button>
                     </div>
-
                     <Button
-                        onClick={handleClose}
-                        className={classes.deleteButton}
-                        size='small'
-                    >
-                        Close
-                    </Button>
-                    <Button
-                        onClick={handleOpen1}
+                        onClick={handleCardDetailsOpen}
                         className={classes.deleteButton}
                         size='small'
                     >
                         Delete
                     </Button>
+                    <Button
+                        onClick={handleConfirmDeleteClose}
+                        className={classes.deleteButton}
+                        size='small'
+                    >
+                        Close
+                    </Button>
                 </div>
             </Dialog>
-            <Dialog open={open1} onClose={handleClose1}>
+            <Dialog open={cardDetailsOpen} onClose={handleCardDetailsClose}>
                 <div className={classes.paper}>
                     <h5 style={{ color: 'black' }}>
-                        Are you sure you would like to delete this user?
+                        Are you sure you would like to delete this task?
                     </h5>
                     <Button
                         onClick={handleDelete}
-                        className={classes.ogDeleteButton}
+                        className={classes.deleteButton}
                         size='small'
                     >
                         yes
                     </Button>
                     <Button
-                        onClick={handleClose1}
-                        className={classes.ogDeleteButton}
+                        onClick={handleCardDetailsClose}
+                        className={classes.deleteButton}
                         size='small'
                     >
                         No

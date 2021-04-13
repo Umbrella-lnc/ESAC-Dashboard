@@ -1,5 +1,4 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
@@ -9,61 +8,12 @@ import CardActionArea from '@material-ui/core/CardActionArea'
 import Dialog from '@material-ui/core/Modal'
 import baseURL from '../../baseURL'
 import axios from 'axios'
+import { useStyles } from './cardStyles'
 import { List } from '@material-ui/core'
-
-const useStyles = makeStyles({
-    root: {
-        width: '300px',
-        height: '140px',
-        margin: '20px 20px 20px 20px',
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
-    buttonContainer: {
-        justifyContent: 'space-between',
-        width: 100,
-    },
-    content: {
-        justifyContent: 'space-between',
-        minWidth: 180,
-    },
-    activateButton: {
-        width: '100%',
-        color: 'blue',
-    },
-    deleteButton: {
-        position: '-webkit-sticky',
-        position: 'sticky',
-        top: 0,
-        width: '100%',
-        color: 'blue',
-        marginTop: '10px',
-        marginBottom: '10px',
-    },
-    paper: {
-        borderRadius: '5px',
-        position: 'absolute',
-        left: '50%',
-        right: '50%',
-        top: '20%',
-        transform: 'translate(-50%, 50%)',
-        textAlign: 'center',
-
-        width: 400,
-        backgroundColor: 'white',
-        outline: 'none',
-    },
-})
 
 export default function ProfileCard(props) {
     const classes = useStyles()
+
     const firstName = props.user.firstname
     const lastName = props.user.lastname
     const active = props.user.active
@@ -71,6 +21,7 @@ export default function ProfileCard(props) {
     const access = props.user.accessLevel
     const department = props.user.department
     const window = props.window
+
     const departAbrev = department.slice(
         department.length - 4,
         department.length - 1
@@ -78,6 +29,7 @@ export default function ProfileCard(props) {
     const userContainer = {
         email: email,
     }
+
     const [confirmOpen, setConfirmOpen] = React.useState(false)
     const [moreDetailsOpen, setMoreDetailsOpen] = React.useState(false)
 
