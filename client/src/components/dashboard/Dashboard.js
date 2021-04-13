@@ -1,129 +1,200 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import axios from "axios";
-import {trelloURL, toDoList, doneList, doingList} from "../../trelloURL";
-import {trelloKey, trelloToken} from "../../trelloProfileInfo"
-import { logoutUser } from "../../actions/authActions";
-import { List, ListItem } from "@material-ui/core";
-import TrelloCard from "../reusable-components/TrelloCard";
-import ColumnLabel from "../reusable-components/ColumnLabel";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { logoutUser } from '../../actions/authActions';
+import { List, ListItem } from '@material-ui/core';
+import TrelloCard from '../reusable-components/TrelloCard';
+import ColumnLabel from '../reusable-components/ColumnLabel';
+import baseURL from '../../baseURL';
 
-class Dashboard extends Component {
-    state = {
-        toDo:[],
+const Dashboard = (props) => {
+    const [state, setState] = React.useState({
+        toDo: [],
         doing: [],
         done: [],
-    }
-    
-    componentDidMount(){
+        loading: true,
+    });
+
+    const getToDos = () => {
         axios
-        .get(trelloURL +  "lists/" + toDoList + "cards?" + "key=" + trelloKey + "&" + "token=" + trelloToken + "&response_type=token")
-        .then((res) => {const toDo = res.data ;  this.setState({ toDo });});
+            .post(baseURL + '/api/trello/getCards', {
+                listId: '60638369236486515ccc1ec8',
+            })
+            .then((res) => {
+                console.log(res);
+                const toDo = res.data;
 
+                setState((prevState) => ({ ...prevState, toDo: toDo }));
+            })
+            .catch(function (error) {
+                if (error.response) {
+                    // Request made and server responded
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('Error', error.message);
+                }
+            });
+    };
+
+    const getDoing = () => {
         axios
-        .get(trelloURL +  "lists/" + doingList + "cards?" + "key=" + trelloKey + "&" + "token=" + trelloToken + "&response_type=token")
-        .then((res1) => {const doing = res1.data ;  this.setState({doing});});
+            .post(baseURL + '/api/trello/getCards', {
+                listId: '6063836bf49a2c5dc7e08dc6',
+            })
+            .then((res) => {
+                console.log(res);
+                const doing = res.data;
 
+                setState((prevState) => ({ ...prevState, doing: doing }));
+            })
+            .catch(function (error) {
+                if (error.response) {
+                    // Request made and server responded
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('Error', error.message);
+                }
+            });
+    };
+
+    const getDone = () => {
         axios
-        .get(trelloURL +  "lists/" + doneList + "cards?" + "key=" + trelloKey + "&" + "token=" + trelloToken + "&response_type=token")
-        .then((res2) => {const done = res2.data ; this.setState({done});});
+            .post(baseURL + '/api/trello/getCards', {
+                listId: '6063836cce7e3326413eb0f2',
+            })
+            .then((res) => {
+                console.log(res);
+                const done = res.data;
+                setState((prevState) => ({ ...prevState, done: done }));
+            })
+            .catch(function (error) {
+                if (error.response) {
+                    // Request made and server responded
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('Error', error.message);
+                }
+            });
+    };
 
-    }
+    const getCards = () => {
+        getToDos();
+        getDoing();
+        getDone();
+    };
 
-    render() {
-        const toDoHeader = {name: 'To Do'}
-        const doingHeader = {name: 'Doing'}
-        const doneHeader = {name: 'Done'}
+    React.useEffect(() => {
+        getCards();
+    }, []);
 
-        const horiList = {
-            display: 'flex',
-            flexDirection: 'row',
-            padding: 0,
-            alignContent: 'flex-start',
-            alignItems: 'flex-start',
-        };
-        const vertiList = {
-            display: 'flex',
-            flexDirection: 'column',
-            padding: 0,
-        };
-        const mainContainer = {
-            padding: 100,
-        };
-        const header = {
-            paddingLeft: '28px',
-        };
-        const subheader = {
-            paddingLeft: '32px',
-        }
+    const toDoHeader = { name: 'To Do' };
+    const doingHeader = { name: 'Doing' };
+    const doneHeader = { name: 'Done' };
 
-        return (
-            <div style = {mainContainer}>
-                <h1 style = {header}>
-                    Tasks
-                </h1>
-                <h5 style = {subheader}>
-                    Imported From trello
-                </h5>
-               <List style={horiList}>
-                    <ListItem>
-                        <List style = {vertiList}>
-                                <ListItem className='input-field col s12'>
-                                    <ColumnLabel cardInfo={toDoHeader} />
+    const horiList = {
+        display: 'flex',
+        flexDirection: 'row',
+        padding: 0,
+        alignContent: 'flex-start',
+        alignItems: 'flex-start',
+    };
+    const vertiList = {
+        display: 'flex',
+        flexDirection: 'column',
+        padding: 0,
+    };
+    const mainContainer = {
+        padding: 100,
+    };
+    const header = {
+        paddingLeft: '28px',
+    };
+    const subheader = {
+        paddingLeft: '32px',
+    };
+
+    return (
+        <div style={mainContainer}>
+            <h1 style={header}>Tasks</h1>
+            <h5 style={subheader}>Imported From trello</h5>
+            <List style={horiList}>
+                <ListItem>
+                    <List style={vertiList}>
+                        <ListItem className="input-field col s12">
+                            <ColumnLabel cardInfo={toDoHeader} />
+                        </ListItem>
+
+                        {state.toDo.map((value, index) => {
+                            return (
+                                <ListItem className="input-field col s12">
+                                    <TrelloCard
+                                        cardInfo={value}
+                                        colName={'toDo'}
+                                        updateCards={getCards}
+                                    />
                                 </ListItem>
-                            
-                            {this.state.toDo.map((value, index) => {
-                                return (
-                                    <ListItem className='input-field col s12'>
-                                        <TrelloCard cardInfo={value} />
-                                    </ListItem>
-                                )
-                            })}
-                        </List>
-                    </ListItem>
-                    <ListItem>
-                        <List style = {vertiList}>
-                            <ListItem className='input-field col s12'>
-                                <ColumnLabel cardInfo={doingHeader} />
-                            </ListItem>
-                            {this.state.doing.map((value, index) => {
-                                return (
-                                    <ListItem className='input-field col s12'>
-                                        <TrelloCard cardInfo={value} />
-                                    </ListItem>
-                                )
-                            })}
-                        </List>
-                    </ListItem>
-                    <ListItem>
-                        <List style = {vertiList}>
-                            <ListItem className='input-field col s12'>
-                                <ColumnLabel cardInfo={doneHeader} />
-                            </ListItem>
-                            {this.state.done.map((value, index) => {
-                                return (
-                                    <ListItem className='input-field col s12'>
-                                        <TrelloCard cardInfo={value} />
-                                    </ListItem>
-                                )
-                            })}
-                        </List>
-                    </ListItem>
-               </List>
-            </div>
-        );
-
-    }
-}
-
-Dashboard.propTypes = {
-    logoutUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired,
+                            );
+                        })}
+                    </List>
+                </ListItem>
+                <ListItem>
+                    <List style={vertiList}>
+                        <ListItem className="input-field col s12">
+                            <ColumnLabel cardInfo={doingHeader} />
+                        </ListItem>
+                        {state.doing.map((value, index) => {
+                            return (
+                                <ListItem className="input-field col s12">
+                                    <TrelloCard
+                                        cardInfo={value}
+                                        colName={'doing'}
+                                        updateCards={getCards}
+                                    />
+                                </ListItem>
+                            );
+                        })}
+                    </List>
+                </ListItem>
+                <ListItem>
+                    <List style={vertiList}>
+                        <ListItem className="input-field col s12">
+                            <ColumnLabel cardInfo={doneHeader} />
+                        </ListItem>
+                        {state.done.map((value, index) => {
+                            return (
+                                <ListItem className="input-field col s12">
+                                    <TrelloCard
+                                        cardInfo={value}
+                                        colName={'done'}
+                                        updateCards={getCards}
+                                    />
+                                </ListItem>
+                            );
+                        })}
+                    </List>
+                </ListItem>
+            </List>
+        </div>
+    );
 };
 
-const mapStateToProps = (state) => ({
-    auth: state.auth,
-});
-
-export default connect(mapStateToProps, { logoutUser })(Dashboard);
+export default Dashboard;
