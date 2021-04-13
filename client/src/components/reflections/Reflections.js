@@ -16,6 +16,7 @@ class Reflections extends Component {
         reflections: [],
         open: false,
         title: "",
+        link: "",
         newReflection: "",
         newReflectionStatus: "",
         department: this.user.department,
