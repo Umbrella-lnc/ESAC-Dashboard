@@ -23,12 +23,10 @@ class ManageProfiles extends Component {
     render() {
         const token = localStorage.getItem('jwtToken')
         const user = jwt_decode(token)
-        const elements = this.state.profiles
-        console.log(elements)
         return (
             <div>
                 <GridList cols={3} spacing={15} style={{ padding: 80 }}>
-                    {elements.map((value, index) => {
+                    {this.state.profiles.map((value, index) => {
                         return (
                             <ListItem className='input-field col s12'>
                                 <ProfileCard user={value} window={window} />

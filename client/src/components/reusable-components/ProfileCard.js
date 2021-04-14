@@ -33,6 +33,11 @@ export default function ProfileCard(props) {
     const [confirmOpen, setConfirmOpen] = React.useState(false)
     const [moreDetailsOpen, setMoreDetailsOpen] = React.useState(false)
 
+    const [state, setState] = React.useState({
+        visible: true,
+        active: active,
+    })
+
     const handleConfirmOpen = () => {
         setConfirmOpen(true)
     }
@@ -51,54 +56,60 @@ export default function ProfileCard(props) {
 
     function handleDelete() {
         axios.post(baseURL + `/api/usersManagement/deleteUser`, userContainer)
-        window.location.reload(true)
         handleConfirmClose()
+        setState({
+            ...state,
+            visible: false,
+        })
     }
 
-    function handleVerify() {
+    const handleVerify = (event) => {
         axios.post(
             baseURL + '/api/usersManagement/toggleVerifiedStatus',
             userContainer
         )
-        window.location.reload(true)
+        setState({
+            ...state,
+            active: true,
+        })
     }
 
     return (
         <div>
-            <Card className={classes.root} raised={true}>
-                <CardContent className={classes.content}>
-                    <CardActionArea onClick={handleMoreDetailsOpen}>
-                        <Typography
-                            className={classes.title}
-                            color='textSecondary'
-                            gutterBottom
-                        >
-                            {access}
-                        </Typography>
-                        <Typography variant='h5' component='h2'>
-                            {firstName}
-                        </Typography>
-                        <Typography variant='h5' component='h2'>
-                            {lastName}
-                        </Typography>
-                        <Typography
-                            className={classes.pos}
-                            style={{ color: 'black' }}
-                        >
-                            {departAbrev}
-                        </Typography>
-                    </CardActionArea>
-                </CardContent>
-                <CardActions className={classes.buttonContainer}>
-                    <List>
-                        <Button
-                            className={classes.deleteButton}
-                            size='small'
-                            onClick={handleConfirmOpen}
-                        >
-                            Delete
-                        </Button>
-                        {active == false && (
+            {state.visible && (
+                <Card className={classes.root} raised={true}>
+                    <CardContent className={classes.content}>
+                        <CardActionArea onClick={handleMoreDetailsOpen}>
+                            <Typography
+                                className={classes.title}
+                                color='textSecondary'
+                                gutterBottom
+                            >
+                                {access}
+                            </Typography>
+                            <Typography variant='h5' component='h2'>
+                                {firstName}
+                            </Typography>
+                            <Typography variant='h5' component='h2'>
+                                {lastName}
+                            </Typography>
+                            <Typography
+                                className={classes.pos}
+                                style={{ color: 'black' }}
+                            >
+                                {departAbrev}
+                            </Typography>
+                        </CardActionArea>
+                    </CardContent>
+                    <CardActions className={classes.buttonContainer}>
+                        <List>
+                            <Button
+                                className={classes.deleteButton}
+                                size='small'
+                                onClick={handleConfirmOpen}
+                            >
+                                Delete
+                            </Button>
                             <Button
                                 className={classes.activateButton}
                                 size='small'
@@ -106,10 +117,10 @@ export default function ProfileCard(props) {
                             >
                                 Activate
                             </Button>
-                        )}
-                    </List>
-                </CardActions>
-            </Card>
+                        </List>
+                    </CardActions>
+                </Card>
+            )}
             <Dialog open={confirmOpen} onClose={handleConfirmClose}>
                 <div className={classes.paper}>
                     <h5 style={{ color: 'black' }}>

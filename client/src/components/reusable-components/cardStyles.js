@@ -16,7 +16,8 @@ const useStyles = makeStyles({
     },
     content: {
         justifyContent: 'space-between',
-        minWidth: '180px',
+        minWidth: '160px',
+        maxWidth: '200px',
     },
     activateButton: {
         width: '100%',
@@ -65,6 +66,9 @@ const useStyles = makeStyles({
         marginLeft: '10px',
         marginRight: '10px',
     },
+    buttonContainer{
+        
+    }
 })
 
 export { useStyles }
