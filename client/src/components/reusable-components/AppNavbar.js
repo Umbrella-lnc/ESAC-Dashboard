@@ -9,65 +9,98 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { Link } from "react-router-dom";
 import setAuthToken from "../../utils/setAuthToken";
-import jwt_decode from "jwt-decode"
+import jwt_decode from "jwt-decode";
 
-import MenuButton from './menuButton';
+import MenuButtons from "./MenuButtons";
 
-import {
-    GET_ERRORS,
-    SET_CURRENT_USER,
-    USER_LOADING,
-} from "../../actions/types";
-
-
-export default function MenuAppBar(props) {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const { onLogoutClick } = props;
-
-    const handleMenu = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
+const MenuAppBar = (props) => {
     const token = localStorage.getItem("jwtToken");
-    const user = jwt_decode(token)
+    const user = jwt_decode(token);
+    var isAdmin = Boolean(false);
+
+    if (user.accessLevel === "administrator") {
+        isAdmin = Boolean(true);
+    }
 
     return (
         <div>
             <AppBar style={{ position: "relative" }}>
                 <Toolbar>
-                    <MenuButton iconType={MenuIcon} items={[
-                    <Link to="/dashboard">Dashboard</Link>,
-                    <Link to="/reflections">Reflections</Link>,
-                    <Link to="/announcements">Announcements</Link>
-                    ]}/>
-                    <Typography variant="h6"> {user.firstname} {user.lastname}</Typography>
-                    <MenuButton iconType={AccountCircle} items={[
-                        <Link to="/profile">Profile</Link>,
-                        <Link to="/manageProfiles">Manage Profiles</Link>,
-                        <div
-                            onClick={(e) => {
-                                // Remove token from local storage
-                                localStorage.removeItem("jwtToken");
-                                // Remove auth header for future requests
-                                setAuthToken(false);
-                                return {
-                                    type: SET_CURRENT_USER,
-                                    payload: {},
-                                };
-                            }}
-                        >
-                        <a href="/login" style={{ textDecoration: "none" }}>
-                            Logout
-                        </a>
-                        </div>
-                    ]}/>
+                    <div
+                        className="page-container"
+                        style={{
+                            marginRight: "auto",
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                    >
+                        <MenuButtons
+                            iconType={MenuIcon}
+                            items={[
+                                {
+                                    url: "/dashboard",
+                                    code: (
+                                        <Link to="/dashboard">Dashboard</Link>
+                                    ),
+                                },
+                                {
+                                    url: "/reflections",
+                                    code: (
+                                        <Link to="/reflections">
+                                            Reflections
+                                        </Link>
+                                    ),
+                                },
+                                {
+                                    url: "/announcements",
+                                    code: (
+                                        <Link to="/announcements">
+                                            Announcements
+                                        </Link>
+                                    ),
+                                },
+                            ]}
+                        />
+                    </div>
+                    <div
+                        className="profile-menu-container"
+                        style={{ display: "flex", alignItems: "center" }}
+                    >
+                        <Typography variant="h6">
+                            {" "}
+                            {user.firstname} {user.lastname}
+                        </Typography>
+                        <MenuButtons
+                            iconType={AccountCircle}
+                            items={[
+                                {
+                                    url: "/profile",
+                                    code: <Link to="/profile">Profile</Link>,
+                                },
+
+                                isAdmin && {
+                                    url: "/manageProfiles",
+                                    code: (
+                                        <Link to="/manageProfiles">
+                                            ManageProfiles
+                                        </Link>
+                                    ),
+                                },
+                                {
+                                    url: "/login",
+                                    code: (
+                                        <a style={{ textDecoration: "none" }}>
+                                            Logout
+                                        </a>
+                                    ),
+                                },
+                            ]}
+                        />
+                    </div>
                 </Toolbar>
             </AppBar>
         </div>
     );
-}
+};
+
+export default MenuAppBar;
