@@ -8,11 +8,10 @@ import setAuthToken from "../../utils/setAuthToken";
 
 const Profile = (props) => {
   
-    const [state, setState] = React.useState({
-        base64Image: "",
-        imageType: "",
-        user: {},
-    });
+    const [state, setState] = React.useState({ user: {} });
+
+    const [base64Image, setBase64Image] = React.useState("");
+    const [imageType, setImageType] = React.useState("");
   
     React.useEffect(()=> {
         const token = localStorage.getItem("jwtToken");
@@ -28,25 +27,34 @@ const Profile = (props) => {
         const prefix = "data:";
         const postfix = ";base64,"
 
-        setState({...state, base64Image: prefix + state.imageType + postfix + btoa(binaryString) });
+        const base64ImageObj = prefix + imageType + postfix + btoa(binaryString);
+        setBase64Image(base64ImageObj);
+
+        setBase64Image((state) => {
+            console.log(state);
+        })
     }
 
     const onChange = (e) => {
         let file = e.target.files[0]
-        console.log(file);
-        setState({...state, imageType: file.type });
-        if(file) {
-            const reader = new FileReader();
-            reader.onload = _handleReaderLoaded.bind(this);
-            reader.readAsBinaryString(file);
-        }
+
+        const imageTypeObj = file.type;
+        setImageType(imageTypeObj)
+
+        setImageType((state) => {
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = _handleReaderLoaded.bind(this);
+                reader.readAsBinaryString(file);
+            }
+        });
     }
 
     const onFileSubmit = (e) => {
         e.preventDefault();
 
         let imageObj = {
-            image_data: state.base64Image
+            image_data: base64Image
         };
 
         axios
@@ -55,7 +63,6 @@ const Profile = (props) => {
                 const { token } = res.data;
                 localStorage.setItem('jwtToken', token);
                 setAuthToken(token);
-                setState({...state, user: jwt_decode(token) });
             })
             .catch((err) => console.log(err)
         );
