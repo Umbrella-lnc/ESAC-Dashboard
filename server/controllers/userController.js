@@ -96,6 +96,7 @@ const login = async (req, res) => {
                     accessLevel: user.accessLevel,
                     active: user.active,
                     email_opt_out: user.email_opt_out,
+                    image_data: user.image_data,
                 };
 
                 jwt.sign(
@@ -117,6 +118,7 @@ const login = async (req, res) => {
         });
     });
 };
+
 
 exports.register = register;
 exports.login = login;

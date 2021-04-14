@@ -12,6 +12,7 @@ module.exports = function validateUpdateUser(data) {
     data.confirmPassword = !isEmpty(data.confirmPassword)
         ? data.confirmPassword
         : "";
+    data.image_data = !isEmpty(data.image_data) ? data.image_data : "";
 
     // Validate name
 
@@ -42,6 +43,10 @@ module.exports = function validateUpdateUser(data) {
         if (!Validator.equals(data.password, data.confirmPassword)) {
             errors.confirmPassword = "Passwords must match!";
         }
+    }
+
+    if (!Validator.isEmpty(data.image_data)) {
+        errors.image_data = "Image data is invalid!";
     }
 
     return {
