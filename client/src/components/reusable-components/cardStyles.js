@@ -66,9 +66,10 @@ const useStyles = makeStyles({
         marginLeft: '10px',
         marginRight: '10px',
     },
-    buttonContainer{
-        
-    }
+    buttonContainer: {
+        justifyContent: 'space-between',
+        width: 100,
+    },
 })
 
 export { useStyles }
