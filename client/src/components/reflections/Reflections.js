@@ -20,7 +20,7 @@ class Reflections extends Component {
         newReflection: "",
         newReflectionStatus: "",
         department: this.user.department,
-        filtering: "All"
+        filtering: "All",
     };
 
     setOpen = () => {
@@ -127,7 +127,7 @@ class Reflections extends Component {
         axios
             .post(baseURL + "/api/reflections/commentOnReflection", newComment)
             .then((res) => {
-                    this.fetchDepartmentReflections();
+                this.fetchDepartmentReflections();
             })
             .catch((err) => console.log(err));
     };
@@ -190,30 +190,35 @@ class Reflections extends Component {
 
                     {this.state.reflections.length ? (
                         <Grid container spacing={3}>
-                            {this.state.reflections.map(reflection => {
-                                if (this.state.filtering !== "All") {
-                                    if (
-                                        this.state.filtering !==
-                                        reflection.department
-                                    ) {
-                                        return null;
+                            {this.state.reflections
+                                .reverse()
+                                .map((reflection) => {
+                                    if (this.state.filtering !== "All") {
+                                        if (
+                                            this.state.filtering !==
+                                            reflection.department
+                                        ) {
+                                            return null;
+                                        }
                                     }
-                                }
-                                return (
-                                    <Reflection
-                                        deleteReflection={this.deleteReflection}
-                                        user={this.user}
-                                        reflection={reflection}
-                                        submitComment={this.submitComment}
-                                        key={reflection._id}
-                                        toggleStatus={this.toggleStatus}>
-                                    </Reflection>
-                                )})}
+                                    return (
+                                        <Reflection
+                                            deleteReflection={
+                                                this.deleteReflection
+                                            }
+                                            user={this.user}
+                                            reflection={reflection}
+                                            submitComment={this.submitComment}
+                                            key={reflection._id}
+                                            toggleStatus={this.toggleStatus}
+                                        ></Reflection>
+                                    );
+                                })}
                         </Grid>
-                    ) :
-                        (<h3>No Reflections</h3>)
-                    }
-                    
+                    ) : (
+                        <h3>No Reflections</h3>
+                    )}
+
                     {this.user.accessLevel === "administrator" && (
                         <div
                             className="add-reflection"
