@@ -34,11 +34,11 @@ const userSchema = mongoose.Schema(
             type: Boolean,
             required: true,
         },
-        image_data: {
-            type:String,
-            default: "",
-            required: true
-        },
+        //image_data: {
+        //    type:String,
+        //    default: "",
+        //    required: true
+        //},
     },
     { collection: "Users" }
 );

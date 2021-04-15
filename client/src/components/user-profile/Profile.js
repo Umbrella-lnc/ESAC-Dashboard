@@ -2,17 +2,19 @@ import React from 'react'
 import jwt_decode from "jwt-decode"
 import "./Profile.css"
 import { Link } from "react-router-dom";
-import axios from 'axios'
-import baseURL from '../../baseURL'
-import setAuthToken from "../../utils/setAuthToken";
+//import axios from 'axios'
+//import baseURL from '../../baseURL'
+//import setAuthToken from "../../utils/setAuthToken";
 
 const Profile = (props) => {
   
     const [state, setState] = React.useState({ user: {} });
 
+    /*
     const [base64Image, setBase64Image] = React.useState("");
     const [imageType, setImageType] = React.useState("");
-  
+    */
+
     React.useEffect(()=> {
         const token = localStorage.getItem("jwtToken");
         const newUser = jwt_decode(token);
@@ -22,6 +24,7 @@ const Profile = (props) => {
         }
     })
 
+    /*
     const _handleReaderLoaded = (readerEvt) => {
         let binaryString = readerEvt.target.result;
         const prefix = "data:";
@@ -67,22 +70,17 @@ const Profile = (props) => {
             .catch((err) => console.log(err)
         );
     }
+    */
 
     return (
         <div style={{ height: '75vh' }} className='container valign-wrapper'>
         <div class="row">
             <div className="col s2">
                 <img src={state.user.image_data} id="profile-pic" alt="profile-pic" />
-                <form onSubmit={(e) => onFileSubmit(e)} onChange={(e) => onChange(e)}>
-                <input
-                    type="file"
-                    name="image"
-                    id="file"
-                    accept=".jpeg, .png, .jpg"
-                />
-                <input type="submit" />
-                </form>
-                
+                {/* <form onSubmit={(e) => onFileSubmit(e)} onChange={(e) => onChange(e)}> */}
+                {/* <input type="file" name="image" id="file" accept=".jpeg, .png, .jpg"/> */}
+                {/* <input type="submit" /> */}
+                {/* </form> */}
             </div>
             <div className="col s8 push-s1">
             <div class="section">
