@@ -4,13 +4,12 @@ import { connect } from 'react-redux'
 import { logoutUser } from '../../actions/authActions'
 import jwt_decode from "jwt-decode"
 import "./Profile.css"
-import ProfileIcon from '../../image/profile-icon.jpg'
 import {  } from "react-router-dom";
 import axios from 'axios'
 import baseURL from "../../baseURL";
 import setAuthToken from "../../utils/setAuthToken";
-import { setCurrentUser } from "../../actions/authActions"
 import classnames from "classnames";
+import LetterAvatars from "./LetterAvatar";
 
 
 class EditProfile extends Component {
@@ -83,9 +82,6 @@ class EditProfile extends Component {
     return (
       <div style={{ height: '75vh' }} className='container valign-wrapper'>
         <div class="row">
-            <div className="col s2">
-              <img class="img" src={ProfileIcon} width="400" length="500"></img>
-            </div>
             <div className="col s8 push-s1">
             <div class="section">
               <h4 className='col s6 offset-s4 left-align' style={{marginTop: 350}}>
