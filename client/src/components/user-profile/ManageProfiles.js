@@ -1,49 +1,43 @@
-import React, { Component } from 'react'
+import React from 'react'
 import axios from 'axios'
-import PropTypes from 'prop-types'
 import ProfileCard from '../reusable-components/ProfileCard'
-import jwt_decode from 'jwt-decode'
-import { ListItem, List, GridList } from '@material-ui/core'
+import { ListItem, GridList } from '@material-ui/core'
 import baseURL from '../../baseURL'
 
-class ManageProfiles extends Component {
-    state = {
+const ManageProfiles = (props) => {
+    const [state, setState] = React.useState({
         profiles: [],
         modalOpen: false,
-    }
-    componentDidMount() {
-        const token = localStorage.getItem('jwtToken')
-        const user = jwt_decode(token)
+    })
+    React.useEffect(() => {
+        getProfiles()
+    }, [])
+
+    const getProfiles = () => {
         axios.get(baseURL + `/api/usersManagement/listUsers`).then((res) => {
             const profiles = res.data
             console.log(res)
-            this.setState({ profiles })
+            setState((prevState) => ({ ...prevState, profiles: profiles }))
         })
     }
-    render() {
-        const token = localStorage.getItem('jwtToken')
-        const user = jwt_decode(token)
-        const elements = this.state.profiles
-        console.log(elements)
-        return (
-            <div>
-                <GridList cols={4} spacing={15} style={{ padding: 80 }}>
-                    {elements.map((value, index) => {
-                        return (
-                            <ListItem className='input-field col s12'>
-                                <ProfileCard user={value} window={window} />
-                            </ListItem>
-                        )
-                    })}
-                </GridList>
-            </div>
-        )
-    }
-}
-ManageProfiles.propTypes = {}
 
-const mapStateToProps = (state) => ({
-    auth: state.auth,
-})
+    return (
+        <div>
+            <GridList cols={3} spacing={15} style={{ padding: 80 }}>
+                {state.profiles.map((value, index) => {
+                    return (
+                        <ListItem className='input-field col s12'>
+                            <ProfileCard
+                                user={value}
+                                window={window}
+                                deleteProfileFunction={getProfiles}
+                            />
+                        </ListItem>
+                    )
+                })}
+            </GridList>
+        </div>
+    )
+}
 
 export default ManageProfiles

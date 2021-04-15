@@ -48,7 +48,6 @@ class EditProfile extends Component {
     const newProfileInfo = {
       firstname: this.state.firstname,
       lastname: this.state.lastname,
-      email: this.state.email,
       password: this.state.password,
       confirmPassword: this.state.confirmPassword
     };
@@ -120,22 +119,6 @@ class EditProfile extends Component {
                       />
                       <span className="red-text">
                         {errors.lastname}
-                      </span>
-                    </p>
-                    <p className='flow-text grey-text text-darken-1'>
-                      <label htmlFor="email">Email: </label>  
-                      <input
-                         onChange={this.onChange}
-                         value={this.state.email}
-                         error={errors.email}
-                         id="email"
-                         type="text"
-                         className={classnames("", {
-                          invalid: errors.email,
-                      })}
-                      />
-                      <span className="red-text">
-                        {errors.email}
                       </span>
                     </p>
                     <p className='flow-text grey-text text-darken-1'>

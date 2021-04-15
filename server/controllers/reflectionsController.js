@@ -35,6 +35,7 @@ const createReflection = async (req, res) => {
                 //make reflection and add to database
                 const newReflection = new Reflection({
                     title: req.body.title,
+                    link: req.body.link,
                     department: req.body.department,
                     status: "Incomplete",
                     post: req.body.post,

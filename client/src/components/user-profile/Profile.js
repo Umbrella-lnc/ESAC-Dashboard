@@ -108,22 +108,13 @@ const Profile = (props) => {
                     style={{letterSpacing: '1.5px'}}
                     className='btn btn-large waves-effect waves-light hoverable blue accent-3'
                     >
-                        Edit Profile
-                    </Link>
-                </div>
-            </div>
-            <div class="section">
-                <h4 className='col s6 offset-s4 left-align'>
-                <b>User Management</b> 
-                </h4>
-                <div className='col s6 push-s4'>
-                    <Link to="/manageProfiles"                   
-                    style={{letterSpacing: '1.5px'}}
-                    className='btn btn-large waves-effect waves-light hoverable blue accent-3'
-                    >
-                    Manage Profiles
-                    </Link>
-                </div>
+                      Edit Profile
+                  </Link>
+                  <div style={{paddingTop: 50}}>
+                    <h4><b>Announcements Email Opt-in</b></h4>
+                    <AnnouncementsCheckbox />
+                  </div>
+              </div>
             </div>
             </div> 
         </div>
