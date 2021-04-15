@@ -16,6 +16,7 @@ class Reflections extends Component {
         reflections: [],
         open: false,
         title: "",
+        link: "",
         newReflection: "",
         newReflectionStatus: "",
         department: this.user.department,
@@ -26,11 +27,21 @@ class Reflections extends Component {
         this.setState({
             open: !this.state.open,
         });
+
+        this.setTitle("");
+        this.setLink("");
+        this.setNewReflection("");
     };
 
     setTitle = (_title) => {
         this.setState({
             title: _title,
+        });
+    };
+
+    setLink = (_link) => {
+        this.setState({
+            link: _link,
         });
     };
 
@@ -82,6 +93,7 @@ class Reflections extends Component {
     submitPost = () => {
         const newReflection = {
             title: this.state.title,
+            link: this.state.link,
             post: this.state.newReflection,
             department: this.state.department,
         };
@@ -171,6 +183,7 @@ class Reflections extends Component {
                         changeDepartment={this.setDepartment}
                         getDepartment={this.getDepartment}
                         setTitle={this.setTitle}
+                        setLink={this.setLink}
                         setNewReflection={this.setNewReflection}
                         submitReflection={this.submitPost}
                     />

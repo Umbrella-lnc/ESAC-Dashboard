@@ -1,9 +1,14 @@
 const mongoose = require("mongoose");
 const commentSchema = require("./Comment");
 
+
 const reflectionSchema = mongoose.Schema(
     {
         title: {
+            type: String,
+            required: true,
+        },
+        link: {
             type: String,
             required: true,
         },
