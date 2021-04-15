@@ -15,7 +15,7 @@ class Announcements extends Component {
         announcements: [],
         open: false,
         title: "",
-        newAnnouncement: ""
+        newAnnouncement: "",
     };
 
     setOpen = () => {
@@ -36,13 +36,13 @@ class Announcements extends Component {
 
     fetchAnnouncements = () => {
         console.log(baseURL);
-        console.log(baseURL + '/api/announcements/getAnnouncements')
+        console.log(baseURL + "/api/announcements/getAnnouncements");
         axios
-            .get(baseURL + '/api/announcements/getAnnouncements')
+            .get(baseURL + "/api/announcements/getAnnouncements")
             .then((res) => {
                 this.setState({ announcements: res.data });
             })
-            .catch(err => console.log(err));
+            .catch((err) => console.log(err));
     };
 
     submitPost = () => {
@@ -53,7 +53,10 @@ class Announcements extends Component {
         };
 
         axios
-            .post(baseURL + "/api/announcements/createAnnouncement", newAnnouncement)
+            .post(
+                baseURL + "/api/announcements/createAnnouncement",
+                newAnnouncement
+            )
             .then((res) => {
                 this.fetchAnnouncements();
             })
@@ -91,8 +94,7 @@ class Announcements extends Component {
                         paddingLeft: "00vw",
                         paddingRight: "00vw",
                     }}
-                >
-                </div>
+                ></div>
 
                 <div className="container" style={{ marginTop: "20px" }}>
                     <FormDialog
@@ -104,20 +106,23 @@ class Announcements extends Component {
                     />
 
                     {this.state.announcements.length ? (
-                            <Grid container spacing={3}>
-                                {this.state.announcements.map(announcement => (
+                        <Grid container spacing={3}>
+                            {this.state.announcements
+                                .reverse()
+                                .map((announcement) => (
                                     <Announcement
                                         key={announcement._id}
-                                        deleteAnnouncement={this.deleteAnnouncement}
+                                        deleteAnnouncement={
+                                            this.deleteAnnouncement
+                                        }
                                         user={this.user}
-                                        announcement={announcement}>
-                                    </Announcement>
+                                        announcement={announcement}
+                                    ></Announcement>
                                 ))}
-                            </Grid>
-
-                    ) :
-                        (<h3>No Announcements</h3>)
-                    }
+                        </Grid>
+                    ) : (
+                        <h3>No Announcements</h3>
+                    )}
 
                     {this.user.accessLevel === "administrator" && (
                         <div
