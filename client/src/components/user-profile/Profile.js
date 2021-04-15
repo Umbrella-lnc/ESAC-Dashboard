@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 //import baseURL from '../../baseURL'
 //import setAuthToken from "../../utils/setAuthToken";\
 import LetterAvatars from "./LetterAvatar";
+import AnnouncementsCheckbox from "../reusable-components/email-announcements-checkbox"
 
 const Profile = (props) => {
   
