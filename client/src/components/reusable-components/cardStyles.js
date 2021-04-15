@@ -53,9 +53,46 @@ const useStyles = makeStyles({
         backgroundColor: 'white',
         outline: 'none',
     },
+    trelloPaper: {
+        borderRadius: '5px',
+        position: 'absolute',
+        left: '50%',
+        right: '50%',
+        top: '-10%',
+        transform: 'translate(-50%, 50%)',
+        textAlign: 'left',
+        width: 400,
+        backgroundColor: 'white',
+        outline: 'none',
+    },
+    trelloPaper: {
+        borderRadius: '5px',
+        position: 'absolute',
+        left: '50%',
+        right: '50%',
+        top: '-10%',
+        transform: 'translate(-50%, 50%)',
+        textAlign: 'left',
+        width: 400,
+        backgroundColor: 'white',
+        outline: 'none',
+    },
+    editCardPaper: {
+        borderRadius: '5px',
+        position: 'absolute',
+        left: '50%',
+        right: '50%',
+        top: '-30%',
+        transform: 'translate(-50%, 50%)',
+        textAlign: 'left',
+        width: 700,
+        backgroundColor: 'white',
+        outline: 'none',
+    },
 
     selectRow: {
         float: 'left',
+        marginLeft: '40px',
     },
     subHeadingList: {
         textAlign: 'center',
@@ -69,6 +106,24 @@ const useStyles = makeStyles({
     buttonContainer: {
         justifyContent: 'space-between',
         width: 100,
+    },
+    trelloInfoHeadings: {
+        color: 'black',
+        marginLeft: '20px',
+        fontWeight: 'bold',
+    },
+    trelloInfoBodies: {
+        color: 'black',
+        marginLeft: '40px',
+    },
+    editCardButton: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        color: 'blue',
+    },
+    editCardTextFields: {
+        marginLeft: '40px',
     },
 })
 

@@ -148,7 +148,7 @@ const Dashboard = (props) => {
                                 <ListItem className='input-field col s12'>
                                     <TrelloCard
                                         cardInfo={value}
-                                        colName={'toDo'}
+                                        colName={'To Do'}
                                         updateCards={getCards}
                                     />
                                 </ListItem>
@@ -166,7 +166,7 @@ const Dashboard = (props) => {
                                 <ListItem className='input-field col s12'>
                                     <TrelloCard
                                         cardInfo={value}
-                                        colName={'doing'}
+                                        colName={'Doing'}
                                         updateCards={getCards}
                                     />
                                 </ListItem>
@@ -184,7 +184,7 @@ const Dashboard = (props) => {
                                 <ListItem className='input-field col s12'>
                                     <TrelloCard
                                         cardInfo={value}
-                                        colName={'done'}
+                                        colName={'Done'}
                                         updateCards={getCards}
                                     />
                                 </ListItem>
