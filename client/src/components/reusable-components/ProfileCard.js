@@ -20,7 +20,7 @@ export default function ProfileCard(props) {
     const email = props.user.email
     const access = props.user.accessLevel
     const department = props.user.department
-    const window = props.window
+    const deleteProfileFunction = props.deleteProfileFunction
 
     const departAbrev = department.slice(
         department.length - 4,
@@ -32,6 +32,10 @@ export default function ProfileCard(props) {
 
     const [confirmOpen, setConfirmOpen] = React.useState(false)
     const [moreDetailsOpen, setMoreDetailsOpen] = React.useState(false)
+
+    const [state, setState] = React.useState({
+        active: active,
+    })
 
     const handleConfirmOpen = () => {
         setConfirmOpen(true)
@@ -50,17 +54,23 @@ export default function ProfileCard(props) {
     }
 
     function handleDelete() {
-        axios.post(baseURL + `/api/usersManagement/deleteUser`, userContainer)
-        window.location.reload(true)
-        handleConfirmClose()
+        axios
+            .post(baseURL + `/api/usersManagement/deleteUser`, userContainer)
+            .then((res) => {
+                deleteProfileFunction()
+                handleConfirmClose()
+            })
     }
 
-    function handleVerify() {
+    const handleVerify = (event) => {
         axios.post(
             baseURL + '/api/usersManagement/toggleVerifiedStatus',
             userContainer
         )
-        window.location.reload(true)
+        setState({
+            ...state,
+            active: true,
+        })
     }
 
     return (
@@ -98,7 +108,7 @@ export default function ProfileCard(props) {
                         >
                             Delete
                         </Button>
-                        {active == false && (
+                        {state.active == false && (
                             <Button
                                 className={classes.activateButton}
                                 size='small'
@@ -167,7 +177,7 @@ export default function ProfileCard(props) {
                     >
                         Delete
                     </Button>
-                    {active == false && (
+                    {state.active == false && (
                         <Button
                             className={classes.activateButton}
                             size='small'
