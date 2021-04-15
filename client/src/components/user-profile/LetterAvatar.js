@@ -16,7 +16,6 @@ export default function LetterAvatars(props) {
     const classes = useStyles();
     const { name } = props;
     let initials = "";
-    let color = 1;
 
     if(typeof name.firstname !== 'undefined') {
         console.log(name.firstname);
@@ -24,7 +23,6 @@ export default function LetterAvatars(props) {
         initials =
             name.firstname.toUpperCase().charAt(0) +
             name.lastname.toUpperCase().charAt(0);
-        color = ((name.firstname.length + name.lastname.length) % 4) + 1;
     }
 
     return (
