@@ -1,5 +1,6 @@
 const Validator = require("validator");
 const isEmpty = require("is-empty");
+const { ErrorSharp } = require("@material-ui/icons");
 
 module.exports = function validateReflection(data) {
     let errors = {};
@@ -23,16 +24,24 @@ module.exports = function validateReflection(data) {
         "Nuclear Engineering (NE)",
     ];
 
+    const validHosts = [
+        "forms.google.com",
+        "docs.google.com",
+        "forms.gle",
+    ];
+
     // Validate title
     if (Validator.isEmpty(data.title)) {
         errors.title = "Title field is required!";
     }
-    //else if (Validator.)
-    
 
     // Validate link
     if (Validator.isEmpty(data.link)) {
         errors.link = "Forms link field is required!";
+    } else if(!Validator.isURL(data.link, { protocols: ['https'], require_protocol: true, require_tld: true } )) {
+        errors.link = "Invalid forms link!";
+    } else if(!validHosts.includes(new URL(data.link).host)) {
+        errors.link = "Invalid forms link!";
     }
 
     // Validate department

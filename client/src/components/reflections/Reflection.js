@@ -1,4 +1,4 @@
-import { Grid, Card, CardContent, Typography, Button } from "@material-ui/core";
+import { Grid, Card, CardContent, Typography, Button, Link } from "@material-ui/core";
 import React, { Component } from "react";
 import ReflectionMenu from "./ReflectionMenu";
 import Comments from "./Comments";
@@ -102,6 +102,11 @@ const Reflection = (props) => {
                     </Typography>
                 </div>
                 <CardContent>
+                    <Typography>
+                        <Link href={reflection.link} target="_blank" rel="noopener">
+                            Click here to complete reflection on Google Forms
+                        </Link>
+                    </Typography>
                     <Typography variant="h6">{reflection.post}</Typography>
                 </CardContent>
 
