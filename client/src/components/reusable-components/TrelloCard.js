@@ -10,6 +10,9 @@ import TextField from '@material-ui/core/TextField'
 import axios from 'axios'
 import { useStyles } from './cardStyles'
 import baseURL from '../../baseURL'
+import DeletePopUp from './DeletePopUp'
+import MoreInfoPopUp from './MoreInfoPopUp'
+import EditCardPopUp from './EditCardPopUp'
 
 export default function TrelloCard(props) {
     const classes = useStyles()
@@ -20,7 +23,7 @@ export default function TrelloCard(props) {
     const cardId = props.cardInfo.id
     const { updateCards } = props
 
-    const [confirmDeleteOpen, setConfirmDeleteOpen] = React.useState(false)
+    const [confirmDeleteOpen, setConfirmDeleteOpen] = React.useState()
     const [cardDetailsOpen, setCardDetailsOpen] = React.useState(false)
     const [editCardOpen, setEditCardOpen] = React.useState(false)
 
@@ -189,125 +192,31 @@ export default function TrelloCard(props) {
                     </CardContent>
                 </CardActionArea>
             </Card>
-            <Dialog open={cardDetailsOpen} onClose={handleCardDetailsClose}>
-                <div className={classes.trelloPaper}>
-                    <Button
-                        className={classes.editCardButton}
-                        onClick={handleEditCard}
-                    >
-                        edit
-                    </Button>
-                    <h3 style={{ color: 'black', marginLeft: '20px' }}>
-                        {name}
-                    </h3>
-                    <h6 className={classes.trelloInfoHeadings}>Labels:</h6>
-                    <h6 className={classes.trelloInfoBodies}>{labelShort}</h6>
-                    <h6 className={classes.trelloInfoHeadings}>Due Date:</h6>
-                    <h6 className={classes.trelloInfoBodies}>{due}</h6>
-                    <h6 className={classes.trelloInfoHeadings}>Description:</h6>
-                    {description.length > 0 && (
-                        <h6 className={classes.trelloInfoBodies}>
-                            {description}
-                        </h6>
-                    )}
-                    {description.length == 0 && (
-                        <h6 className={classes.trelloInfoBodies}>
-                            No Description
-                        </h6>
-                    )}
-                    <h6 className={classes.trelloInfoHeadings}>Status:</h6>
-                    <h6 className={classes.trelloInfoBodies}>{state.column}</h6>
-                    <Button
-                        onClick={handleCardDetailsClose}
-                        className={classes.deleteButton}
-                        size='small'
-                    >
-                        Close
-                    </Button>
-                </div>
-            </Dialog>
-            <Dialog open={confirmDeleteOpen} onClose={handleConfirmDeleteClose}>
-                <div className={classes.paper}>
-                    <h5 style={{ color: 'black' }}>
-                        Are you sure you would like to delete this task?
-                    </h5>
-                    <Button
-                        onClick={handleDelete}
-                        className={classes.deleteButton}
-                        size='small'
-                    >
-                        yes
-                    </Button>
-                    <Button
-                        onClick={handleConfirmDeleteClose}
-                        className={classes.deleteButton}
-                        size='small'
-                    >
-                        No
-                    </Button>
-                </div>
-            </Dialog>
-            <Dialog open={editCardOpen} onClose={handleEditCardClose}>
-                <div className={classes.editCardPaper}>
-                    <h6
-                        className={classes.editCardButton}
-                        style={{ marginRight: '10px', color: 'black' }}
-                    >
-                        editing
-                    </h6>
-                    <h3 style={{ color: 'black', marginLeft: '20px' }}>
-                        {name}
-                    </h3>
-                    <h6 className={classes.trelloInfoHeadings}>Labels:</h6>
-                    <TextField
-                        id='outlined-basic'
-                        defaultValue={state.labels}
-                        variant='outlined'
-                        multiline
-                        className={classes.editCardTextFields}
-                    ></TextField>
-                    <h6 className={classes.trelloInfoHeadings}>Due Date:</h6>
-                    <TextField
-                        id='outlined-basic'
-                        defaultValue={state.dueDate}
-                        variant='outlined'
-                        multiline
-                        className={classes.editCardTextFields}
-                    ></TextField>
-                    <h6 className={classes.trelloInfoHeadings}>Description:</h6>
-                    <TextField
-                        id='outlined-basic'
-                        defaultValue={state.description}
-                        multiline
-                        style={{ minWidth: '600px' }}
-                        variant='outlined'
-                        className={classes.editCardTextFields}
-                    ></TextField>
-                    <h6 className={classes.trelloInfoHeadings}>Status:</h6>
-                    <h6 className={classes.trelloInfoBodies}>{state.column}</h6>
-                    <Button
-                        onClick={handleConfirmDeleteOpen}
-                        className={classes.deleteButton}
-                        size='small'
-                    >
-                        Confirm Changes
-                    </Button>
-                    <Button
-                        onClick={handleConfirmDeleteOpen}
-                        className={classes.deleteButton}
-                        size='small'
-                    >
-                        Delete Card
-                    </Button>
-                    <Button
-                        onClick={handleEditCardClose}
-                        className={classes.deleteButton}
-                        size='small'
-                    >
-                        Cancel
-                    </Button>
-                </div>
-            </Dialog>
+            <MoreInfoPopUp
+                handleEditCard={handleEditCard}
+                handleCardDetailsClose={handleCardDetailsClose}
+                cardDetailsOpen={cardDetailsOpen}
+                labelShort={labelShort}
+                due={due}
+                description={description}
+                column={state.column}
+                name={name}
+            ></MoreInfoPopUp>
+            <DeletePopUp
+                confirmDeleteOpen={confirmDeleteOpen}
+                handleConfirmDeleteClose={handleConfirmDeleteClose}
+                handleDelete={handleDelete}
+            ></DeletePopUp>
+            <EditCardPopUp
+                editCardOpen={editCardOpen}
+                handleEditCardClose={handleEditCardClose}
+                name={name}
+                handleConfirmDeleteOpen={handleConfirmDeleteOpen}
+                column={state.column}
+                dueDate={state.dueDate}
+                description={state.description}
+                labels={state.labels}
+            ></EditCardPopUp>
         </div>
     )
 }

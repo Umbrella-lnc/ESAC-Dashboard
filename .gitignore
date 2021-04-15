@@ -4,3 +4,4 @@ node_modules
 keys.js
 client/build/
 client/src/trelloProfileInfo.js
+client/package-lock.json
