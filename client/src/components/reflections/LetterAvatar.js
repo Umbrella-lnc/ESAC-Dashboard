@@ -32,10 +32,17 @@ const useStyles = makeStyles((theme) => ({
 export default function LetterAvatars(props) {
     const classes = useStyles();
     const { name } = props;
-    const initials =
-        name.firstname.toUpperCase().charAt(0) +
-        name.lastname.toUpperCase().charAt(0);
-    const color = ((name.firstname.length + name.lastname.length) % 4) + 1;
+    let initials = "";
+    let color = 1;
+
+    if(typeof name.firstname !== 'undefined') {
+        console.log(name.firstname);
+
+        initials =
+            name.firstname.toUpperCase().charAt(0) +
+            name.lastname.toUpperCase().charAt(0);
+        color = ((name.firstname.length + name.lastname.length) % 4) + 1;
+    }
 
     return (
         <div

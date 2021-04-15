@@ -4,7 +4,8 @@ import "./Profile.css"
 import { Link } from "react-router-dom";
 //import axios from 'axios'
 //import baseURL from '../../baseURL'
-//import setAuthToken from "../../utils/setAuthToken";
+//import setAuthToken from "../../utils/setAuthToken";\
+import LetterAvatars from "./LetterAvatar";
 
 const Profile = (props) => {
   
@@ -76,11 +77,12 @@ const Profile = (props) => {
         <div style={{ height: '75vh' }} className='container valign-wrapper'>
         <div class="row">
             <div className="col s2">
-                <img src={state.user.image_data} id="profile-pic" alt="profile-pic" />
+                {/* <img src={state.user.image_data} id="profile-pic" alt="profile-pic" /> */}
                 {/* <form onSubmit={(e) => onFileSubmit(e)} onChange={(e) => onChange(e)}> */}
                 {/* <input type="file" name="image" id="file" accept=".jpeg, .png, .jpg"/> */}
                 {/* <input type="submit" /> */}
                 {/* </form> */}
+                <LetterAvatars name={state.user} />
             </div>
             <div className="col s8 push-s1">
             <div class="section">
