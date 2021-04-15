@@ -215,31 +215,9 @@ export default function TrelloCard(props) {
                 column={state.column}
                 dueDate={state.dueDate}
                 description={state.description}
+                handleChange={handleChange}
                 labels={state.labels}
             ></EditCardPopUp>
         </div>
     )
 }
-
-// ;<div className={classes.selectRow}>
-//     <Select
-//         native
-//         value={state.column}
-//         onChange={handleChange}
-//         inputProps={{
-//             name: state.column,
-//             id: 'age-native-simple',
-//         }}
-//     >
-//         <option value={'toDo'}>To Do</option>
-//         <option value={'doing'}>Doing</option>
-//         <option value={'done'}>Done</option>
-//     </Select>
-//     <Button
-//         onClick={handleChangeColumn}
-//         className={classes.skinnyDeleteButton}
-//         size='small'
-//     >
-//         Update Status
-//     </Button>
-// </div>

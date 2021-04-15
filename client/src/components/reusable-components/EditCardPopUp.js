@@ -1,6 +1,7 @@
 import Button from '@material-ui/core/Button'
 import { useStyles } from './cardStyles'
 import Dialog from '@material-ui/core/Modal'
+import Select from '@material-ui/core/Select'
 import TextField from '@material-ui/core/TextField'
 
 export default function MoreInfoPopUps(props) {
@@ -12,6 +13,7 @@ export default function MoreInfoPopUps(props) {
     const column = props.column
     const dueDate = props.dueDate
     const description = props.description
+    const handleChange = props.handleChange
     const labels = props.labels
 
     return (
@@ -50,7 +52,20 @@ export default function MoreInfoPopUps(props) {
                     className={classes.editCardTextFields}
                 ></TextField>
                 <h6 className={classes.trelloInfoHeadings}>Status:</h6>
-                <h6 className={classes.trelloInfoBodies}>{column}</h6>
+                <Select
+                    native
+                    className={classes.editCardTextFields}
+                    value={column}
+                    onChange={handleChange}
+                    inputProps={{
+                        name: column,
+                        id: 'age-native-simple',
+                    }}
+                >
+                    <option value={'To Do'}>To Do</option>
+                    <option value={'Doing'}>Doing</option>
+                    <option value={'Done'}>Done</option>
+                </Select>
                 <Button
                     onClick={handleConfirmDeleteOpen}
                     className={classes.deleteButton}
