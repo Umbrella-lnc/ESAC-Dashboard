@@ -125,6 +125,11 @@ const Dashboard = (props) => {
         }))
     }
 
+    const editCardColumn = (curCol, index, newCol) => {
+        const newIndex = state.headers.indexOf(newCol)
+        setState((prevState) => ({ ...prevState, lists: [...lists] }))
+    }
+
     if (state.loading) {
         return <h1 style={{ marginTop: '70px' }}>Loading...</h1>
     }
@@ -153,6 +158,10 @@ const Dashboard = (props) => {
                                                     cardInfo={value1}
                                                     colName={value.name}
                                                     updateCards={updateCards}
+                                                    editCardColumn={
+                                                        editCardColumn
+                                                    }
+                                                    index={index}
                                                 />
                                             </ListItem>
                                         )
