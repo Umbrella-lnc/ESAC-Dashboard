@@ -123,6 +123,11 @@ const useStyles = makeStyles({
     editCardTextFields: {
         marginLeft: '40px',
     },
+    trelloErrorMessage: {
+        color: 'red',
+        marginLeft: '40px',
+        fontSize: '14px',
+    },
 })
 
 export { useStyles }

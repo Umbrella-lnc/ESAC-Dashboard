@@ -35,7 +35,12 @@ export default function MoreInfoPopUps(props) {
                     <h6 className={classes.trelloInfoBodies}>No Labels</h6>
                 )}
                 <h6 className={classes.trelloInfoHeadings}>Due Date:</h6>
-                <h6 className={classes.trelloInfoBodies}>{due}</h6>
+                {due != '' && (
+                    <h6 className={classes.trelloInfoBodies}>{due}</h6>
+                )}
+                {due == '' && (
+                    <h6 className={classes.trelloInfoBodies}>No Due Date</h6>
+                )}
                 <h6 className={classes.trelloInfoHeadings}>Description:</h6>
                 {description.length > 0 && (
                     <h6 className={classes.trelloInfoBodies}>{description}</h6>

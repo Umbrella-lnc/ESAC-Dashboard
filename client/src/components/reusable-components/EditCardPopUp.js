@@ -14,8 +14,10 @@ export default function EditCardPopUp(props) {
     const dueDate = props.dueDate
     const description = props.description
     const handleColumnChange = props.handleColumnChange
+    const handleDueChange = props.handleDueChange
     const handleDescriptionChange = props.handleDescriptionChange
     const labels = props.labels
+    const errors = props.errors
     const handleEditCard = props.handleEditCard
 
     return (
@@ -33,15 +35,16 @@ export default function EditCardPopUp(props) {
                 </h6>
                 <h3 style={{ color: 'black', marginLeft: '20px' }}>{name}</h3>
                 <h6 className={classes.trelloInfoHeadings}>Labels:</h6>
-                <TextField
-                    id='outlined-basic'
-                    defaultValue={labels}
-                    variant='outlined'
-                    multiline
-                    className={classes.editCardTextFields}
-                ></TextField>
+                {labels != '' && (
+                    <h6 className={classes.trelloInfoBodies}>{labels}</h6>
+                )}
+                {labels == '' && (
+                    <h6 className={classes.trelloInfoBodies}>No Labels</h6>
+                )}
                 <h6 className={classes.trelloInfoHeadings}>Due Date:</h6>
                 <TextField
+                    label={'mm/dd/year'}
+                    onChange={handleDueChange}
                     id='outlined-basic'
                     defaultValue={dueDate}
                     variant='outlined'
@@ -73,6 +76,7 @@ export default function EditCardPopUp(props) {
                     <option value={'Doing'}>Doing</option>
                     <option value={'Done'}>Done</option>
                 </Select>
+                <h6 className={classes.trelloErrorMessage}>{errors}</h6>
                 <Button
                     onClick={handleEditCard}
                     className={classes.deleteButton}

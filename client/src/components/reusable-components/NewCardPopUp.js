@@ -10,14 +10,10 @@ export default function NewCardPopUp(props) {
     const handleNewCardClose = props.handleNewCardClose
     const handleDescriptionChange = props.handleDescriptionChange
     const handleNameChange = props.handleNameChange
+    const handleDueChange = props.handleDueChange
     const newCardOpen = props.newCardOpen
-    const description = props.description
-    const due = props.due
-    const name = props.name
     const handleAddCard = props.handleAddCard
-    const handleColumnChange = props.handleColumnChange
-    const label = props.label
-
+    const errors = props.errors
     return (
         <Dialog
             open={newCardOpen}
@@ -33,19 +29,14 @@ export default function NewCardPopUp(props) {
                     className={classes.editCardTextFields}
                     onChange={handleNameChange}
                 ></TextField>
-                <h6 className={classes.trelloInfoHeadings}>Labels:</h6>
-                <TextField
-                    id='outlined-basic'
-                    variant='outlined'
-                    multiline
-                    className={classes.editCardTextFields}
-                ></TextField>
                 <h6 className={classes.trelloInfoHeadings}>Due Date:</h6>
                 <TextField
+                    label={'mm/dd/year'}
                     id='outlined-basic'
                     variant='outlined'
                     multiline
                     className={classes.editCardTextFields}
+                    onChange={handleDueChange}
                 ></TextField>
                 <h6 className={classes.trelloInfoHeadings}>Description:</h6>
                 <TextField
@@ -56,6 +47,7 @@ export default function NewCardPopUp(props) {
                     variant='outlined'
                     className={classes.editCardTextFields}
                 ></TextField>
+                <h6 className={classes.trelloErrorMessage}>{errors}</h6>
                 <Button
                     onClick={handleAddCard}
                     className={classes.deleteButton}
