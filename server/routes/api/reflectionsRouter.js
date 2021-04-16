@@ -5,6 +5,7 @@ const {
     createReflection,
     deleteReflection,
     commentOnReflection,
+    deleteComment,
     getDepartmentReflections,
     getAllReflections,
     toggleStatus,
@@ -13,6 +14,7 @@ const {
 router.post("/createReflection", createReflection);
 router.post("/deleteReflection", deleteReflection);
 router.post("/commentOnReflection", commentOnReflection);
+router.post("/deleteComment", deleteComment);
 router.post("/toggleStatus", toggleStatus);
 router.get("/getDepartmentReflections", getDepartmentReflections);
 router.get("/getAllReflections", getAllReflections);

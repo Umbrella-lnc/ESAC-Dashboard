@@ -1,16 +1,23 @@
-.vertical-btn-gp{
+.vertical-btn-gp {
     display: block;
     padding: 10px 24px; /* Some padding */
 }
 
-img{
+img {
     position: absolute;
     top: 180px;
     left: 30px;
 }
 
-section{
+section {
     position: absolute;
     top: 100px;
     right: 30px;
+}
+
+p {
+    color: gray;
+    font-size: 1.5rem;
+    line-height: 30px;
+    overflow-wrap: anywhere;
 }
