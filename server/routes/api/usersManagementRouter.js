@@ -7,7 +7,7 @@ const {
     listUsers,
     getAllNamesWithID,
     updateUser,
-    setOptOut,
+    setOptOut
 } = require("../../controllers/usersManagementController.js");
 
 router.post("/toggleVerifiedStatus", toggleVerifiedStatus);

@@ -16,21 +16,32 @@ class Reflections extends Component {
         reflections: [],
         open: false,
         title: "",
+        link: "",
         newReflection: "",
         newReflectionStatus: "",
         department: this.user.department,
-        filtering: "All"
+        filtering: "All",
     };
 
     setOpen = () => {
         this.setState({
             open: !this.state.open,
         });
+
+        this.setTitle("");
+        this.setLink("");
+        this.setNewReflection("");
     };
 
     setTitle = (_title) => {
         this.setState({
             title: _title,
+        });
+    };
+
+    setLink = (_link) => {
+        this.setState({
+            link: _link,
         });
     };
 
@@ -82,6 +93,7 @@ class Reflections extends Component {
     submitPost = () => {
         const newReflection = {
             title: this.state.title,
+            link: this.state.link,
             post: this.state.newReflection,
             department: this.state.department,
         };
@@ -115,7 +127,7 @@ class Reflections extends Component {
         axios
             .post(baseURL + "/api/reflections/commentOnReflection", newComment)
             .then((res) => {
-                    this.fetchDepartmentReflections();
+                this.fetchDepartmentReflections();
             })
             .catch((err) => console.log(err));
     };
@@ -171,36 +183,42 @@ class Reflections extends Component {
                         changeDepartment={this.setDepartment}
                         getDepartment={this.getDepartment}
                         setTitle={this.setTitle}
+                        setLink={this.setLink}
                         setNewReflection={this.setNewReflection}
                         submitReflection={this.submitPost}
                     />
 
                     {this.state.reflections.length ? (
                         <Grid container spacing={3}>
-                            {this.state.reflections.map(reflection => {
-                                if (this.state.filtering !== "All") {
-                                    if (
-                                        this.state.filtering !==
-                                        reflection.department
-                                    ) {
-                                        return null;
+                            {this.state.reflections
+                                .reverse()
+                                .map((reflection) => {
+                                    if (this.state.filtering !== "All") {
+                                        if (
+                                            this.state.filtering !==
+                                            reflection.department
+                                        ) {
+                                            return null;
+                                        }
                                     }
-                                }
-                                return (
-                                    <Reflection
-                                        deleteReflection={this.deleteReflection}
-                                        user={this.user}
-                                        reflection={reflection}
-                                        submitComment={this.submitComment}
-                                        key={reflection._id}
-                                        toggleStatus={this.toggleStatus}>
-                                    </Reflection>
-                                )})}
+                                    return (
+                                        <Reflection
+                                            deleteReflection={
+                                                this.deleteReflection
+                                            }
+                                            user={this.user}
+                                            reflection={reflection}
+                                            submitComment={this.submitComment}
+                                            key={reflection._id}
+                                            toggleStatus={this.toggleStatus}
+                                        ></Reflection>
+                                    );
+                                })}
                         </Grid>
-                    ) :
-                        (<h3>No Reflections</h3>)
-                    }
-                    
+                    ) : (
+                        <h3>No Reflections</h3>
+                    )}
+
                     {this.user.accessLevel === "administrator" && (
                         <div
                             className="add-reflection"

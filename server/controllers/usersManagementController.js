@@ -119,6 +119,9 @@ const updateUser = async (req, res) => {
                     });
                 });
             }
+            if(!isEmpty(req.body.image_data)) {
+                user.image_data = req.body.image_data;
+            }
 
             //Save user
             user.save()
@@ -133,6 +136,7 @@ const updateUser = async (req, res) => {
                         accessLevel: user.accessLevel,
                         active: user.active,
                         email_opt_out: user.email_opt_out,
+                        image_data: user.image_data,
                     };
 
                     jwt.sign(
@@ -147,6 +151,10 @@ const updateUser = async (req, res) => {
                             });
                         }
                     );
+
+                    return res.status(200).json({
+                        success: "Changed user info!",
+                    });
                 })
                 .catch((err) => console.log(err));
         }

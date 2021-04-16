@@ -17,6 +17,7 @@ const FormDialog = (props) => {
         changeDepartment,
         getDepartment,
         setTitle,
+        setLink,
         setNewReflection,
         submitReflection,
     } = props;
@@ -50,9 +51,21 @@ const FormDialog = (props) => {
                         }}
                     />
                     <TextField
+                        autoFocus
+                        margin="dense"
+                        id="link"
+                        label="Link to Google Form"
+                        multiline
+                        rows={1}
+                        fullWidth
+                        onChange={(e) => {
+                            setLink(e.target.value);
+                        }}
+                    />
+                    <TextField
                         margin="dense"
                         id="reflection"
-                        label="Reflection"
+                        label="Extra details..."
                         variant="outlined"
                         multiline
                         rows={7}
