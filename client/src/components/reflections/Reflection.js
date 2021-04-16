@@ -58,7 +58,7 @@ const Reflection = (props) => {
                     <Typography
                         variant="h4"
                         style={{
-                            textDecoration: "underline",
+                            fontWeight: "bold",
                             position: "absolute",
                         }}
                     >
