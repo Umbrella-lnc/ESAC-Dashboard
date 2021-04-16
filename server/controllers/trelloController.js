@@ -106,6 +106,40 @@ const editCard = async (req, res) => {
         })
 }
 
+// @route POST api/trello/addCard
+// @desc Add card to trello page
+// @access logged in user
+//  + req.user => current logged in user object
+//  + req.body.action
+const addCard = async (req, res) => {
+    //See UTIL functions at top of file
+    console.log(req.body)
+    axios
+        .post(
+            trelloURL +
+                'cards' +
+                '?key=' +
+                trelloKey +
+                '&' +
+                'token=' +
+                trelloToken +
+                '&' +
+                'idList=' +
+                req.body.idList +
+                '&desc=' +
+                req.body.description +
+                '&name=' +
+                req.body.name
+        )
+        .then((trello_res) => {
+            res.json(trello_res.data)
+        })
+        .catch((err) => {
+            console.log(err)
+            res.status(400).json(err)
+        })
+}
+
 // @route POST api/trello/getLists
 // @desc Get columns from trello board given board id
 // @access logged in user
@@ -136,6 +170,7 @@ const getLists = async (req, res) => {
         })
 }
 
+exports.addCard = addCard
 exports.getCards = getCards
 exports.deleteCard = deleteCard
 exports.editCard = editCard

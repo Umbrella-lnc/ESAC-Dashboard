@@ -4,6 +4,7 @@ import { List, ListItem } from '@material-ui/core'
 import TrelloCard from '../reusable-components/TrelloCard'
 import ColumnLabel from '../reusable-components/ColumnLabel'
 import baseURL from '../../baseURL'
+import NewCard from '../reusable-components/NewCard'
 
 const Dashboard = (props) => {
     const [state, setState] = React.useState({
@@ -154,6 +155,12 @@ const Dashboard = (props) => {
                                 </ListItem>
                             )
                         })}
+                        <ListItem className='input-field col s12'>
+                            <NewCard
+                                colId={'60638369236486515ccc1ec8'}
+                                updateCards={getCards}
+                            />
+                        </ListItem>
                     </List>
                 </ListItem>
                 <ListItem>
@@ -175,6 +182,12 @@ const Dashboard = (props) => {
                                 </ListItem>
                             )
                         })}
+                        <ListItem className='input-field col s12'>
+                            <NewCard
+                                colId={'6063836bf49a2c5dc7e08dc6'}
+                                updateCards={getCards}
+                            />
+                        </ListItem>
                     </List>
                 </ListItem>
                 <ListItem>
@@ -196,6 +209,12 @@ const Dashboard = (props) => {
                                 </ListItem>
                             )
                         })}
+                        <ListItem className='input-field col s12'>
+                            <NewCard
+                                colId={'6063836cce7e3326413eb0f2'}
+                                updateCards={getCards}
+                            />
+                        </ListItem>
                     </List>
                 </ListItem>
             </List>

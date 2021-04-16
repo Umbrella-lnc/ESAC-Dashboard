@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Modal'
 import Select from '@material-ui/core/Select'
 import TextField from '@material-ui/core/TextField'
 
-export default function MoreInfoPopUps(props) {
+export default function EditCardPopUp(props) {
     const classes = useStyles()
     const editCardOpen = props.editCardOpen
     const handleEditCardClose = props.handleEditCardClose
