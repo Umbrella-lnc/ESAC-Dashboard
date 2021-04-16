@@ -127,7 +127,7 @@ class Reflections extends Component {
         axios
             .post(baseURL + "/api/reflections/commentOnReflection", newComment)
             .then((res) => {
-                this.fetchDepartmentReflections();
+                this.fetchReflections();
             })
             .catch((err) => console.log(err));
     };
@@ -138,20 +138,23 @@ class Reflections extends Component {
                 reflectionID: id,
             })
             .then((res) => {
-                this.fetchAllReflections();
+                this.fetchReflections();
             })
             .catch((err) => console.log(err));
     };
 
-    componentDidMount() {
-        const token = localStorage.getItem("jwtToken");
-        const user = jwt_decode(token);
+    fetchReflections = () => {
+        const user = jwt_decode(localStorage.getItem("jwtToken"));
 
         if (user.accessLevel === "administrator") {
             this.fetchAllReflections();
         } else {
             this.fetchDepartmentReflections();
         }
+    }
+
+    componentDidMount() {
+        this.fetchReflections();
     }
 
     render() {
