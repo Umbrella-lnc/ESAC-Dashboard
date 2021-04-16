@@ -209,8 +209,8 @@ export default function TrelloCard(props) {
                 description: state.description,
             })
             .then(function (res) {
-                updateCards()
                 handleEditCardClose()
+                updateCards()
             })
             .catch(function (error) {
                 if (error.response) {
