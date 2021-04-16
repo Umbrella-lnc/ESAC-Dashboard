@@ -35,24 +35,18 @@ export default function TrelloCard(props) {
         due = 'No Due Date'
     }
 
-    var label = 'Labels:'
-    var labelShort = ''
-    if (props.cardInfo.labels.length > 0) {
-        for (var i = 0; i < props.cardInfo.labels.length; i++) {
-            if (i != 0) {
-                label = label + ','
-            }
-            label = label + ' ' + props.cardInfo.labels[i].name
+    var label = ''
+
+    for (var i = 0; i < props.cardInfo.labels.length; i++) {
+        if (i != 0) {
+            label = label + ','
         }
-        labelShort = label.slice(8, label.length)
-    } else {
-        label = 'No Labels'
-        labelShort = 'No Labels'
+        label = label + ' ' + props.cardInfo.labels[i].name
     }
 
     const [state, setState] = React.useState({
         column: colName,
-        labels: label.slice(8, label.length),
+        labels: label,
         description: description,
         dueDate: due,
         name: name,
@@ -185,12 +179,22 @@ export default function TrelloCard(props) {
                         <Typography variant='h5' component='h2'>
                             {name}
                         </Typography>
-                        <Typography
-                            className={classes.pos}
-                            color='textSecondary'
-                        >
-                            {label}
-                        </Typography>
+                        {state.labels == '' && (
+                            <Typography
+                                className={classes.pos}
+                                color='textSecondary'
+                            >
+                                No Labels
+                            </Typography>
+                        )}
+                        {state.labels != '' && (
+                            <Typography
+                                className={classes.pos}
+                                color='textSecondary'
+                            >
+                                Labels: {label}
+                            </Typography>
+                        )}
                     </CardContent>
                 </CardActionArea>
             </Card>
@@ -198,7 +202,7 @@ export default function TrelloCard(props) {
                 handleOpenEditCardWindow={handleOpenEditCardWindow}
                 handleCardDetailsClose={handleCardDetailsClose}
                 cardDetailsOpen={cardDetailsOpen}
-                labelShort={labelShort}
+                labels={state.labels}
                 due={due}
                 description={state.description}
                 column={state.column}

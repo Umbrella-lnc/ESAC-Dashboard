@@ -19,7 +19,11 @@ export default function EditCardPopUp(props) {
     const handleEditCard = props.handleEditCard
 
     return (
-        <Dialog open={editCardOpen} onClose={handleEditCardClose}>
+        <Dialog
+            open={editCardOpen}
+            onClose={handleEditCardClose}
+            style={{ overflow: 'scroll' }}
+        >
             <div className={classes.editCardPaper}>
                 <h6
                     className={classes.editCardButton}
