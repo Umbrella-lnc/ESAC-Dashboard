@@ -1,6 +1,5 @@
 const Validator = require("validator");
 const isEmpty = require("is-empty");
-const { UnfoldLess } = require("@material-ui/icons");
 
 module.exports = function validateRegiserInput(data) {
     let errors = {};
