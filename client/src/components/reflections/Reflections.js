@@ -132,6 +132,20 @@ class Reflections extends Component {
             .catch((err) => console.log(err));
     };
 
+    deleteComment = (reflectionID, commentID) => {
+        const payload = {
+            reflectionID: reflectionID,
+            commentID: commentID,
+        }
+        
+        axios
+            .post(baseURL + "/api/reflections/deleteComment", payload)
+            .then((res) => {
+                this.fetchReflections();
+            })
+            .catch((err) => console.log(err));
+    }
+
     toggleStatus = (id) => {
         axios
             .post(baseURL + "/api/reflections/toggleStatus", {
