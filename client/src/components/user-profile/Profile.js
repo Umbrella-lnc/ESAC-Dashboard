@@ -7,6 +7,9 @@ import { Link } from "react-router-dom";
 //import setAuthToken from "../../utils/setAuthToken";\
 import LetterAvatars from "./LetterAvatar";
 import AnnouncementsCheckbox from "../reusable-components/email-announcements-checkbox";
+import axios from "axios";
+import baseURL from "../../baseURL";
+import setAuthToken from "../../utils/setAuthToken";
 
 const Profile = (props) => {
     const [state, setState] = React.useState({ user: {} });
@@ -15,6 +18,28 @@ const Profile = (props) => {
     const [base64Image, setBase64Image] = React.useState("");
     const [imageType, setImageType] = React.useState("");
     */
+
+    const handleToggle = () => {
+        axios
+            .post(baseURL + "/api/usersManagement/setOptOut", {
+                email_opt_out: !state.user.email_opt_out,
+            })
+            .then((res) => {
+                // Save to localStorage
+                const { token } = res.data;
+                localStorage.setItem("jwtToken", token);
+
+                // Set token to Auth header
+                setAuthToken(token);
+
+                //Set state
+                setState((prevState) => ({
+                    ...prevState,
+                    user: jwt_decode(token),
+                }));
+            })
+            .catch((err) => console.log(err));
+    };
 
     React.useEffect(() => {
         //Checks for token updates on state change
@@ -76,7 +101,13 @@ const Profile = (props) => {
 
     return (
         <div
-            style={{ marginTop: "70px", width: "100vw", paddingRight: "50px" }}
+            style={{
+                marginTop: "70px",
+                width: "100vw",
+                paddingRight: "50px",
+                paddingTop: "20px",
+                paddingBottom: "70px",
+            }}
         >
             {/* <img src={state.user.image_data} id="profile-pic" alt="profile-pic" /> */}
             {/* <form onSubmit={(e) => onFileSubmit(e)} onChange={(e) => onChange(e)}> */}
@@ -135,7 +166,10 @@ const Profile = (props) => {
                         <h4>
                             <b>Announcements Email Opt-in</b>
                         </h4>
-                        <AnnouncementsCheckbox />
+                        <AnnouncementsCheckbox
+                            checked={!state.user.email_opt_out}
+                            handleToggle={handleToggle}
+                        />
                     </div>
                 </div>
             </div>
