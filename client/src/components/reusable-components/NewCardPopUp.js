@@ -24,7 +24,7 @@ export default function NewCardPopUp(props) {
             onClose={handleNewCardClose}
             style={{ overflow: 'scroll' }}
         >
-            <div className={classes.editCardPaper}>
+            <div className={classes.newCardPaper}>
                 <h6 className={classes.trelloInfoHeadings}>Name:</h6>
                 <TextField
                     id='outlined-basic'

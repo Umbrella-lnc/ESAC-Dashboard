@@ -75,6 +75,18 @@ const useStyles = makeStyles({
         backgroundColor: 'white',
         outline: 'none',
     },
+    newCardPaper: {
+        borderRadius: '5px',
+        position: 'absolute',
+        left: '50%',
+        right: '50%',
+        top: '-10%',
+        transform: 'translate(-50%, 50%)',
+        textAlign: 'left',
+        width: 700,
+        backgroundColor: 'white',
+        outline: 'none',
+    },
 
     selectRow: {
         float: 'left',
