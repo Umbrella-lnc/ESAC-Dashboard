@@ -1,5 +1,5 @@
 import { Grid, Card, CardContent, Typography, Button, Link } from "@material-ui/core";
-import React, { Component } from "react";
+import React from "react";
 import ReflectionMenu from "./ReflectionMenu";
 import Comments from "./Comments";
 import axios from "axios";
@@ -17,7 +17,6 @@ const Reflection = (props) => {
         toggleStatus,
     } = props;
     const [showComments, setShowComments] = React.useState(false);
-
     const [usernames, setUsernames] = React.useState({});
 
     const getNames = () => {

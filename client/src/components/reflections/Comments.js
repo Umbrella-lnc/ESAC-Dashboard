@@ -1,13 +1,6 @@
 import React from "react";
 import Divider from "@material-ui/core/Divider";
-import {
-    Grid,
-    Card,
-    CardContent,
-    Typography,
-    Button,
-    IconButton,
-} from "@material-ui/core";
+import { Typography, IconButton } from "@material-ui/core";
 import LetterAvatars from "./LetterAvatar";
 import CommentMenu from "./CommentMenu";
 import ChatIcon from "@material-ui/icons/Chat";
@@ -15,7 +8,6 @@ import CommentDialog from "./CommentDialog";
 
 export default function Comments(props) {
     const { user, id, comments, submitComment, usernames } = props;
-    const { showComments } = props;
     const [addCommentOpen, setAddCommentOpen] = React.useState(false);
 
     const getName = (_id) => {

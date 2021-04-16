@@ -1,7 +1,6 @@
 import { deepOrange, deepPurple, blue, green } from "@material-ui/core/colors";
 import { makeStyles, Typography } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
-import { IconButton } from "@material-ui/core";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 
 const useStyles = makeStyles((theme) => ({
