@@ -127,7 +127,7 @@ const Dashboard = (props) => {
 
     const editCardColumn = (curCol, index, newCol) => {
         const newIndex = state.headers.indexOf(newCol)
-        setState((prevState) => ({ ...prevState, lists: [...lists] }))
+        setState((prevState) => ({ ...prevState, lists: [...prevState.lists] }))
     }
 
     if (state.loading) {
