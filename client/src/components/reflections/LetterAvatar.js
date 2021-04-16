@@ -31,13 +31,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LetterAvatars(props) {
     const classes = useStyles();
-    const { name } = props;
+    let { name } = props;
     let initials = "";
     let color = 1;
 
-    if(typeof name.firstname !== 'undefined') {
-        console.log(name.firstname);
+    if(typeof name === 'undefined') {
+        name = {
+            firstname: 'Deleted',
+            lastname: 'User',
+        }
+    }
 
+    if(typeof name.firstname !== 'undefined') {
         initials =
             name.firstname.toUpperCase().charAt(0) +
             name.lastname.toUpperCase().charAt(0);
