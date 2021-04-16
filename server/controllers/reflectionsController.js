@@ -148,6 +148,61 @@ const commentOnReflection = async (req, res) => {
         }); 
 };
 
+
+// @route POST api/reflections/deleteComment
+// @desc    Delete a comment on a reflection.
+//          If admin, delete.
+//          Else, check if current user is the poster and delete.
+// @access User
+// @req
+//  + req.user => current logged in user object
+//  + req.body.reflectionID => Reflection ID that the comment is on
+//  + req.body.commentID => Comment ID to delete
+//  + req.body.commentPosterID => Comment Poster ID
+const deleteComment = async (req, res) => {
+
+    //Check database for valid user
+    User.findOne({ _id: req.user._id })
+        .then((user) => {
+            // Make sure user exists
+            if (!user) {
+                return res
+                    .status(404)
+                    .json({ not_found: "User not found!" });
+            } else {
+                if (user.accessLevel !== "administrator" && req.user._id.toString() !== req.body.commentPosterID) {
+                    return res
+                        .status(403)
+                        .json({ invalid_permission: "You do not have permission to delete this comment!" });
+                }
+
+                Reflection.findById(req.body.reflectionID)
+                .then((reflection) => {
+                    if (!reflection) {
+                        return res
+                            .status(404)
+                            .json({ not_found: "Reflection not found!" });
+                    } else {
+                        reflection.comments = reflection.comments.filter((comment) => comment._id.toString() !== req.body.commentID);
+                        reflection.save();
+
+                        return res.json({ success: true });
+                    }
+                })
+                .catch((err) => {
+                    res.status(400).json({ bad_id: "Invalid reflection id!" });
+                });
+            }
+        })
+        .catch((err) => {
+            res.status(400).json({ bad_id: "Invalid user id!" });
+        }); 
+};
+
+
+
+
+
 // @route GET api/reflections/getDepartmentReflections
 // @desc Return all reflections in the department of user
 // @access User
@@ -251,6 +306,7 @@ const toggleStatus = async (req, res) => {
 exports.createReflection = createReflection;
 exports.deleteReflection = deleteReflection;
 exports.commentOnReflection = commentOnReflection;
+exports.deleteComment = deleteComment;
 exports.getDepartmentReflections = getDepartmentReflections;
 exports.getAllReflections = getAllReflections;
 exports.toggleStatus = toggleStatus;

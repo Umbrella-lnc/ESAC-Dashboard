@@ -1,21 +1,13 @@
 import React from "react";
 import Divider from "@material-ui/core/Divider";
-import {
-    Grid,
-    Card,
-    CardContent,
-    Typography,
-    Button,
-    IconButton,
-} from "@material-ui/core";
+import { Typography, IconButton } from "@material-ui/core";
 import LetterAvatars from "./LetterAvatar";
 import CommentMenu from "./CommentMenu";
 import ChatIcon from "@material-ui/icons/Chat";
 import CommentDialog from "./CommentDialog";
 
 export default function Comments(props) {
-    const { user, id, comments, submitComment, usernames } = props;
-    const { showComments } = props;
+    const { user, reflectionID, comments, submitComment, deleteComment, usernames } = props;
     const [addCommentOpen, setAddCommentOpen] = React.useState(false);
 
     const getName = (_id) => {
@@ -25,7 +17,7 @@ export default function Comments(props) {
     return (
         <div>
             {comments.map((_comment) => {
-                const { _id, poster, comment, dateposted } = _comment;
+                const { poster, comment, dateposted } = _comment;
 
                 return (
                     <div
@@ -63,7 +55,12 @@ export default function Comments(props) {
                                 >
                                     {new Date(dateposted).toDateString()}
                                 </Typography>
-                                <CommentMenu user={user} comment={comment} />
+                                <CommentMenu
+                                    user={user}
+                                    comment={_comment}
+                                    deleteComment={deleteComment}
+                                    reflectionID={reflectionID}
+                                    />
                             </div>
                         </div>
                         <div
@@ -122,7 +119,8 @@ export default function Comments(props) {
                     addCommentOpen={addCommentOpen}
                     setAddCommentOpen={setAddCommentOpen}
                     submitComment={submitComment}
-                    reflectionID={id}
+                    deleteComment={deleteComment}
+                    reflectionID={reflectionID}
                 />
             )}
         </div>

@@ -1,5 +1,5 @@
 import { Grid, Card, CardContent, Typography, Button, Link } from "@material-ui/core";
-import React, { Component } from "react";
+import React from "react";
 import ReflectionMenu from "./ReflectionMenu";
 import Comments from "./Comments";
 import axios from "axios";
@@ -14,10 +14,10 @@ const Reflection = (props) => {
         user,
         deleteReflection,
         submitComment,
+        deleteComment,
         toggleStatus,
     } = props;
     const [showComments, setShowComments] = React.useState(false);
-
     const [usernames, setUsernames] = React.useState({});
 
     const getNames = () => {
@@ -58,7 +58,7 @@ const Reflection = (props) => {
                     <Typography
                         variant="h4"
                         style={{
-                            textDecoration: "underline",
+                            fontWeight: "bold",
                             position: "absolute",
                         }}
                     >
@@ -78,6 +78,7 @@ const Reflection = (props) => {
                         showComments={showComments}
                         setShowComments={setShowComments}
                         submitComment={submitComment}
+                        deleteComment={deleteComment}
                         toggleStatus={toggleStatus}
                     />
                 </CardContent>
@@ -128,9 +129,10 @@ const Reflection = (props) => {
                 {showComments && (
                     <Comments
                         user={user}
-                        id={reflection._id}
+                        reflectionID={reflection._id}
                         comments={reflection.comments}
                         submitComment={submitComment}
+                        deleteComment={deleteComment}
                         usernames={usernames}
                     />
                 )}

@@ -59,10 +59,7 @@ const setOptOut = async (req, res) => {
             return res.status(404).json({ userNotFound: "User not found!" });
         } else {
             //Update the fields based on what is empty
-            if (
-                !isEmpty(req.body.email_opt_out) &&
-                Validator.isBoolean(req.body.email_opt_out)
-            ) {
+            if (!isEmpty(req.body.email_opt_out)) {
                 user.email_opt_out = Boolean(req.body.email_opt_out);
             } else {
                 let errors = {};
@@ -73,9 +70,30 @@ const setOptOut = async (req, res) => {
             //Save user
             user.save()
                 .then(() => {
-                    res.status(200).json({
-                        success: "Changed email opt out status!",
-                    });
+                    const payload = {
+                        id: user.id,
+                        firstname: user.firstname,
+                        lastname: user.lastname,
+                        department: user.department,
+                        email: user.email,
+                        accessLevel: user.accessLevel,
+                        active: user.active,
+                        email_opt_out: user.email_opt_out,
+                        image_data: user.image_data,
+                    };
+
+                    jwt.sign(
+                        payload,
+                        secretOrKey,
+                        { expiresIn: 31556926 },
+                        (err, token) => {
+                            res.json({
+                                success: true,
+                                token: "Bearer " + token,
+                                user,
+                            });
+                        }
+                    );
                 })
                 .catch((err) =>
                     res.status(500).json({
@@ -119,7 +137,7 @@ const updateUser = async (req, res) => {
                     });
                 });
             }
-            if(!isEmpty(req.body.image_data)) {
+            if (!isEmpty(req.body.image_data)) {
                 user.image_data = req.body.image_data;
             }
 
