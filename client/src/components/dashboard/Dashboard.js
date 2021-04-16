@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import axios from 'axios'
-import { logoutUser } from '../../actions/authActions'
 import { List, ListItem } from '@material-ui/core'
 import TrelloCard from '../reusable-components/TrelloCard'
 import ColumnLabel from '../reusable-components/ColumnLabel'
@@ -145,7 +142,10 @@ const Dashboard = (props) => {
 
                         {state.toDo.map((value, index) => {
                             return (
-                                <ListItem className='input-field col s12'>
+                                <ListItem
+                                    key={value.id}
+                                    className='input-field col s12'
+                                >
                                     <TrelloCard
                                         cardInfo={value}
                                         colName={'To Do'}
@@ -163,7 +163,10 @@ const Dashboard = (props) => {
                         </ListItem>
                         {state.doing.map((value, index) => {
                             return (
-                                <ListItem className='input-field col s12'>
+                                <ListItem
+                                    key={value.id}
+                                    className='input-field col s12'
+                                >
                                     <TrelloCard
                                         cardInfo={value}
                                         colName={'Doing'}
@@ -181,7 +184,10 @@ const Dashboard = (props) => {
                         </ListItem>
                         {state.done.map((value, index) => {
                             return (
-                                <ListItem className='input-field col s12'>
+                                <ListItem
+                                    key={value.id}
+                                    className='input-field col s12'
+                                >
                                     <TrelloCard
                                         cardInfo={value}
                                         colName={'Done'}

@@ -13,8 +13,10 @@ export default function MoreInfoPopUps(props) {
     const column = props.column
     const dueDate = props.dueDate
     const description = props.description
-    const handleChange = props.handleChange
+    const handleColumnChange = props.handleColumnChange
+    const handleDescriptionChange = props.handleDescriptionChange
     const labels = props.labels
+    const handleEditCard = props.handleEditCard
 
     return (
         <Dialog open={editCardOpen} onClose={handleEditCardClose}>
@@ -46,6 +48,7 @@ export default function MoreInfoPopUps(props) {
                 <TextField
                     id='outlined-basic'
                     defaultValue={description}
+                    onChange={handleDescriptionChange}
                     multiline
                     style={{ minWidth: '600px' }}
                     variant='outlined'
@@ -56,7 +59,7 @@ export default function MoreInfoPopUps(props) {
                     native
                     className={classes.editCardTextFields}
                     value={column}
-                    onChange={handleChange}
+                    onChange={handleColumnChange}
                     inputProps={{
                         name: column,
                         id: 'age-native-simple',
@@ -67,7 +70,7 @@ export default function MoreInfoPopUps(props) {
                     <option value={'Done'}>Done</option>
                 </Select>
                 <Button
-                    onClick={handleConfirmDeleteOpen}
+                    onClick={handleEditCard}
                     className={classes.deleteButton}
                     size='small'
                 >

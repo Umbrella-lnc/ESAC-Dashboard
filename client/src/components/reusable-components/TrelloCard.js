@@ -3,10 +3,6 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import { CardActionArea, List } from '@material-ui/core'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Modal'
-import Select from '@material-ui/core/Select'
-import TextField from '@material-ui/core/TextField'
 import axios from 'axios'
 import { useStyles } from './cardStyles'
 import baseURL from '../../baseURL'
@@ -56,8 +52,8 @@ export default function TrelloCard(props) {
 
     const [state, setState] = React.useState({
         column: colName,
-        labels: String(props.cardInfo.labels),
-        description: String(description),
+        labels: label.slice(8, label.length),
+        description: description,
         dueDate: due,
         name: name,
     })
@@ -112,60 +108,66 @@ export default function TrelloCard(props) {
             })
     }
 
-    const handleChange = (event) => {
+    const handleColumnChange = (event) => {
         setState({
             ...state,
             column: event.target.value,
         })
     }
 
-    const handleEditCard = () => {
+    const handleDescriptionChange = (event) => {
+        setState({
+            ...state,
+            description: event.target.value,
+        })
+    }
+
+    const handleOpenEditCardWindow = () => {
         handleCardDetailsClose()
         handleEditCardOpen()
     }
 
-    function handleChangeColumn() {
+    function handleEditCard() {
         var idList = ''
         console.log('state name')
         console.log(state.column)
         console.log('colName')
         console.log(colName)
-        if (state.column != colName) {
-            console.log('hello')
-            if (state.column == 'toDo') {
-                console.log('to do')
-                idList = '60638369236486515ccc1ec8'
-            } else if (state.column == 'doing') {
-                console.log('yep')
-                idList = '6063836bf49a2c5dc7e08dc6'
-            } else {
-                idList = '6063836cce7e3326413eb0f2'
-            }
-            console.log(idList)
-            axios
-                .post(baseURL + '/api/trello/editCard', {
-                    action: 'changeColumn',
-                    cardId: cardId,
-                    idList: idList,
-                })
-                .then(function (res) {
-                    updateCards()
-                })
-                .catch(function (error) {
-                    if (error.response) {
-                        // Request made and server responded
-                        console.log(error.response.data)
-                        console.log(error.response.status)
-                        console.log(error.response.headers)
-                    } else if (error.request) {
-                        // The request was made but no response was received
-                        console.log(error.request)
-                    } else {
-                        // Something happened in setting up the request that triggered an Error
-                        console.log('Error', error.message)
-                    }
-                })
+        console.log('hello')
+        if (state.column == 'To Do') {
+            console.log('to do')
+            idList = '60638369236486515ccc1ec8'
+        } else if (state.column == 'Doing') {
+            console.log('yep')
+            idList = '6063836bf49a2c5dc7e08dc6'
+        } else {
+            idList = '6063836cce7e3326413eb0f2'
         }
+        console.log(idList)
+        axios
+            .post(baseURL + '/api/trello/editCard', {
+                cardId: cardId,
+                idList: idList,
+                description: state.description,
+            })
+            .then(function (res) {
+                updateCards()
+                handleEditCardClose()
+            })
+            .catch(function (error) {
+                if (error.response) {
+                    // Request made and server responded
+                    console.log(error.response.data)
+                    console.log(error.response.status)
+                    console.log(error.response.headers)
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request)
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('Error', error.message)
+                }
+            })
     }
 
     return (
@@ -193,12 +195,12 @@ export default function TrelloCard(props) {
                 </CardActionArea>
             </Card>
             <MoreInfoPopUp
-                handleEditCard={handleEditCard}
+                handleOpenEditCardWindow={handleOpenEditCardWindow}
                 handleCardDetailsClose={handleCardDetailsClose}
                 cardDetailsOpen={cardDetailsOpen}
                 labelShort={labelShort}
                 due={due}
-                description={description}
+                description={state.description}
                 column={state.column}
                 name={name}
             ></MoreInfoPopUp>
@@ -215,8 +217,10 @@ export default function TrelloCard(props) {
                 column={state.column}
                 dueDate={state.dueDate}
                 description={state.description}
-                handleChange={handleChange}
+                handleColumnChange={handleColumnChange}
                 labels={state.labels}
+                handleEditCard={handleEditCard}
+                handleDescriptionChange={handleDescriptionChange}
             ></EditCardPopUp>
         </div>
     )

@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Modal'
 
 export default function MoreInfoPopUps(props) {
     const classes = useStyles()
-    const handleEditCard = props.handleEditCard
+    const handleOpenEditCardWindow = props.handleOpenEditCardWindow
     const handleCardDetailsClose = props.handleCardDetailsClose
     const cardDetailsOpen = props.cardDetailsOpen
     const labelShort = props.labelShort
@@ -18,7 +18,7 @@ export default function MoreInfoPopUps(props) {
             <div className={classes.trelloPaper}>
                 <Button
                     className={classes.editCardButton}
-                    onClick={handleEditCard}
+                    onClick={handleOpenEditCardWindow}
                 >
                     edit
                 </Button>
