@@ -19,7 +19,11 @@ export default function NewCardPopUp(props) {
     const label = props.label
 
     return (
-        <Dialog open={newCardOpen} onClose={handleNewCardClose}>
+        <Dialog
+            open={newCardOpen}
+            onClose={handleNewCardClose}
+            style={{ overflow: 'scroll' }}
+        >
             <div className={classes.editCardPaper}>
                 <h6 className={classes.trelloInfoHeadings}>Name:</h6>
                 <TextField
