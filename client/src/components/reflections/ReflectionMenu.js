@@ -13,7 +13,7 @@ export default function LongMenu(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
-    const options = ["Toggle Status", "Delete"];
+    const options = ["Toggle Completion", "Delete"];
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -25,7 +25,7 @@ export default function LongMenu(props) {
         //Decide action based on what is clicked
         if (option === "Delete") {
             deletePost(id);
-        } else if (option === "Toggle Status") {
+        } else if (option === "Toggle Completion") {
             toggleStatus(id);
         }
     };
