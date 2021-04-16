@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import axios from 'axios'
-import { logoutUser } from '../../actions/authActions'
 import { List, ListItem } from '@material-ui/core'
 import TrelloCard from '../reusable-components/TrelloCard'
 import ColumnLabel from '../reusable-components/ColumnLabel'
 import baseURL from '../../baseURL'
+import NewCard from '../reusable-components/NewCard'
 
 const Dashboard = (props) => {
     const [state, setState] = React.useState({
@@ -145,15 +143,24 @@ const Dashboard = (props) => {
 
                         {state.toDo.map((value, index) => {
                             return (
-                                <ListItem className='input-field col s12'>
+                                <ListItem
+                                    key={value.id}
+                                    className='input-field col s12'
+                                >
                                     <TrelloCard
                                         cardInfo={value}
-                                        colName={'toDo'}
+                                        colName={'To Do'}
                                         updateCards={getCards}
                                     />
                                 </ListItem>
                             )
                         })}
+                        <ListItem className='input-field col s12'>
+                            <NewCard
+                                colId={'60638369236486515ccc1ec8'}
+                                updateCards={getCards}
+                            />
+                        </ListItem>
                     </List>
                 </ListItem>
                 <ListItem>
@@ -163,15 +170,24 @@ const Dashboard = (props) => {
                         </ListItem>
                         {state.doing.map((value, index) => {
                             return (
-                                <ListItem className='input-field col s12'>
+                                <ListItem
+                                    key={value.id}
+                                    className='input-field col s12'
+                                >
                                     <TrelloCard
                                         cardInfo={value}
-                                        colName={'doing'}
+                                        colName={'Doing'}
                                         updateCards={getCards}
                                     />
                                 </ListItem>
                             )
                         })}
+                        <ListItem className='input-field col s12'>
+                            <NewCard
+                                colId={'6063836bf49a2c5dc7e08dc6'}
+                                updateCards={getCards}
+                            />
+                        </ListItem>
                     </List>
                 </ListItem>
                 <ListItem>
@@ -181,15 +197,24 @@ const Dashboard = (props) => {
                         </ListItem>
                         {state.done.map((value, index) => {
                             return (
-                                <ListItem className='input-field col s12'>
+                                <ListItem
+                                    key={value.id}
+                                    className='input-field col s12'
+                                >
                                     <TrelloCard
                                         cardInfo={value}
-                                        colName={'done'}
+                                        colName={'Done'}
                                         updateCards={getCards}
                                     />
                                 </ListItem>
                             )
                         })}
+                        <ListItem className='input-field col s12'>
+                            <NewCard
+                                colId={'6063836cce7e3326413eb0f2'}
+                                updateCards={getCards}
+                            />
+                        </ListItem>
                     </List>
                 </ListItem>
             </List>

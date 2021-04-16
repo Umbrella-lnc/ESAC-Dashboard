@@ -3,12 +3,12 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import { CardActionArea, List } from '@material-ui/core'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Modal'
-import Select from '@material-ui/core/Select'
 import axios from 'axios'
 import { useStyles } from './cardStyles'
 import baseURL from '../../baseURL'
+import DeletePopUp from './DeletePopUp'
+import MoreInfoPopUp from './MoreInfoPopUp'
+import EditCardPopUp from './EditCardPopUp'
 
 export default function TrelloCard(props) {
     const classes = useStyles()
@@ -19,12 +19,9 @@ export default function TrelloCard(props) {
     const cardId = props.cardInfo.id
     const { updateCards } = props
 
-    const [confirmDeleteOpen, setConfirmDeleteOpen] = React.useState(false)
+    const [confirmDeleteOpen, setConfirmDeleteOpen] = React.useState()
     const [cardDetailsOpen, setCardDetailsOpen] = React.useState(false)
-
-    const [state, setState] = React.useState({
-        column: colName,
-    })
+    const [editCardOpen, setEditCardOpen] = React.useState(false)
 
     var due = String(props.cardInfo.due)
     if (due.length > 6) {
@@ -35,20 +32,25 @@ export default function TrelloCard(props) {
             '/' +
             due.substring(2, 4)
     } else {
-        due = 'No due date'
+        due = 'No Due Date'
     }
 
-    var label = 'Labels:'
-    if (props.cardInfo.labels.length > 0) {
-        for (var i = 0; i < props.cardInfo.labels.length; i++) {
-            if (i != 0) {
-                label = label + ','
-            }
-            label = label + ' ' + props.cardInfo.labels[i].name
+    var label = ''
+
+    for (var i = 0; i < props.cardInfo.labels.length; i++) {
+        if (i != 0) {
+            label = label + ','
         }
-    } else {
-        label = 'No Labels'
+        label = label + ' ' + props.cardInfo.labels[i].name
     }
+
+    const [state, setState] = React.useState({
+        column: colName,
+        labels: label,
+        description: description,
+        dueDate: due,
+        name: name,
+    })
 
     const handleConfirmDeleteOpen = () => {
         setConfirmDeleteOpen(true)
@@ -64,6 +66,15 @@ export default function TrelloCard(props) {
 
     const handleCardDetailsClose = () => {
         setCardDetailsOpen(false)
+    }
+
+    const handleEditCardOpen = () => {
+        setEditCardOpen(true)
+    }
+
+    const handleEditCardClose = () => {
+        setEditCardOpen(false)
+        setCardDetailsOpen(true)
     }
 
     function handleDelete() {
@@ -91,61 +102,72 @@ export default function TrelloCard(props) {
             })
     }
 
-    const handleChange = (event) => {
+    const handleColumnChange = (event) => {
         setState({
             ...state,
             column: event.target.value,
         })
     }
 
-    function handleChangeColumn() {
+    const handleDescriptionChange = (event) => {
+        setState({
+            ...state,
+            description: event.target.value,
+        })
+    }
+
+    const handleOpenEditCardWindow = () => {
+        handleCardDetailsClose()
+        handleEditCardOpen()
+    }
+
+    function handleEditCard() {
         var idList = ''
         console.log('state name')
         console.log(state.column)
         console.log('colName')
         console.log(colName)
-        if (state.column != colName) {
-            console.log('hello')
-            if (state.column == 'toDo') {
-                console.log('to do')
-                idList = '60638369236486515ccc1ec8'
-            } else if (state.column == 'doing') {
-                console.log('yep')
-                idList = '6063836bf49a2c5dc7e08dc6'
-            } else {
-                idList = '6063836cce7e3326413eb0f2'
-            }
-            console.log(idList)
-            axios
-                .post(baseURL + '/api/trello/editCard', {
-                    action: 'changeColumn',
-                    cardId: cardId,
-                    idList: idList,
-                })
-                .then(function (res) {
-                    updateCards()
-                })
-                .catch(function (error) {
-                    if (error.response) {
-                        // Request made and server responded
-                        console.log(error.response.data)
-                        console.log(error.response.status)
-                        console.log(error.response.headers)
-                    } else if (error.request) {
-                        // The request was made but no response was received
-                        console.log(error.request)
-                    } else {
-                        // Something happened in setting up the request that triggered an Error
-                        console.log('Error', error.message)
-                    }
-                })
+        console.log('hello')
+        if (state.column == 'To Do') {
+            console.log('to do')
+            idList = '60638369236486515ccc1ec8'
+        } else if (state.column == 'Doing') {
+            console.log('yep')
+            idList = '6063836bf49a2c5dc7e08dc6'
+        } else {
+            idList = '6063836cce7e3326413eb0f2'
         }
+        console.log(idList)
+        axios
+            .post(baseURL + '/api/trello/editCard', {
+                cardId: cardId,
+                idList: idList,
+                description: state.description,
+            })
+            .then(function (res) {
+                updateCards()
+                handleEditCardClose()
+            })
+            .catch(function (error) {
+                if (error.response) {
+                    // Request made and server responded
+                    console.log(error.response.data)
+                    console.log(error.response.status)
+                    console.log(error.response.headers)
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request)
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('Error', error.message)
+                }
+            })
     }
 
     return (
         <div>
             <Card className={classes.root} raised={true}>
-                <CardActionArea onClick={handleConfirmDeleteOpen}>
+                <CardActionArea onClick={handleCardDetailsOpen}>
                     <CardContent className={classes.content}>
                         <Typography
                             className={classes.title}
@@ -157,93 +179,53 @@ export default function TrelloCard(props) {
                         <Typography variant='h5' component='h2'>
                             {name}
                         </Typography>
-                        <Typography
-                            className={classes.pos}
-                            color='textSecondary'
-                        >
-                            {label}
-                        </Typography>
+                        {state.labels == '' && (
+                            <Typography
+                                className={classes.pos}
+                                color='textSecondary'
+                            >
+                                No Labels
+                            </Typography>
+                        )}
+                        {state.labels != '' && (
+                            <Typography
+                                className={classes.pos}
+                                color='textSecondary'
+                            >
+                                Labels: {label}
+                            </Typography>
+                        )}
                     </CardContent>
                 </CardActionArea>
             </Card>
-            <Dialog open={confirmDeleteOpen} onClose={handleConfirmDeleteClose}>
-                <div className={classes.paper}>
-                    <h3 style={{ color: 'black' }}>{name}</h3>
-                    <ul className={classes.subHeadingList}>
-                        <h6
-                            className={classes.listItem}
-                            style={{ color: 'black' }}
-                        >
-                            {label}
-                        </h6>
-                        <h6
-                            className={classes.listItem}
-                            style={{ color: 'black' }}
-                        >
-                            {due}
-                        </h6>
-                    </ul>
-                    <h6 style={{ color: 'black' }}>{description}</h6>
-
-                    <div className='selectRow'>
-                        <Select
-                            native
-                            value={state.column}
-                            onChange={handleChange}
-                            inputProps={{
-                                name: state.column,
-                                id: 'age-native-simple',
-                            }}
-                        >
-                            <option value={'toDo'}>To Do</option>
-                            <option value={'doing'}>Doing</option>
-                            <option value={'done'}>Done</option>
-                        </Select>
-                        <Button
-                            onClick={handleChangeColumn}
-                            className={classes.skinnyDeleteButton}
-                            size='small'
-                        >
-                            Update Status
-                        </Button>
-                    </div>
-                    <Button
-                        onClick={handleCardDetailsOpen}
-                        className={classes.deleteButton}
-                        size='small'
-                    >
-                        Delete
-                    </Button>
-                    <Button
-                        onClick={handleConfirmDeleteClose}
-                        className={classes.deleteButton}
-                        size='small'
-                    >
-                        Close
-                    </Button>
-                </div>
-            </Dialog>
-            <Dialog open={cardDetailsOpen} onClose={handleCardDetailsClose}>
-                <div className={classes.paper}>
-                    <h5 style={{ color: 'black' }}>
-                        Are you sure you would like to delete this task?
-                    </h5>
-                    <Button
-                        onClick={handleDelete}
-                        className={classes.deleteButton}
-                        size='small'
-                    >
-                        yes
-                    </Button>
-                    <Button
-                        onClick={handleCardDetailsClose}
-                        className={classes.deleteButton}
-                        size='small'
-                    >
-                        No
-                    </Button>
-                </div>
-            </Dialog>
+            <MoreInfoPopUp
+                handleOpenEditCardWindow={handleOpenEditCardWindow}
+                handleCardDetailsClose={handleCardDetailsClose}
+                cardDetailsOpen={cardDetailsOpen}
+                labels={state.labels}
+                due={due}
+                description={state.description}
+                column={state.column}
+                name={name}
+            ></MoreInfoPopUp>
+            <DeletePopUp
+                confirmDeleteOpen={confirmDeleteOpen}
+                handleConfirmDeleteClose={handleConfirmDeleteClose}
+                handleDelete={handleDelete}
+            ></DeletePopUp>
+            <EditCardPopUp
+                editCardOpen={editCardOpen}
+                handleEditCardClose={handleEditCardClose}
+                name={name}
+                handleConfirmDeleteOpen={handleConfirmDeleteOpen}
+                column={state.column}
+                dueDate={state.dueDate}
+                description={state.description}
+                handleColumnChange={handleColumnChange}
+                labels={state.labels}
+                handleEditCard={handleEditCard}
+                handleDescriptionChange={handleDescriptionChange}
+            ></EditCardPopUp>
         </div>
     )
 }
