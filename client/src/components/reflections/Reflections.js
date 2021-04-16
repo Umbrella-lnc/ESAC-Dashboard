@@ -132,12 +132,13 @@ class Reflections extends Component {
             .catch((err) => console.log(err));
     };
 
-    deleteComment = (reflectionID, commentID) => {
+    deleteComment = (reflectionID, commentID, commentPosterID) => {
         const payload = {
             reflectionID: reflectionID,
             commentID: commentID,
+            commentPosterID: commentPosterID,
         }
-        
+
         axios
             .post(baseURL + "/api/reflections/deleteComment", payload)
             .then((res) => {
@@ -220,12 +221,11 @@ class Reflections extends Component {
                                     }
                                     return (
                                         <Reflection
-                                            deleteReflection={
-                                                this.deleteReflection
-                                            }
+                                            deleteReflection={this.deleteReflection}
                                             user={this.user}
                                             reflection={reflection}
                                             submitComment={this.submitComment}
+                                            deleteComment={this.deleteComment}
                                             key={reflection._id}
                                             toggleStatus={this.toggleStatus}
                                         ></Reflection>

@@ -14,6 +14,7 @@ const Reflection = (props) => {
         user,
         deleteReflection,
         submitComment,
+        deleteComment,
         toggleStatus,
     } = props;
     const [showComments, setShowComments] = React.useState(false);
@@ -77,6 +78,7 @@ const Reflection = (props) => {
                         showComments={showComments}
                         setShowComments={setShowComments}
                         submitComment={submitComment}
+                        deleteComment={deleteComment}
                         toggleStatus={toggleStatus}
                     />
                 </CardContent>
@@ -127,9 +129,10 @@ const Reflection = (props) => {
                 {showComments && (
                     <Comments
                         user={user}
-                        id={reflection._id}
+                        reflectionID={reflection._id}
                         comments={reflection.comments}
                         submitComment={submitComment}
+                        deleteComment={deleteComment}
                         usernames={usernames}
                     />
                 )}
