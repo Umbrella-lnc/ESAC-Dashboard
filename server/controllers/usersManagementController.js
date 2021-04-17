@@ -119,7 +119,7 @@ const updateUser = async (req, res) => {
                         active: user.active,
                         email_opt_out: user.email_opt_out,
                     };
-
+                    console.log("Signing...");
                     jwt.sign(
                         payload,
                         secretOrKey,
@@ -130,8 +130,13 @@ const updateUser = async (req, res) => {
                                 token: "Bearer " + token,
                                 user,
                             });
+                            console.log(err);
                         }
                     );
+
+                    //return res.status(200).json({
+                    //    success: "Changed user info!",
+                    //});
                 })
                 .catch((err) => console.log(err));
         }
