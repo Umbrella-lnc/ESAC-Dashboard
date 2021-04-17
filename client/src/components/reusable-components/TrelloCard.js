@@ -30,9 +30,9 @@ export default function TrelloCard(props) {
             '/' +
             due.substring(8, 10) +
             '/' +
-            due.substring(2, 4)
+            due.substring(0, 4)
     } else {
-        due = 'No Due Date'
+        due = ''
     }
 
     var label = ''
@@ -48,8 +48,9 @@ export default function TrelloCard(props) {
         column: colName,
         labels: label,
         description: description,
-        dueDate: due,
+        due: due,
         name: name,
+        errors: '',
     })
 
     const handleConfirmDeleteOpen = () => {
@@ -73,6 +74,10 @@ export default function TrelloCard(props) {
     }
 
     const handleEditCardClose = () => {
+        setState({
+            ...state,
+            errors: '',
+        })
         setEditCardOpen(false)
         setCardDetailsOpen(true)
     }
@@ -116,13 +121,71 @@ export default function TrelloCard(props) {
         })
     }
 
+    const handleDueChange = (event) => {
+        setState({
+            ...state,
+            due: event.target.value,
+        })
+    }
+
     const handleOpenEditCardWindow = () => {
         handleCardDetailsClose()
         handleEditCardOpen()
     }
 
+    function isValidDate(dateString) {
+        // First check for the pattern
+        if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString)) return false
+
+        // Parse the date parts to integers
+        var parts = dateString.split('/')
+        var day = parseInt(parts[1], 10)
+        var month = parseInt(parts[0], 10)
+        var year = parseInt(parts[2], 10)
+
+        // Check the ranges of month and year
+        if (year < 1000 || year > 3000 || month == 0 || month > 12) return false
+
+        var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+        // Adjust for leap years
+        if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+            monthLength[1] = 29
+
+        // Check the range of the day
+        return day > 0 && day <= monthLength[month - 1]
+    }
+
     function handleEditCard() {
         var idList = ''
+
+        if ((!isValidDate(state.due) && state.due != '') || state.name == '') {
+            if (!isValidDate(state.due) && state.due != '') {
+                setState({
+                    ...state,
+                    errors: 'invalid date',
+                })
+            }
+            if (state.name == '') {
+                setState({
+                    ...state,
+                    errors: 'you must include a name',
+                })
+            }
+            return
+        }
+
+        var formattedDue = ''
+        if (state.due != '') {
+            formattedDue =
+                state.due.slice(6, state.due.length) +
+                '-' +
+                state.due.slice(0, 2) +
+                '-' +
+                state.due.slice(3, 5) +
+                'T20:56:00.000Z'
+        }
+
         console.log('state name')
         console.log(state.column)
         console.log('colName')
@@ -142,6 +205,7 @@ export default function TrelloCard(props) {
             .post(baseURL + '/api/trello/editCard', {
                 cardId: cardId,
                 idList: idList,
+                due: formattedDue,
                 description: state.description,
             })
             .then(function (res) {
@@ -169,13 +233,24 @@ export default function TrelloCard(props) {
             <Card className={classes.root} raised={true}>
                 <CardActionArea onClick={handleCardDetailsOpen}>
                     <CardContent className={classes.content}>
-                        <Typography
-                            className={classes.title}
-                            color='textSecondary'
-                            gutterBottom
-                        >
-                            {due}
-                        </Typography>
+                        {state.due != '' && (
+                            <Typography
+                                className={classes.title}
+                                color='textSecondary'
+                                gutterBottom
+                            >
+                                {due}
+                            </Typography>
+                        )}
+                        {state.due == '' && (
+                            <Typography
+                                className={classes.title}
+                                color='textSecondary'
+                                gutterBottom
+                            >
+                                No Due Date
+                            </Typography>
+                        )}
                         <Typography variant='h5' component='h2'>
                             {name}
                         </Typography>
@@ -203,7 +278,7 @@ export default function TrelloCard(props) {
                 handleCardDetailsClose={handleCardDetailsClose}
                 cardDetailsOpen={cardDetailsOpen}
                 labels={state.labels}
-                due={due}
+                due={state.due}
                 description={state.description}
                 column={state.column}
                 name={name}
@@ -219,12 +294,14 @@ export default function TrelloCard(props) {
                 name={name}
                 handleConfirmDeleteOpen={handleConfirmDeleteOpen}
                 column={state.column}
-                dueDate={state.dueDate}
+                dueDate={state.due}
                 description={state.description}
                 handleColumnChange={handleColumnChange}
+                handleDueChange={handleDueChange}
                 labels={state.labels}
                 handleEditCard={handleEditCard}
                 handleDescriptionChange={handleDescriptionChange}
+                errors={state.errors}
             ></EditCardPopUp>
         </div>
     )

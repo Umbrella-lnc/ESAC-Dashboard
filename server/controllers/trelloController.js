@@ -95,7 +95,9 @@ const editCard = async (req, res) => {
                 'idList=' +
                 req.body.idList +
                 '&desc=' +
-                req.body.description
+                req.body.description +
+                '&due=' +
+                req.body.due
         )
         .then((trello_res) => {
             res.json(trello_res.data)
@@ -113,6 +115,7 @@ const editCard = async (req, res) => {
 //  + req.body.action
 const addCard = async (req, res) => {
     //See UTIL functions at top of file
+    console.log(req.body)
     axios
         .post(
             trelloURL +
@@ -128,7 +131,9 @@ const addCard = async (req, res) => {
                 '&desc=' +
                 req.body.description +
                 '&name=' +
-                req.body.name
+                req.body.name +
+                '&due=' +
+                req.body.due
         )
         .then((trello_res) => {
             res.json(trello_res.data)
