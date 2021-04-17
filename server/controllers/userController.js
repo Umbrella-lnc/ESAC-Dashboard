@@ -4,7 +4,7 @@ const User = require("../models/User");
 const validateRegiserInput = require("../validate/register");
 const validateLoginInput = require("../validate/login");
 const dotenv = require("dotenv");
-
+const { saveUserSendCookie } = require("../utilities/user_functions");
 dotenv.config();
 const secretOrKey = process.env.secretOrKey;
 
@@ -87,29 +87,7 @@ const login = async (req, res) => {
         // Check if password is correct
         bcrypt.compare(password, user.password).then((isMatch) => {
             if (isMatch) {
-                const payload = {
-                    id: user.id,
-                    firstname: user.firstname,
-                    lastname: user.lastname,
-                    department: user.department,
-                    email: user.email,
-                    accessLevel: user.accessLevel,
-                    active: user.active,
-                    email_opt_out: user.email_opt_out,
-                    image_data: user.image_data,
-                };
-
-                jwt.sign(
-                    payload,
-                    secretOrKey,
-                    { expiresIn: 31556926 },
-                    (err, token) => {
-                        res.json({
-                            success: true,
-                            token: "Bearer " + token,
-                        });
-                    }
-                );
+                saveUserSendCookie(user, res);
             } else {
                 return res
                     .status(400)
@@ -118,7 +96,6 @@ const login = async (req, res) => {
         });
     });
 };
-
 
 exports.register = register;
 exports.login = login;

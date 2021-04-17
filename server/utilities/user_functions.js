@@ -40,4 +40,4 @@ const saveUserSendCookie = (user, res) => {
         );
 };
 
-module.exports = saveUserSendCookie;
+exports.saveUserSendCookie = saveUserSendCookie;

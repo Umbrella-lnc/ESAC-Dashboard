@@ -105,40 +105,7 @@ const updateUser = async (req, res) => {
                 });
             }
 
-            //Save user
-            user.save()
-                //Send user new token
-                .then((user) => {
-                    const payload = {
-                        id: user.id,
-                        firstname: user.firstname,
-                        lastname: user.lastname,
-                        department: user.department,
-                        email: user.email,
-                        accessLevel: user.accessLevel,
-                        active: user.active,
-                        email_opt_out: user.email_opt_out,
-                    };
-                    console.log("Signing...");
-                    jwt.sign(
-                        payload,
-                        secretOrKey,
-                        { expiresIn: 31556926 },
-                        (err, token) => {
-                            return res.json({
-                                success: true,
-                                token: "Bearer " + token,
-                                user,
-                            });
-                            console.log(err);
-                        }
-                    );
-
-                    //return res.status(200).json({
-                    //    success: "Changed user info!",
-                    //});
-                })
-                .catch((err) => console.log(err));
+            saveUserSendCookie(user, res);
         }
     });
 };
