@@ -9,37 +9,33 @@ import baseURL from "../../baseURL";
 import DeletePopUp from "./DeletePopUp";
 import MoreInfoPopUp from "./MoreInfoPopUp";
 import EditCardPopUp from "./EditCardPopUp";
+import { CastRounded } from "@material-ui/icons";
 
 export default function TrelloCard(props) {
     const classes = useStyles();
 
-    const name = props.cardInfo.name;
-    const description = props.cardInfo.desc;
-    const colName = props.colName;
-    const cardId = props.cardInfo.id;
-    const { updateCards, index, editCardColumn, getIdFromColumn } = props;
+    const {
+        card,
+        header,
+        editCardColumn,
+        card_index,
+        col_index,
+        updateCards,
+        getIdFromColumn,
+        headers,
+        getIndexFromHeaderName,
+    } = props;
 
-    const [confirmDeleteOpen, setConfirmDeleteOpen] = React.useState();
+    const [confirmDeleteOpen, setConfirmDeleteOpen] = React.useState(false);
     const [cardDetailsOpen, setCardDetailsOpen] = React.useState(false);
     const [editCardOpen, setEditCardOpen] = React.useState(false);
 
-    var due = String(props.cardInfo.due);
-
-    var label = "";
-
-    for (var i = 0; i < props.cardInfo.labels.length; i++) {
-        if (i != 0) {
-            label = label + ",";
-        }
-        label = label + " " + props.cardInfo.labels[i].name;
-    }
-
     const [state, setState] = React.useState({
-        column: colName,
-        labels: label,
-        description: description,
-        due: due,
-        name: name,
+        column: header.name,
+        labels: card.labels,
+        description: card.desc,
+        due: String(card.due),
+        name: card.name,
         errors: "",
     });
 
@@ -75,7 +71,7 @@ export default function TrelloCard(props) {
     function handleDelete() {
         axios
             .post(baseURL + "/api/trello/deleteCard", {
-                cardId: cardId,
+                cardId: card.cardId,
             })
             .then(function (res) {
                 //Set cards with setState to avoid window reload
@@ -126,24 +122,16 @@ export default function TrelloCard(props) {
         return day > 0 && day <= monthLength[month - 1];
     }
 
-    //Takes in new parameters!
     function handleEditCard(changes) {
         const { due, column, description } = changes;
-        const idList = getIdFromColumn(column);
+        const new_col_index = getIndexFromHeaderName(column);
+        const idList = getIdFromColumn(new_col_index);
 
-        if ((!isValidDate(due) && due != "") || name == "") {
-            if (!isValidDate(due) && due != "") {
-                setState({
-                    ...state,
-                    errors: "invalid date",
-                });
-            }
-            if (name == "") {
-                setState({
-                    ...state,
-                    errors: "you must include a name",
-                });
-            }
+        if (!isValidDate(due) && due != "") {
+            setState({
+                ...state,
+                errors: "invalid date",
+            });
             return;
         }
 
@@ -162,16 +150,16 @@ export default function TrelloCard(props) {
 
         axios
             .post(baseURL + "/api/trello/editCard", {
-                cardId: cardId,
+                cardId: card.id,
                 idList: idList,
                 due: formattedDue,
                 description: description,
             })
             .then(function (res) {
                 handleEditCardClose();
-                //Edit Column
-                editCardColumn(colName, index, idList);
-                //updateCards() Full refresh of cards
+                //Edit Column, curColIndex, card index of column, destination column index
+                editCardColumn(col_index, card_index, new_col_index);
+
                 //Update card info
                 setState((prevState) => ({
                     ...prevState,
@@ -249,7 +237,10 @@ export default function TrelloCard(props) {
                                 className={classes.pos}
                                 color="textSecondary"
                             >
-                                Labels: {label}
+                                Labels:
+                                {state.labels.map((label) => {
+                                    return label.name;
+                                })}
                             </Typography>
                         )}
                     </CardContent>
@@ -260,10 +251,10 @@ export default function TrelloCard(props) {
                 handleCardDetailsClose={handleCardDetailsClose}
                 cardDetailsOpen={cardDetailsOpen}
                 labels={state.labels}
-                due={state.due}
+                due={readableDate(state.due)}
                 description={state.description}
                 column={state.column}
-                name={name}
+                name={state.name}
             ></MoreInfoPopUp>
             <DeletePopUp
                 confirmDeleteOpen={confirmDeleteOpen}
@@ -282,6 +273,7 @@ export default function TrelloCard(props) {
                 handleEditCard={handleEditCard}
                 errors={state.errors}
                 readableDate={readableDate}
+                headers={headers}
             ></EditCardPopUp>
         </div>
     );

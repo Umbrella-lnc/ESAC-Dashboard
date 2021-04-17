@@ -18,7 +18,7 @@ export default function EditCardPopUp(props) {
     const errors = props.errors;
     const handleEditCard = props.handleEditCard;
 
-    const { readableDate } = props;
+    const { headers } = props;
 
     //State of the dialog
     const [state, setState] = React.useState({
@@ -100,9 +100,13 @@ export default function EditCardPopUp(props) {
                         id: "age-native-simple",
                     }}
                 >
-                    <option value={"To Do"}>To Do</option>
-                    <option value={"Doing"}>Doing</option>
-                    <option value={"Done"}>Done</option>
+                    {headers.map((header) => {
+                        return (
+                            <option value={header.name} key={header.id}>
+                                {header.name}
+                            </option>
+                        );
+                    })}
                 </Select>
                 <h6 className={classes.trelloErrorMessage}>{errors}</h6>
                 <Button

@@ -67,47 +67,33 @@ const Dashboard = (props) => {
             });
     };
 
-    const getIdFromColumn = (column) => {
-        let idList = "";
-        if (column == "To Do") {
-            idList = "60638369236486515ccc1ec8";
-        } else if (column == "Doing") {
-            idList = "6063836bf49a2c5dc7e08dc6";
-        } else {
-            idList = "6063836cce7e3326413eb0f2";
-        }
-        return idList;
-    };
-
-    const editCardColumn = (curColName, index, newColID) => {
-        const oldColIndex = state.headers.findIndex(
-            (header) => header.id === getIdFromColumn(curColName)
-        );
-        const newColIndex = state.headers.findIndex(
-            (header) => header.id === newColID
-        );
-
-        console.log(getIdFromColumn(curColName));
-        console.log(newColID);
-        console.log(curColName + "\n" + index + "\n" + newColID);
-        console.log(oldColIndex + "\n" + index + "\n" + newColIndex);
+    const editCardColumn = (cur_col, card_index, new_col) => {
+        console.log(cur_col + "\n" + card_index + "\n" + new_col);
         console.log(state.headers);
 
         //Don't update column if the same
-        if (oldColIndex === newColIndex) {
+        if (new_col === cur_col) {
             return;
         }
         setState((prevState) => {
             const newState = { ...prevState };
             //Add new element to new column
-            newState.lists[newColIndex] = [
-                ...newState.lists[newColIndex],
-                newState.lists[oldColIndex][index],
+            newState.lists[new_col] = [
+                ...newState.lists[new_col],
+                newState.lists[cur_col][card_index],
             ];
             //Remove card from old column
-            newState.lists[oldColIndex].splice(index, 1);
-            setState(newState);
+            newState.lists[cur_col].splice(card_index, 1);
+            return newState;
         });
+    };
+
+    const getIdFromColumn = (colIndex) => {
+        return state.headers[colIndex].id;
+    };
+
+    const getIndexFromHeaderName = (name) => {
+        return state.headers.findIndex((header) => header.name === name);
     };
 
     //Hard refresh of cards
@@ -181,35 +167,39 @@ const Dashboard = (props) => {
             <h1 style={header}>Tasks</h1>
             <h5 style={subheader}>Imported From trello</h5>
             <List style={horiList}>
-                {state.headers.map((value, index) => {
+                {state.headers.map((header, index) => {
                     return (
-                        <div>
+                        <div key={header.id}>
                             <ListItem>
                                 <List style={vertiList}>
                                     <ListItem className="input-field col s12">
-                                        <ColumnLabel cardInfo={value.name} />
+                                        <ColumnLabel cardInfo={header.name} />
                                     </ListItem>
 
                                     {state.lists[index].map(
-                                        (value1, card_index) => {
+                                        (card, card_index) => {
                                             return (
                                                 <ListItem
-                                                    key={value1.id}
+                                                    key={card.id}
                                                     className="input-field col s12"
                                                 >
                                                     <TrelloCard
-                                                        cardInfo={value1}
-                                                        colName={value.name}
-                                                        updateCards={
-                                                            updateCards
-                                                        }
+                                                        card={card}
+                                                        header={header}
+                                                        headers={state.headers}
                                                         editCardColumn={
                                                             editCardColumn
                                                         }
                                                         card_index={card_index}
                                                         col_index={index}
+                                                        updateCards={
+                                                            updateCards
+                                                        }
                                                         getIdFromColumn={
                                                             getIdFromColumn
+                                                        }
+                                                        getIndexFromHeaderName={
+                                                            getIndexFromHeaderName
                                                         }
                                                     />
                                                 </ListItem>
@@ -218,7 +208,7 @@ const Dashboard = (props) => {
                                     )}
                                     <ListItem className="input-field col s12">
                                         <NewCard
-                                            colId={value.id}
+                                            colId={header.id}
                                             updateCards={updateCards}
                                         />
                                     </ListItem>
