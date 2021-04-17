@@ -62,6 +62,7 @@ const setOptOut = async (req, res) => {
             //Update the fields based on what is empty
             if (!isEmpty(req.body.email_opt_out)) {
                 user.email_opt_out = Boolean(req.body.email_opt_out);
+                saveUserSendCookie(user, res);
             } else {
                 let errors = {};
                 errors.email_opt_out = "Invalid email_opt_out field!";
