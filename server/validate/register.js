@@ -4,26 +4,6 @@ const isEmpty = require("is-empty");
 module.exports = function validateRegiserInput(data) {
     let errors = {};
 
-    // Convert empty fields to empty strings
-    data.firstname = !isEmpty(data.firstname) ? data.firstname : "";
-    data.lastname = !isEmpty(data.lastname) ? data.lastname : "";
-    data.department = !isEmpty(data.department) ? data.department : "";
-    data.email = !isEmpty(data.email) ? data.email : "";
-    data.password = !isEmpty(data.password) ? data.password : "";
-    data.confirmPassword = !isEmpty(data.confirmPassword)
-        ? data.confirmPassword
-        : "";
-    data.accessLevel = !isEmpty(data.accessLevel) ? data.accessLevel : "";
-
-    // Validate name
-    if (Validator.isEmpty(data.firstname)) {
-        errors.firstname = "Firstname field required!";
-    }
-    if (Validator.isEmpty(data.lastname)) {
-        errors.lastname = "Lastname field required!";
-    }
-
-    // Validate department
     const departments = [
         "Mechanical and Aerospace Engineering (MAE)",
         "Civil, Coastal, and Environmental Engineering (ESSIE)",
@@ -37,6 +17,32 @@ module.exports = function validateRegiserInput(data) {
         "Nuclear Engineering (NE)",
     ];
 
+    // Convert empty fields to empty strings
+    data.firstname = !isEmpty(data.firstname) ? data.firstname : "";
+    data.lastname = !isEmpty(data.lastname) ? data.lastname : "";
+    data.department = !isEmpty(data.department) ? data.department : "";
+    data.email = !isEmpty(data.email) ? data.email : "";
+    data.password = !isEmpty(data.password) ? data.password : "";
+    data.confirmPassword = !isEmpty(data.confirmPassword)
+        ? data.confirmPassword
+        : "";
+    data.accessLevel = !isEmpty(data.accessLevel) ? data.accessLevel : "";
+
+    // Validate first name
+    if (Validator.isEmpty(data.firstname)) {
+        errors.firstname = "First name required!";
+    } else if(!Validator.isLength(data.firstname, {min: 1, max: 60 })) {
+        errors.firstname = "First name cannot exceed 60 characters!"
+    }
+
+    // Validate last name
+    if (Validator.isEmpty(data.lastname)) {
+        errors.lastname = "Last name field required!";
+    } else if(!Validator.isLength(data.lastname, {min: 1, max: 60 })) {
+        errors.lastname = "Last name cannot exceed 60 characters!"
+    }
+
+    // Validate department
     if (Validator.isEmpty(data.department)) {
         errors.department = "Department field required!";
     } else if (!departments.includes(data.department)) {
@@ -50,6 +56,8 @@ module.exports = function validateRegiserInput(data) {
         errors.email = "Email is invalid!";
     } else if (data.email.split("@")[1] !== "ufl.edu") {
         errors.email = "Email requires @ufl.edu domain!";
+    } else if (!Validator.isLength(data.email, {min: 1, max: 60 })) {
+        errors.email = "Email cannot exceed 60 characters!";
     }
 
     // Validate password
@@ -59,7 +67,7 @@ module.exports = function validateRegiserInput(data) {
     if (Validator.isEmpty(data.confirmPassword)) {
         errors.confirmPassword = "Confirm Password field required!";
     }
-    if (!Validator.isLength(data.password, { min: 7, max: 30 })) {
+    if (!Validator.isLength(data.password, { min: 7, max: 60 })) {
         errors.password = "Password must be at least 7 characters long!";
     }
     if (Validator.isAlpha(data.password)) {

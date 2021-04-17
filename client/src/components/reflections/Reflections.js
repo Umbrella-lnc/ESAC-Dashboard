@@ -127,10 +127,25 @@ class Reflections extends Component {
         axios
             .post(baseURL + "/api/reflections/commentOnReflection", newComment)
             .then((res) => {
-                this.fetchDepartmentReflections();
+                this.fetchReflections();
             })
             .catch((err) => console.log(err));
     };
+
+    deleteComment = (reflectionID, commentID, commentPosterID) => {
+        const payload = {
+            reflectionID: reflectionID,
+            commentID: commentID,
+            commentPosterID: commentPosterID,
+        }
+
+        axios
+            .post(baseURL + "/api/reflections/deleteComment", payload)
+            .then((res) => {
+                this.fetchReflections();
+            })
+            .catch((err) => console.log(err));
+    }
 
     toggleStatus = (id) => {
         axios
@@ -138,20 +153,23 @@ class Reflections extends Component {
                 reflectionID: id,
             })
             .then((res) => {
-                this.fetchAllReflections();
+                this.fetchReflections();
             })
             .catch((err) => console.log(err));
     };
 
-    componentDidMount() {
-        const token = localStorage.getItem("jwtToken");
-        const user = jwt_decode(token);
+    fetchReflections = () => {
+        const user = jwt_decode(localStorage.getItem("jwtToken"));
 
         if (user.accessLevel === "administrator") {
             this.fetchAllReflections();
         } else {
             this.fetchDepartmentReflections();
         }
+    }
+
+    componentDidMount() {
+        this.fetchReflections();
     }
 
     render() {
@@ -203,12 +221,11 @@ class Reflections extends Component {
                                     }
                                     return (
                                         <Reflection
-                                            deleteReflection={
-                                                this.deleteReflection
-                                            }
+                                            deleteReflection={this.deleteReflection}
                                             user={this.user}
                                             reflection={reflection}
                                             submitComment={this.submitComment}
+                                            deleteComment={this.deleteComment}
                                             key={reflection._id}
                                             toggleStatus={this.toggleStatus}
                                         ></Reflection>
