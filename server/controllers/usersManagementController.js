@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const Validator = require("validator");
+const { saveUserSendCookie } = require("../utilities/user_functions");
 
 dotenv.config();
 const secretOrKey = process.env.secretOrKey;
@@ -66,40 +67,6 @@ const setOptOut = async (req, res) => {
                 errors.email_opt_out = "Invalid email_opt_out field!";
                 return res.status(400).json(errors);
             }
-
-            //Save user
-            user.save()
-                .then(() => {
-                    const payload = {
-                        id: user.id,
-                        firstname: user.firstname,
-                        lastname: user.lastname,
-                        department: user.department,
-                        email: user.email,
-                        accessLevel: user.accessLevel,
-                        active: user.active,
-                        email_opt_out: user.email_opt_out,
-                        image_data: user.image_data,
-                    };
-
-                    jwt.sign(
-                        payload,
-                        secretOrKey,
-                        { expiresIn: 31556926 },
-                        (err, token) => {
-                            res.json({
-                                success: true,
-                                token: "Bearer " + token,
-                                user,
-                            });
-                        }
-                    );
-                })
-                .catch((err) =>
-                    res.status(500).json({
-                        failure: "Internal error, could not update db.",
-                    })
-                );
         }
     });
 };
@@ -137,9 +104,6 @@ const updateUser = async (req, res) => {
                     });
                 });
             }
-            if (!isEmpty(req.body.image_data)) {
-                user.image_data = req.body.image_data;
-            }
 
             //Save user
             user.save()
@@ -154,7 +118,6 @@ const updateUser = async (req, res) => {
                         accessLevel: user.accessLevel,
                         active: user.active,
                         email_opt_out: user.email_opt_out,
-                        image_data: user.image_data,
                     };
 
                     jwt.sign(
@@ -162,17 +125,13 @@ const updateUser = async (req, res) => {
                         secretOrKey,
                         { expiresIn: 31556926 },
                         (err, token) => {
-                            res.json({
+                            return res.json({
                                 success: true,
                                 token: "Bearer " + token,
                                 user,
                             });
                         }
                     );
-
-                    return res.status(200).json({
-                        success: "Changed user info!",
-                    });
                 })
                 .catch((err) => console.log(err));
         }
