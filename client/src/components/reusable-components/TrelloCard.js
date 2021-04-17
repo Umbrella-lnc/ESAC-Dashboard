@@ -28,7 +28,7 @@ const colors = [
     { name: "red", color: red["A700"] },
     { name: "purple", color: deepPurple["A700"] },
     { name: "blue", color: blue["A700"] },
-    { name: "turqoise", color: lightBlue["A700"] },
+    { name: "sky", color: lightBlue["A700"] },
     { name: "lime", color: lightGreen["A700"] },
     { name: "pink", color: pink["A700"] },
     { name: "black", color: "#301b70" },
@@ -223,9 +223,9 @@ export default function TrelloCard(props) {
     };
 
     const getColorStyle = () => {
-        if (state.labels.length > 0) {
+        if (state.labels.length > 0 && state.labels[0]) {
             let color = state.labels[0].color;
-            console.log(color);
+            //console.log(color);
             return {
                 backgroundColor: colors.find(
                     (setColor) => color === setColor.name
