@@ -63,9 +63,13 @@ export default function EditCardPopUp(props) {
                 </h6>
                 <h3 style={{ color: "black", marginLeft: "20px" }}>{name}</h3>
                 <h6 className={classes.trelloInfoHeadings}>Labels:</h6>
-                {labels != "" && (
-                    <h6 className={classes.trelloInfoBodies}>{labels}</h6>
-                )}
+                {labels != "" &&
+                    labels.map((label) => (
+                        <h6 className={classes.trelloInfoBodies}>
+                            {label.name}
+                        </h6>
+                    ))}
+
                 {labels == "" && (
                     <h6 className={classes.trelloInfoBodies}>No Labels</h6>
                 )}

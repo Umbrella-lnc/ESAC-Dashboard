@@ -2,14 +2,38 @@ import React from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import { CardActionArea, List } from "@material-ui/core";
+import { CardActionArea } from "@material-ui/core";
 import axios from "axios";
 import { useStyles } from "./cardStyles";
 import baseURL from "../../baseURL";
 import DeletePopUp from "./DeletePopUp";
 import MoreInfoPopUp from "./MoreInfoPopUp";
 import EditCardPopUp from "./EditCardPopUp";
-import { CastRounded } from "@material-ui/icons";
+import {
+    blue,
+    green,
+    yellow,
+    deepOrange,
+    deepPurple,
+    lightBlue,
+    red,
+    lightGreen,
+    pink,
+} from "@material-ui/core/colors";
+
+const colors = [
+    { name: "green", color: green["A700"] },
+    { name: "yellow", color: yellow["A700"] },
+    { name: "orange", color: deepOrange["A700"] },
+    { name: "red", color: red["A700"] },
+    { name: "purple", color: deepPurple["A700"] },
+    { name: "blue", color: blue["A700"] },
+    { name: "turqoise", color: lightBlue["A700"] },
+    { name: "lime", color: lightGreen["A700"] },
+    { name: "pink", color: pink["A700"] },
+    { name: "black", color: "#301b70" },
+    { name: "white", color: "FFF" },
+];
 
 export default function TrelloCard(props) {
     const classes = useStyles();
@@ -71,7 +95,7 @@ export default function TrelloCard(props) {
     function handleDelete() {
         axios
             .post(baseURL + "/api/trello/deleteCard", {
-                cardId: card.cardId,
+                cardId: card.id,
             })
             .then(function (res) {
                 //Set cards with setState to avoid window reload
@@ -198,15 +222,37 @@ export default function TrelloCard(props) {
         return due;
     };
 
+    const getColorStyle = () => {
+        if (state.labels.length > 0) {
+            let color = state.labels[0].color;
+            console.log(color);
+            return {
+                backgroundColor: colors.find(
+                    (setColor) => color === setColor.name
+                ).color,
+                color: "#FFF",
+            };
+        } else {
+            return {
+                backgroundColor: "FFF",
+                color: "black",
+            };
+        }
+    };
+
     return (
         <div>
-            <Card className={classes.root} raised={true}>
+            <Card
+                className={classes.root}
+                raised={true}
+                style={getColorStyle()}
+            >
                 <CardActionArea onClick={handleCardDetailsOpen}>
                     <CardContent className={classes.content}>
                         {state.due != "" && (
                             <Typography
                                 className={classes.title}
-                                color="textSecondary"
+                                color="inherit"
                                 gutterBottom
                             >
                                 {readableDate(state.due)}
@@ -233,10 +279,7 @@ export default function TrelloCard(props) {
                             </Typography>
                         )}
                         {state.labels != "" && (
-                            <Typography
-                                className={classes.pos}
-                                color="textSecondary"
-                            >
+                            <Typography className={classes.pos} color="inherit">
                                 Labels:
                                 {state.labels.map((label) => {
                                     return label.name;
