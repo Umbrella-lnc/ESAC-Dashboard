@@ -1,5 +1,4 @@
 const User = require("../models/User");
-const Comment = require("../models/Comment");
 const Reflection = require("../models/Reflection");
 const validateReflection = require("../validate/reflection");
 const validateComment = require("../validate/comment");
@@ -271,6 +270,13 @@ const getAllReflections = async (req, res) => {
         });
 };
 
+
+// @route POST api/reflections/toggleStatus
+// @desc Toggle the status of a reflection
+// @access Admin
+// @req
+//  + req.user => current logged in user object
+//  + req.body.reflectionID
 const toggleStatus = async (req, res) => {
     if (req.user.accessLevel != "administrator") {
         return res.status(404).json({

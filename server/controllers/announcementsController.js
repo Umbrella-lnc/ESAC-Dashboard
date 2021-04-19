@@ -6,7 +6,7 @@ const { announcementEmail } = require("./emailController");
 // @route POST api/announcements/createAnnouncement
 // @desc Create an announcement
 // @access Admin
-//  + req.user => current logged in user object
+//  + req.user
 //  + req.body.title
 //  + req.body.post
 const createAnnouncement = async (req, res) => {

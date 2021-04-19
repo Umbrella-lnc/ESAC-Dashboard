@@ -1,8 +1,5 @@
-const User = require('../models/User')
-const axios = require('axios')
 
-//Validation
-const isEmpty = require('is-empty')
+const axios = require('axios')
 
 //Import env variables for trello api
 const dotenv = require('dotenv')

@@ -1,12 +1,8 @@
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const validateRegiserInput = require("../validate/register");
 const validateLoginInput = require("../validate/login");
-const dotenv = require("dotenv");
 const { saveUserSendCookie } = require("../utilities/user_functions");
-dotenv.config();
-const secretOrKey = process.env.secretOrKey;
 
 // @route POST api/users/register
 // @desc Register user
@@ -68,7 +64,6 @@ const login = async (req, res) => {
         return res.status(400).json(errors);
     }
 
-    const email = req.body.email;
     const password = req.body.password;
 
     // Find by email
@@ -85,7 +80,7 @@ const login = async (req, res) => {
         }
 
         // Check if password is correct
-        bcrypt.compare(password, user.password).then((isMatch) => {
+        bcrypt.compare(req.body.password, user.password).then((isMatch) => {
             if (isMatch) {
                 saveUserSendCookie(user, res);
             } else {
