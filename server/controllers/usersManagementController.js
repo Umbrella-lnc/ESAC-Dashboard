@@ -34,12 +34,6 @@ const toggleVerifiedStatus = async (req, res) => {
             user.save()
                 .then(() => {
                     res.status(200).json({ success: "Toggled user access!" });
-                    console.log(
-                        "Toggled user " +
-                            user.email +
-                            " to active: " +
-                            user.active
-                    );
                 })
                 .catch((err) =>
                     res.status(500).json({

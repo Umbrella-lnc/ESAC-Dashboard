@@ -115,7 +115,6 @@ const editCard = async (req, res) => {
 //  + req.body.action
 const addCard = async (req, res) => {
     //See UTIL functions at top of file
-    console.log(req.body)
     axios
         .post(
             trelloURL +

@@ -77,10 +77,6 @@ const deleteAnnouncement = async (req, res) => {
                                 .status(400)
                                 .json({ not_found: "Announcement not found!" });
                         } else {
-                            console.log(
-                                "Deleted announcement ID " +
-                                    req.body.announcementID
-                            );
                             res.json({ success: true });
                         }
                     }

@@ -80,7 +80,6 @@ const deleteReflection = async (req, res) => {
                             .status(400)
                             .json({ not_found: "Reflection not found!" });
                     } else {
-                        console.log("Deleted reflection ID " + req.body.reflectionID);
                         res.json({ success: true });
                     }
                 }).catch((err) => {
