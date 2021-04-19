@@ -45,7 +45,6 @@ const Dashboard = (props) => {
         axios
             .get(baseURL + "/api/trello/getLists")
             .then((res) => {
-                console.log(res);
                 setState((prevState) => ({
                     ...prevState,
                     headers: res.data,
@@ -68,9 +67,6 @@ const Dashboard = (props) => {
     };
 
     const editCardColumn = (cur_col, card_index, new_col) => {
-        console.log(cur_col + "\n" + card_index + "\n" + new_col);
-        console.log(state.headers);
-
         //Don't update column if the same
         if (new_col === cur_col) {
             return;
@@ -107,8 +103,6 @@ const Dashboard = (props) => {
 
     //POST RENDER
     React.useEffect(() => {
-        //Debugging
-        console.log(state);
     }, [state]);
 
     //Initial Load
@@ -128,8 +122,6 @@ const Dashboard = (props) => {
         }
         //Continue loading
         else if (state.loading && state.headers.length > 0) {
-            console.log(state.headers);
-            console.log(state.lists.length);
             getList(state.headers[state.lists.length].id);
         }
     }, [state]);

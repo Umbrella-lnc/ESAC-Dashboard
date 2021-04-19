@@ -16,7 +16,6 @@ const ManageProfiles = (props) => {
     const getProfiles = () => {
         axios.get(baseURL + `/api/usersManagement/listUsers`).then((res) => {
             const profiles = res.data
-            console.log(res)
             setState((prevState) => ({ ...prevState, profiles: profiles }))
         })
     }

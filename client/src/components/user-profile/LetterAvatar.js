@@ -18,8 +18,6 @@ export default function LetterAvatars(props) {
     let initials = "";
 
     if(typeof name.firstname !== 'undefined') {
-        console.log(name.firstname);
-
         initials =
             name.firstname.toUpperCase().charAt(0) +
             name.lastname.toUpperCase().charAt(0);

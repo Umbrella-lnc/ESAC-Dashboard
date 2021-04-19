@@ -6,11 +6,9 @@ import { useLocation } from "react-router-dom";
 const Navbar = (props) => {
     const [showNav, setShowNav] = React.useState(false);
     let browser_location = useLocation();
-    console.log(browser_location);
 
     React.useEffect(() => {
         const noShowLocs = ["/", "/login", "/register"];
-        console.log(window.location.pathname);
         if (!noShowLocs.includes(window.location.pathname)) {
             setShowNav(true);
         } else {

@@ -170,8 +170,6 @@ export default function TrelloCard(props) {
                 "T20:56:00.000Z";
         }
 
-        console.log(idList);
-
         axios
             .post(baseURL + "/api/trello/editCard", {
                 cardId: card.id,

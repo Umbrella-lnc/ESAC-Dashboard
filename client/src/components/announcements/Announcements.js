@@ -35,8 +35,8 @@ class Announcements extends Component {
     };
 
     fetchAnnouncements = () => {
-        console.log(baseURL);
-        console.log(baseURL + "/api/announcements/getAnnouncements");
+        //console.log(baseURL);
+        //console.log(baseURL + "/api/announcements/getAnnouncements");
         axios
             .get(baseURL + "/api/announcements/getAnnouncements")
             .then((res) => {

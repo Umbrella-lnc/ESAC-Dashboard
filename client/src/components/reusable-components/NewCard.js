@@ -110,9 +110,6 @@ export default function NewCard(props) {
     }
 
     function handleAddCard() {
-        console.log(state.colId)
-        console.log(state.name)
-        console.log(state.description)
         if ((!isValidDate(state.due) && state.due != '') || state.name == '') {
             if (!isValidDate(state.due) && state.due != '') {
                 setState({

@@ -69,8 +69,6 @@ class Reflections extends Component {
         axios
             .get(baseURL + "/api/reflections/getAllReflections")
             .then((res) => {
-                // Debug
-                console.log(baseURL + "/api/reflections/getAllReflections");
                 this.setState({ reflections: res.data });
             });
     };
@@ -82,10 +80,6 @@ class Reflections extends Component {
                 department
             )
             .then((res) => {
-                // Debug
-                console.log(
-                    baseURL + "/api/reflections/getDepartmentReflections"
-                );
                 this.setState({ reflections: res.data });
             });
     };

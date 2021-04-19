@@ -30,10 +30,6 @@ const FormDialog = (props) => {
         setOpen(false);
     };
 
-    const test = () => {
-        console.log(getDepartment());
-    };
-
     return (
         <div>
             <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
