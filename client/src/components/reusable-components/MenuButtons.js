@@ -98,7 +98,10 @@ const MenuButtons = (props) => {
                 {items.map((item) => {
                     const { url, code } = item;
                     return (
-                        <MenuItem onClick={() => handleClose(url)}>
+                        <MenuItem
+                            key={Math.random() * 10000}
+                            onClick={() => handleClose(url)}
+                        >
                             {code}
                         </MenuItem>
                     );

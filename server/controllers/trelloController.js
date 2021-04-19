@@ -150,14 +150,12 @@ const addCard = async (req, res) => {
 //  + req.user => current logged in user object
 //  + req.body.boardId = id of the board.
 const getLists = async (req, res) => {
-    res.json(response)
-
     axios
         .get(
             trelloURL +
                 'boards/' +
                 trelloBoardId +
-                'lists?' +
+                '/lists?' +
                 'key=' +
                 trelloKey +
                 '&' +
@@ -178,3 +176,4 @@ exports.addCard = addCard
 exports.getCards = getCards
 exports.deleteCard = deleteCard
 exports.editCard = editCard
+exports.getLists = getLists
