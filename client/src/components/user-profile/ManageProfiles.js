@@ -25,7 +25,7 @@ const ManageProfiles = (props) => {
             <GridList cols={3} spacing={15} style={{ padding: 80 }}>
                 {state.profiles.map((value, index) => {
                     return (
-                        <ListItem className='input-field col s12'>
+                        <ListItem key={index} className='input-field col s12'>
                             <ProfileCard
                                 user={value}
                                 window={window}

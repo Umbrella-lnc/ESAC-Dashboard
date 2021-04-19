@@ -28,7 +28,7 @@ export default function MoreInfoPopUps(props) {
                 </Button>
                 <h3 style={{ color: "black", marginLeft: "20px" }}>{name}</h3>
                 <h6 className={classes.trelloInfoHeadings}>Labels:</h6>
-                {labels != "" &&
+                {labels !== "" &&
                     labels.map((label) => {
                         return (
                             <h6
@@ -39,21 +39,21 @@ export default function MoreInfoPopUps(props) {
                             </h6>
                         );
                     })}
-                {labels == "" && (
+                {labels === "" && (
                     <h6 className={classes.trelloInfoBodies}>No Labels</h6>
                 )}
                 <h6 className={classes.trelloInfoHeadings}>Due Date:</h6>
-                {due != "" && (
+                {due !== "" && (
                     <h6 className={classes.trelloInfoBodies}>{due}</h6>
                 )}
-                {due == "" && (
+                {due === "" && (
                     <h6 className={classes.trelloInfoBodies}>No Due Date</h6>
                 )}
                 <h6 className={classes.trelloInfoHeadings}>Description:</h6>
                 {description.length > 0 && (
                     <h6 className={classes.trelloInfoBodies}>{description}</h6>
                 )}
-                {description.length == 0 && (
+                {description.length === 0 && (
                     <h6 className={classes.trelloInfoBodies}>No Description</h6>
                 )}
                 <h6 className={classes.trelloInfoHeadings}>Status:</h6>

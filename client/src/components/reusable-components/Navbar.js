@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { BrowserRouter, Link } from "react-router-dom";
 import AppNavbar from "./AppNavbar";
 import { useLocation } from "react-router-dom";

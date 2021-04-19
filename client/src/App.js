@@ -3,7 +3,6 @@ import {
     BrowserRouter as Router,
     Route,
     Switch,
-    useLocation,
 } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { Provider } from "react-redux";

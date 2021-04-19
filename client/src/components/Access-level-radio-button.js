@@ -26,7 +26,7 @@ export default function RadioButtonsGroup(props) {
           label="Representative"
           labelPlacement="end"
           onClick={(e) => changeAccess(e.target.value)}
-          checked={"representative" == getAccess()}
+          checked={"representative" === getAccess()}
         />
         <FormControlLabel
           value="administrator"
@@ -35,7 +35,7 @@ export default function RadioButtonsGroup(props) {
           label="Administrator"
           labelPlacement="end"
           onClick={(e) => changeAccess(e.target.value)}
-          checked={"administrator" == getAccess()}
+          checked={"administrator" === getAccess()}
         />
       </RadioGroup>
     </FormControl>

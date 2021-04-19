@@ -108,7 +108,7 @@ export default function ProfileCard(props) {
                         >
                             Delete
                         </Button>
-                        {state.active == false && (
+                        {state.active === false && (
                             <Button
                                 className={classes.activateButton}
                                 size='small'
@@ -177,7 +177,7 @@ export default function ProfileCard(props) {
                     >
                         Delete
                     </Button>
-                    {state.active == false && (
+                    {state.active === false && (
                         <Button
                             className={classes.activateButton}
                             size='small'

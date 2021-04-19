@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-import onClickOutside from "react-onclickoutside";
-import { isExternalModule } from "typescript";
+import React, { useState } from "react";
 import "./Dropdown.scss";
 
 function Dropdown({
@@ -16,7 +14,7 @@ function Dropdown({
     Dropdown.handleClickOutside = () => setOpen(false);
 
     function handleOnClick(item) {
-        if (getDepartment() != item.value) {
+        if (getDepartment() !== item.value) {
             if (!multiSelect) {
                 changeDept(item.value);
                 setTitle(item.value);
@@ -32,7 +30,7 @@ function Dropdown({
 
     React.useEffect(() => {
         items.map((item) => {
-            if (item.value === getDepartment() && title != getDepartment()) {
+            if (item.value === getDepartment() && title !== getDepartment()) {
                 setTitle(item.value);
             }
         });

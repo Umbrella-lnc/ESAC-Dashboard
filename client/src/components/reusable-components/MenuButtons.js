@@ -6,13 +6,8 @@ import grey from "@material-ui/core/colors/grey";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import setAuthToken from "../../utils/setAuthToken";
-import jwt_decode from "jwt-decode";
 
-import {
-    GET_ERRORS,
-    SET_CURRENT_USER,
-    USER_LOADING,
-} from "../../actions/types";
+import { SET_CURRENT_USER } from "../../actions/types";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -42,9 +37,6 @@ const MenuButtons = (props) => {
     };
 
     const history = useHistory();
-
-    const token = localStorage.getItem("jwtToken");
-    const user = jwt_decode(token);
 
     const handleClose = (dest) => {
         setAnchorEl(null);

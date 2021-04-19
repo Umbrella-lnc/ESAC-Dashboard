@@ -2,14 +2,11 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
-import jwt_decode from "jwt-decode";
 import "./Profile.css";
-import {} from "react-router-dom";
 import axios from "axios";
 import baseURL from "../../baseURL";
 import setAuthToken from "../../utils/setAuthToken";
 import classnames from "classnames";
-import LetterAvatars from "./LetterAvatar";
 
 class EditProfile extends Component {
     constructor() {
@@ -59,9 +56,6 @@ class EditProfile extends Component {
                 // Set token to Auth header
                 setAuthToken(token);
 
-                // Decode token to get user data
-                const decoded = jwt_decode(token);
-
                 //redirect profile
                 this.props.history.push("/profile");
             })
@@ -70,8 +64,6 @@ class EditProfile extends Component {
 
     render() {
         const { errors } = this.state;
-        const token = localStorage.getItem("jwtToken");
-        const user = jwt_decode(token);
         return (
             <div
                 style={{

@@ -1,11 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import axios from "axios";
 import { List, ListItem } from "@material-ui/core";
 import TrelloCard from "../reusable-components/TrelloCard";
 import ColumnLabel from "../reusable-components/ColumnLabel";
 import baseURL from "../../baseURL";
 import NewCard from "../reusable-components/NewCard";
-import { STATES } from "mongoose";
 
 const Dashboard = (props) => {
     const [state, setState] = React.useState({
