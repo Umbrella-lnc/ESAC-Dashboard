@@ -225,7 +225,6 @@ export default function TrelloCard(props) {
     const getColorStyle = () => {
         if (state.labels.length > 0 && state.labels[0]) {
             let color = state.labels[0].color;
-            //console.log(color);
             return {
                 backgroundColor: colors.find(
                     (setColor) => color === setColor.name
