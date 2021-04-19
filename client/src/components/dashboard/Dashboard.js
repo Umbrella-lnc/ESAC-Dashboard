@@ -169,7 +169,13 @@ const Dashboard = (props) => {
             <List style={horiList}>
                 {state.headers.map((header, index) => {
                     return (
-                        <div key={header.id}>
+                        <div
+                            key={header.id}
+                            style={{
+                                marginRight: "auto",
+                                marginLeft: "auto",
+                            }}
+                        >
                             <ListItem>
                                 <List style={vertiList}>
                                     <ListItem className="input-field col s12">
