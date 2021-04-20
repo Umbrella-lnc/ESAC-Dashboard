@@ -1,6 +1,4 @@
 const nodemailer = require("nodemailer");
-const dotenv = require("dotenv");
-dotenv.config();
 const User = require("../models/User");
 
 const validateEmail = require("../validate/email");
@@ -29,7 +27,7 @@ const sendEmail = async (req, res) => {
 
     if (req.user.accessLevel != "administrator") {
         res.status(403).json({
-            invalid_permission: "You do not have access to post comments!",
+            invalid_permission: "You do not have send e-mail!",
         });
     }
 
@@ -60,8 +58,6 @@ const sendEmail = async (req, res) => {
 const announcementEmail = async (req) => {
     const { title, post } = req.body;
 
-    console.log("Sending Emails!");
-
     User.find()
         .then((users) => {
             mailList = [];
@@ -79,7 +75,6 @@ const announcementEmail = async (req) => {
                 subject: title,
                 text: post,
             };
-            console.log(mailList);
 
             transporter.sendMail(mailOptions, function (err, data) {
                 if (err) {

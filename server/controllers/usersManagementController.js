@@ -2,13 +2,7 @@ const User = require("../models/User");
 const validateUpdateUser = require("../validate/updateUser");
 const isEmpty = require("is-empty");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
-const Validator = require("validator");
 const { saveUserSendCookie } = require("../utilities/user_functions");
-
-dotenv.config();
-const secretOrKey = process.env.secretOrKey;
 
 // @route POST api/usersManagementController/toggleVerifiedStatus
 // @desc Register a user in the database
@@ -34,12 +28,6 @@ const toggleVerifiedStatus = async (req, res) => {
             user.save()
                 .then(() => {
                     res.status(200).json({ success: "Toggled user access!" });
-                    console.log(
-                        "Toggled user " +
-                            user.email +
-                            " to active: " +
-                            user.active
-                    );
                 })
                 .catch((err) =>
                     res.status(500).json({
@@ -49,6 +37,7 @@ const toggleVerifiedStatus = async (req, res) => {
         }
     });
 };
+
 
 // @route POST api/usersManagementController/setOptOut
 // @desc Set opt out status
@@ -71,6 +60,7 @@ const setOptOut = async (req, res) => {
         }
     });
 };
+
 
 // @route POST api/usersManagementController/updateUser
 // @desc Update user info
@@ -111,6 +101,7 @@ const updateUser = async (req, res) => {
     });
 };
 
+
 // @route POST api/usersManagementController/deleteUser
 // @desc Delete a user from the database
 // @access Admin
@@ -134,6 +125,7 @@ const deleteUser = async (req, res) => {
     });
 };
 
+
 // @route GET api/usersManagementController/listUsers
 // @desc Return all users in the database
 // @access Admin
@@ -155,6 +147,10 @@ const listUsers = async (req, res) => {
         });
 };
 
+
+// @route GET api/usersManagementController/getAllNamesWithID
+// @desc Return JSON mapping user IDs to names
+// @access Admin
 const getAllNamesWithID = async (req, res) => {
     User.find()
         .then((users) => {

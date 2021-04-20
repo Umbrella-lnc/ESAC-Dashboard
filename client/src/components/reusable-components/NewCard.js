@@ -4,9 +4,8 @@ import Card from '@material-ui/core/Card'
 import Typography from '@material-ui/core/Typography'
 import axios from 'axios'
 import baseURL from '../../baseURL'
-import { CardActionArea, List } from '@material-ui/core'
+import { CardActionArea } from '@material-ui/core'
 import NewCardPopUp from './NewCardPopUp'
-import { CollectionsOutlined } from '@material-ui/icons'
 
 const useStyles = makeStyles({
     root: {
@@ -97,12 +96,12 @@ export default function NewCard(props) {
         var year = parseInt(parts[2], 10)
 
         // Check the ranges of month and year
-        if (year < 1000 || year > 3000 || month == 0 || month > 12) return false
+        if (year < 1000 || year > 3000 || month === 0 || month > 12) return false
 
         var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
         // Adjust for leap years
-        if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+        if (year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0))
             monthLength[1] = 29
 
         // Check the range of the day
@@ -110,17 +109,14 @@ export default function NewCard(props) {
     }
 
     function handleAddCard() {
-        console.log(state.colId)
-        console.log(state.name)
-        console.log(state.description)
-        if ((!isValidDate(state.due) && state.due != '') || state.name == '') {
-            if (!isValidDate(state.due) && state.due != '') {
+        if ((!isValidDate(state.due) && state.due !== '') || state.name === '') {
+            if (!isValidDate(state.due) && state.due !== '') {
                 setState({
                     ...state,
                     errors: 'invalid date',
                 })
             }
-            if (state.name == '') {
+            if (state.name === '') {
                 setState({
                     ...state,
                     errors: 'you must include a name',
@@ -130,7 +126,7 @@ export default function NewCard(props) {
         }
 
         var formattedDue = ''
-        if (state.due != '') {
+        if (state.due !== '') {
             formattedDue =
                 state.due.slice(6, state.due.length) +
                 '-' +

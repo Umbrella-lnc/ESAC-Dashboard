@@ -133,13 +133,13 @@ export default function TrelloCard(props) {
         var year = parseInt(parts[2], 10);
 
         // Check the ranges of month and year
-        if (year < 1000 || year > 3000 || month == 0 || month > 12)
+        if (year < 1000 || year > 3000 || month === 0 || month > 12)
             return false;
 
         var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
         // Adjust for leap years
-        if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+        if (year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0))
             monthLength[1] = 29;
 
         // Check the range of the day
@@ -151,7 +151,7 @@ export default function TrelloCard(props) {
         const new_col_index = getIndexFromHeaderName(column);
         const idList = getIdFromColumn(new_col_index);
 
-        if (!isValidDate(due) && due != "") {
+        if (!isValidDate(due) && due !== "") {
             setState({
                 ...state,
                 errors: "invalid date",
@@ -160,7 +160,7 @@ export default function TrelloCard(props) {
         }
 
         var formattedDue = "";
-        if (due != "") {
+        if (due !== "") {
             formattedDue =
                 due.slice(6, due.length) +
                 "-" +
@@ -169,8 +169,6 @@ export default function TrelloCard(props) {
                 due.slice(3, 5) +
                 "T20:56:00.000Z";
         }
-
-        console.log(idList);
 
         axios
             .post(baseURL + "/api/trello/editCard", {
@@ -248,7 +246,7 @@ export default function TrelloCard(props) {
             >
                 <CardActionArea onClick={handleCardDetailsOpen}>
                     <CardContent className={classes.content}>
-                        {state.due != "" && (
+                        {state.due !== "" && (
                             <Typography
                                 className={classes.title}
                                 color="inherit"
@@ -257,7 +255,7 @@ export default function TrelloCard(props) {
                                 {readableDate(state.due)}
                             </Typography>
                         )}
-                        {state.due == "" && (
+                        {state.due === "" && (
                             <Typography
                                 className={classes.title}
                                 color="textSecondary"
@@ -269,7 +267,7 @@ export default function TrelloCard(props) {
                         <Typography variant="h5" component="h2">
                             {state.name}
                         </Typography>
-                        {state.labels == "" && (
+                        {state.labels === "" && (
                             <Typography
                                 className={classes.pos}
                                 color="textSecondary"
@@ -277,7 +275,7 @@ export default function TrelloCard(props) {
                                 No Labels
                             </Typography>
                         )}
-                        {state.labels != "" && (
+                        {state.labels !== "" && (
                             <Typography className={classes.pos} color="inherit">
                                 Labels:
                                 {state.labels.map((label) => {

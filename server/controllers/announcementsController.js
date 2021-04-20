@@ -6,7 +6,7 @@ const { announcementEmail } = require("./emailController");
 // @route POST api/announcements/createAnnouncement
 // @desc Create an announcement
 // @access Admin
-//  + req.user => current logged in user object
+//  + req.user
 //  + req.body.title
 //  + req.body.post
 const createAnnouncement = async (req, res) => {
@@ -77,10 +77,6 @@ const deleteAnnouncement = async (req, res) => {
                                 .status(400)
                                 .json({ not_found: "Announcement not found!" });
                         } else {
-                            console.log(
-                                "Deleted announcement ID " +
-                                    req.body.announcementID
-                            );
                             res.json({ success: true });
                         }
                     }

@@ -1,9 +1,0 @@
-{
-    "web" : {
-      "redirect_uris": ["http://localhost:3000/oauth2callback"],
-      "client_id": "306609003739-hfa5d7fn5ttv761d4o5m6e9akc8qfsb3.apps.googleusercontent.com",
-      "client_secret": "FNtF4_x2lcJwecRWBXAKog0W",
-      "project_id": "esac-dashboard"
-    }
-  }
-

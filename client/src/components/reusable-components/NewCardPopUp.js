@@ -1,7 +1,6 @@
 import Button from '@material-ui/core/Button'
 import { useStyles } from './cardStyles'
 import Dialog from '@material-ui/core/Modal'
-import Select from '@material-ui/core/Select'
 import TextField from '@material-ui/core/TextField'
 
 export default function NewCardPopUp(props) {

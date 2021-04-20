@@ -118,9 +118,6 @@ class Register extends Component {
     };
 
     render() {
-        // Debug
-        console.log(this.state.department);
-
         const { errors } = this.state;
         return (
             <div className="container">

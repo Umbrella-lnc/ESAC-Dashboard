@@ -1,8 +1,5 @@
-const User = require('../models/User')
-const axios = require('axios')
 
-//Validation
-const isEmpty = require('is-empty')
+const axios = require('axios')
 
 //Import env variables for trello api
 const dotenv = require('dotenv')
@@ -115,7 +112,6 @@ const editCard = async (req, res) => {
 //  + req.body.action
 const addCard = async (req, res) => {
     //See UTIL functions at top of file
-    console.log(req.body)
     axios
         .post(
             trelloURL +
