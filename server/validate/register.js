@@ -54,8 +54,6 @@ module.exports = function validateRegiserInput(data) {
         errors.email = "Email field required!";
     } else if (!Validator.isEmail(data.email)) {
         errors.email = "Email is invalid!";
-    } else if (data.email.split("@")[1] !== "ufl.edu") {
-        errors.email = "Email requires @ufl.edu domain!";
     } else if (!Validator.isLength(data.email, {min: 1, max: 60 })) {
         errors.email = "Email cannot exceed 60 characters!";
     }

@@ -220,7 +220,7 @@ class Register extends Component {
                                         invalid: errors.email,
                                     })}
                                 />
-                                <label htmlFor="email">Email (registered UF email)</label>
+                                <label htmlFor="email">Email</label>
                                 <span className="red-text">{errors.email}</span>
                             </div>
                             <div className="input-field col s12">
